@@ -231,6 +231,21 @@
       padding: 6rem 2rem 4rem;
       overflow: hidden;
       margin: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(124, 92, 252, 0.08) 0%,
+        rgba(0, 212, 170, 0.05) 40%,
+        transparent 100%
+      );
+    }
+
+    [data-theme="light"] .hero {
+      background: linear-gradient(
+        180deg,
+        rgba(107, 70, 229, 0.06) 0%,
+        rgba(0, 184, 148, 0.04) 40%,
+        transparent 100%
+      );
     }
 
     /* Animated gradient background orbs */
@@ -239,8 +254,8 @@
       content: '';
       position: absolute;
       border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.15;
+      filter: blur(140px);
+      opacity: 0.1;
       animation: float 20s ease-in-out infinite;
     }
 
@@ -1394,16 +1409,4 @@
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-      });
-    });
-
-    // ─── Typing effect on hero badge ────────────────
-    const badge = document.querySelector('.hero-badge');
-    const originalText = badge.textContent.trim();
-  </script>
-</body>
-</html>
+        btn.style.transform = `translate(${x * 0.1}px, 
