@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Víctor García — Desarrollador Web</title>
+  <title>Victor Garcia - Desarrollador Web</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* ═══════════════════════════════════════════════════
-       CSS CUSTOM PROPERTIES — THEME SYSTEM
-    ═══════════════════════════════════════════════════ */
     :root {
       --transition-speed: 0.4s;
       --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,7 +16,6 @@
       --bg-primary: #0a0a0f;
       --bg-secondary: #12121a;
       --bg-card: #1a1a2e;
-      --bg-card-hover: #222240;
       --text-primary: #f0f0f5;
       --text-secondary: #a0a0b8;
       --text-muted: #6a6a80;
@@ -31,19 +27,16 @@
       --border-color: rgba(255, 255, 255, 0.06);
       --border-hover: rgba(255, 255, 255, 0.12);
       --nav-bg: rgba(10, 10, 15, 0.85);
-      --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
       --shadow-card-hover: 0 8px 40px rgba(124, 92, 252, 0.15);
       --code-bg: rgba(124, 92, 252, 0.08);
       --scrollbar-track: #12121a;
       --scrollbar-thumb: #2a2a40;
-      --toggle-icon: "☀️";
     }
 
     [data-theme="light"] {
       --bg-primary: #f8f8fc;
       --bg-secondary: #ffffff;
       --bg-card: #ffffff;
-      --bg-card-hover: #f0f0fa;
       --text-primary: #1a1a2e;
       --text-secondary: #5a5a70;
       --text-muted: #9a9ab0;
@@ -55,17 +48,12 @@
       --border-color: rgba(0, 0, 0, 0.06);
       --border-hover: rgba(0, 0, 0, 0.12);
       --nav-bg: rgba(248, 248, 252, 0.9);
-      --shadow-card: 0 2px 16px rgba(0,0,0,0.06);
       --shadow-card-hover: 0 8px 32px rgba(107, 70, 229, 0.1);
       --code-bg: rgba(107, 70, 229, 0.06);
       --scrollbar-track: #f0f0f5;
       --scrollbar-thumb: #d0d0e0;
-      --toggle-icon: "🌙";
     }
 
-    /* ═══════════════════════════════════════════════════
-       RESET & BASE
-    ═══════════════════════════════════════════════════ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
@@ -91,9 +79,7 @@
     a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
     a:hover { color: var(--accent-secondary); }
 
-    /* ═══════════════════════════════════════════════════
-       CURSOR GLOW (desktop only)
-    ═══════════════════════════════════════════════════ */
+    /* ── Cursor Glow ── */
     .cursor-glow {
       position: fixed;
       width: 300px;
@@ -108,9 +94,7 @@
       mix-blend-mode: screen;
     }
 
-    /* ═══════════════════════════════════════════════════
-       NAVIGATION
-    ═══════════════════════════════════════════════════ */
+    /* ── Navigation ── */
     nav {
       position: fixed;
       top: 0;
@@ -134,7 +118,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: -0.5px;
     }
 
     .nav-links {
@@ -179,24 +162,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       transition: all 0.3s;
       position: relative;
-      overflow: hidden;
+      color: var(--text-primary);
     }
 
     .theme-toggle:hover {
       border-color: var(--accent);
       box-shadow: 0 0 20px var(--accent-glow);
       transform: scale(1.05);
-    }
-
-    .theme-toggle .icon {
-      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .theme-toggle:active .icon {
-      transform: rotate(360deg);
     }
 
     .hamburger {
@@ -217,9 +192,7 @@
       border-radius: 2px;
     }
 
-    /* ═══════════════════════════════════════════════════
-       HERO SECTION
-    ═══════════════════════════════════════════════════ */
+    /* ── Hero ── */
     .hero {
       min-height: 100vh;
       width: 100%;
@@ -234,32 +207,30 @@
       background: transparent;
     }
 
-    /* Animated gradient background orbs */
-    .hero::before,
-    .hero::after {
-      content: '';
+    .hero-orb {
       position: absolute;
       border-radius: 50%;
       filter: blur(140px);
       opacity: 0.1;
-      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .hero::before {
+    .hero-orb-1 {
       width: 700px;
       height: 700px;
       background: var(--accent);
       top: -200px;
       right: -200px;
+      animation: float 20s ease-in-out infinite;
     }
 
-    .hero::after {
+    .hero-orb-2 {
       width: 600px;
       height: 600px;
       background: var(--accent-secondary);
       bottom: -300px;
       left: -200px;
-      animation-delay: -10s;
+      animation: float 20s ease-in-out infinite -10s;
     }
 
     @keyframes float {
@@ -355,8 +326,6 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      position: relative;
-      overflow: hidden;
     }
 
     .btn-primary {
@@ -384,7 +353,6 @@
       box-shadow: 0 4px 20px var(--accent-glow);
     }
 
-    /* Scroll indicator */
     .scroll-indicator {
       position: absolute;
       bottom: 2rem;
@@ -427,18 +395,14 @@
       100% { opacity: 0; transform: translateX(-50%) translateY(14px); }
     }
 
-    /* ═══════════════════════════════════════════════════
-       SECTIONS BASE
-    ═══════════════════════════════════════════════════ */
+    /* ── Sections ── */
     section {
       padding: 6rem 2rem;
       max-width: 1100px;
       margin: 0 auto;
     }
 
-    .section-header {
-      margin-bottom: 4rem;
-    }
+    .section-header { margin-bottom: 4rem; }
 
     .section-label {
       font-family: 'JetBrains Mono', monospace;
@@ -455,21 +419,29 @@
       letter-spacing: -1px;
     }
 
-    /* Reveal animation */
+    /* Reveal — visible by default, JS adds .will-animate then .animated */
     .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal.will-animate {
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.7s var(--transition-ease), transform 0.7s var(--transition-ease);
     }
 
-    .reveal.visible {
+    .reveal.animated {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* ═══════════════════════════════════════════════════
-       ABOUT SECTION
-    ═══════════════════════════════════════════════════ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── About ── */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -522,25 +494,18 @@
       letter-spacing: 1px;
     }
 
-    /* ═══════════════════════════════════════════════════
-       TECH STACK / SKILLS
-    ═══════════════════════════════════════════════════ */
-    .tech-categories {
-      display: grid;
-      gap: 2rem;
-    }
-
+    /* ── Tech Stack ── */
     .tech-category {
       padding: 2rem;
       border-radius: 20px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       transition: all 0.3s var(--transition-ease);
+      margin-bottom: 2rem;
     }
 
     .tech-category:hover {
       border-color: var(--border-hover);
-      box-shadow: var(--shadow-card);
     }
 
     .tech-category-title {
@@ -571,17 +536,6 @@
       color: var(--text-secondary);
       transition: all 0.3s var(--transition-ease);
       cursor: default;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tech-pill::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--gradient-hero);
-      opacity: 0;
-      transition: opacity 0.3s;
     }
 
     .tech-pill:hover {
@@ -591,14 +545,7 @@
       box-shadow: 0 4px 16px var(--accent-glow);
     }
 
-    .tech-pill span {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ═══════════════════════════════════════════════════
-       EXPERIENCE SECTION
-    ═══════════════════════════════════════════════════ */
+    /* ── Timeline ── */
     .timeline {
       position: relative;
       padding-left: 2rem;
@@ -679,7 +626,7 @@
     }
 
     .timeline-desc li::before {
-      content: '▹';
+      content: '\25B9';
       position: absolute;
       left: 0;
       color: var(--accent);
@@ -702,9 +649,7 @@
       color: var(--accent);
     }
 
-    /* ═══════════════════════════════════════════════════
-       EDUCATION SECTION (inside experience)
-    ═══════════════════════════════════════════════════ */
+    /* ── Education ── */
     .education-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -726,21 +671,9 @@
       transform: translateY(-4px);
     }
 
-    .edu-icon {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .edu-title {
-      font-weight: 700;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .edu-school {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
+    .edu-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .edu-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+    .edu-school { color: var(--text-muted); font-size: 0.85rem; }
 
     .edu-date {
       font-family: 'JetBrains Mono', monospace;
@@ -749,17 +682,13 @@
       margin-top: 0.5rem;
     }
 
-    /* ═══════════════════════════════════════════════════
-       CONTACT SECTION
-    ═══════════════════════════════════════════════════ */
+    /* ── Contact ── */
     .contact-section {
       text-align: center;
       padding: 8rem 2rem;
     }
 
-    .contact-section .section-title {
-      margin-bottom: 1rem;
-    }
+    .contact-section .section-title { margin-bottom: 1rem; }
 
     .contact-subtitle {
       color: var(--text-secondary);
@@ -796,15 +725,9 @@
       color: var(--accent);
     }
 
-    .contact-card svg {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-    }
+    .contact-card svg { width: 20px; height: 20px; flex-shrink: 0; }
 
-    /* ═══════════════════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════════════════ */
+    /* ── Footer ── */
     footer {
       text-align: center;
       padding: 2rem;
@@ -813,44 +736,9 @@
       font-size: 0.8rem;
     }
 
-    footer span {
-      color: var(--accent);
-    }
+    footer span { color: var(--accent); }
 
-    /* ═══════════════════════════════════════════════════
-       ANIMATIONS
-    ═══════════════════════════════════════════════════ */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Stagger children */
-    .stagger-children > * {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .stagger-children.visible > *:nth-child(1) { animation: fadeInUp 0.5s ease-out 0.0s both; }
-    .stagger-children.visible > *:nth-child(2) { animation: fadeInUp 0.5s ease-out 0.08s both; }
-    .stagger-children.visible > *:nth-child(3) { animation: fadeInUp 0.5s ease-out 0.16s both; }
-    .stagger-children.visible > *:nth-child(4) { animation: fadeInUp 0.5s ease-out 0.24s both; }
-    .stagger-children.visible > *:nth-child(5) { animation: fadeInUp 0.5s ease-out 0.32s both; }
-    .stagger-children.visible > *:nth-child(6) { animation: fadeInUp 0.5s ease-out 0.40s both; }
-    .stagger-children.visible > *:nth-child(7) { animation: fadeInUp 0.5s ease-out 0.48s both; }
-    .stagger-children.visible > *:nth-child(8) { animation: fadeInUp 0.5s ease-out 0.56s both; }
-    .stagger-children.visible > *:nth-child(9) { animation: fadeInUp 0.5s ease-out 0.64s both; }
-    .stagger-children.visible > *:nth-child(10) { animation: fadeInUp 0.5s ease-out 0.72s both; }
-    .stagger-children.visible > *:nth-child(11) { animation: fadeInUp 0.5s ease-out 0.80s both; }
-    .stagger-children.visible > *:nth-child(12) { animation: fadeInUp 0.5s ease-out 0.88s both; }
-    .stagger-children.visible > *:nth-child(13) { animation: fadeInUp 0.5s ease-out 0.96s both; }
-    .stagger-children.visible > *:nth-child(14) { animation: fadeInUp 0.5s ease-out 1.04s both; }
-    .stagger-children.visible > *:nth-child(15) { animation: fadeInUp 0.5s ease-out 1.12s both; }
-    .stagger-children.visible > *:nth-child(16) { animation: fadeInUp 0.5s ease-out 1.20s both; }
-
-    /* ═══════════════════════════════════════════════════
-       PARTICLES CANVAS
-    ═══════════════════════════════════════════════════ */
+    /* ── Particles ── */
     #particles-canvas {
       position: fixed;
       top: 0;
@@ -862,9 +750,7 @@
       opacity: 0.4;
     }
 
-    /* ═══════════════════════════════════════════════════
-       RESPONSIVE
-    ═══════════════════════════════════════════════════ */
+    /* ── Responsive ── */
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -881,13 +767,8 @@
         z-index: 999;
       }
 
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links a {
-        font-size: 1.5rem;
-      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.5rem; }
 
       .hamburger {
         display: flex;
@@ -898,50 +779,32 @@
       .hamburger.open span:nth-child(2) { opacity: 0; }
       .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .education-grid {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 4rem 1.25rem;
-      }
-
-      .hero {
-        padding: 5rem 1.25rem 3rem;
-      }
-
-      .contact-links {
-        flex-direction: column;
-        align-items: center;
-      }
+      .about-grid { grid-template-columns: 1fr; }
+      .education-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 5rem 1.25rem 3rem; }
+      .contact-links { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
-  <!-- Cursor glow effect -->
   <div class="cursor-glow" id="cursorGlow"></div>
-
-  <!-- Particle background -->
   <canvas id="particles-canvas"></canvas>
 
-  <!-- Navigation -->
+  <!-- Nav -->
   <nav>
     <div class="nav-logo">&lt;VG /&gt;</div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">Sobre mí</a></li>
+      <li><a href="#about">Sobre mi</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experiencia</a></li>
       <li><a href="#contact">Contacto</a></li>
     </ul>
     <div style="display: flex; align-items: center; gap: 0.75rem;">
       <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
-        <span class="icon" id="themeIcon">&#9728;&#65039;</span>
+        <span id="themeIcon"></span>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menú">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span>
         <span></span>
         <span></span>
@@ -951,6 +814,8 @@
 
   <!-- Hero -->
   <section class="hero" id="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
     <div class="hero-content">
       <div class="hero-badge">
         <span class="dot"></span>
@@ -958,16 +823,16 @@
       </div>
       <h1>
         Hola, soy<br>
-        <span class="gradient-text">Víctor García</span>
+        <span class="gradient-text">Victor Garcia</span>
       </h1>
       <p class="hero-subtitle">
-        Desarrollador Full Stack apasionado por la IA y la creación de experiencias digitales.
+        Desarrollador Full Stack apasionado por la IA y la creacion de experiencias digitales.
         Actualmente en Pisamonas, trabajando con e-commerce y marketing digital.
       </p>
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Contáctame
+          Contactame
         </a>
         <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" class="btn btn-outline">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -988,32 +853,32 @@
   <!-- About -->
   <section id="about">
     <div class="section-header reveal">
-      <p class="section-label">// sobre mí</p>
-      <h2 class="section-title">Conóceme un poco más</h2>
+      <p class="section-label">// sobre mi</p>
+      <h2 class="section-title">Conoceme un poco mas</h2>
     </div>
     <div class="about-grid">
       <div class="about-text reveal">
         <p>
           Soy un desarrollador web con base en Madrid, apasionado por el desarrollo de software,
-          la inteligencia artificial y sus aplicaciones prácticas. Me caracterizo por la curiosidad
-          tecnológica, las ganas de aprender continuamente y un enfoque analítico para resolver
+          la inteligencia artificial y sus aplicaciones practicas. Me caracterizo por la curiosidad
+          tecnologica, las ganas de aprender continuamente y un enfoque analitico para resolver
           problemas.
         </p>
         <p>
           He trabajado construyendo sistemas que integran modelos de IA para automatizar procesos,
           y disfruto tanto del backend robusto como del frontend con buena experiencia de usuario.
-          Mi objetivo es seguir creciendo como desarrollador en entornos donde la innovación y el
+          Mi objetivo es seguir creciendo como desarrollador en entornos donde la innovacion y el
           aprendizaje constante sean protagonistas.
         </p>
       </div>
-      <div class="about-stats reveal stagger-children">
+      <div class="about-stats reveal">
         <div class="stat-card">
           <div class="stat-number">15+</div>
-          <div class="stat-label">Tecnologías</div>
+          <div class="stat-label">Tecnologias</div>
         </div>
         <div class="stat-card">
           <div class="stat-number">DAW</div>
-          <div class="stat-label">Formación</div>
+          <div class="stat-label">Formacion</div>
         </div>
         <div class="stat-card">
           <div class="stat-number">ES/EN</div>
@@ -1027,80 +892,76 @@
     </div>
   </section>
 
-  <!-- Skills / Tech -->
+  <!-- Skills -->
   <section id="skills">
     <div class="section-header reveal">
       <p class="section-label">// tech stack</p>
-      <h2 class="section-title">Tecnologías que domino</h2>
+      <h2 class="section-title">Tecnologias que domino</h2>
     </div>
-    <div class="tech-categories">
-      <div class="tech-category reveal">
-        <div class="tech-category-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          Backend
-        </div>
-        <div class="tech-grid stagger-children">
-          <div class="tech-pill"><span>Python</span></div>
-          <div class="tech-pill"><span>PHP</span></div>
-          <div class="tech-pill"><span>Java</span></div>
-          <div class="tech-pill"><span>Laravel</span></div>
-          <div class="tech-pill"><span>FastAPI</span></div>
-          <div class="tech-pill"><span>Django / DRF</span></div>
-          <div class="tech-pill"><span>Magento</span></div>
-          <div class="tech-pill"><span>SQL</span></div>
-          <div class="tech-pill"><span>PostgreSQL</span></div>
-        </div>
+    <div class="tech-category reveal">
+      <div class="tech-category-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Backend
       </div>
-      <div class="tech-category reveal">
-        <div class="tech-category-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          Frontend
-        </div>
-        <div class="tech-grid stagger-children">
-          <div class="tech-pill"><span>JavaScript</span></div>
-          <div class="tech-pill"><span>TypeScript</span></div>
-          <div class="tech-pill"><span>React + Vite</span></div>
-          <div class="tech-pill"><span>HTML5</span></div>
-          <div class="tech-pill"><span>CSS3</span></div>
-          <div class="tech-pill"><span>Tailwind</span></div>
-          <div class="tech-pill"><span>Bootstrap</span></div>
-        </div>
+      <div class="tech-grid">
+        <div class="tech-pill">Python</div>
+        <div class="tech-pill">PHP</div>
+        <div class="tech-pill">Java</div>
+        <div class="tech-pill">Laravel</div>
+        <div class="tech-pill">FastAPI</div>
+        <div class="tech-pill">Django / DRF</div>
+        <div class="tech-pill">Magento</div>
+        <div class="tech-pill">SQL</div>
+        <div class="tech-pill">PostgreSQL</div>
       </div>
-      <div class="tech-category reveal">
-        <div class="tech-category-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          DevOps & Herramientas
-        </div>
-        <div class="tech-grid stagger-children">
-          <div class="tech-pill"><span>Docker</span></div>
-          <div class="tech-pill"><span>NGINX</span></div>
-          <div class="tech-pill"><span>Git</span></div>
-          <div class="tech-pill"><span>GitHub</span></div>
-          <div class="tech-pill"><span>Bitbucket</span></div>
-          <div class="tech-pill"><span>OpenAI API</span></div>
-        </div>
+    </div>
+    <div class="tech-category reveal">
+      <div class="tech-category-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Frontend
+      </div>
+      <div class="tech-grid">
+        <div class="tech-pill">JavaScript</div>
+        <div class="tech-pill">TypeScript</div>
+        <div class="tech-pill">React + Vite</div>
+        <div class="tech-pill">HTML5</div>
+        <div class="tech-pill">CSS3</div>
+        <div class="tech-pill">Tailwind</div>
+        <div class="tech-pill">Bootstrap</div>
+      </div>
+    </div>
+    <div class="tech-category reveal">
+      <div class="tech-category-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        DevOps y Herramientas
+      </div>
+      <div class="tech-grid">
+        <div class="tech-pill">Docker</div>
+        <div class="tech-pill">NGINX</div>
+        <div class="tech-pill">Git</div>
+        <div class="tech-pill">GitHub</div>
+        <div class="tech-pill">Bitbucket</div>
+        <div class="tech-pill">OpenAI API</div>
       </div>
     </div>
   </section>
 
-  <!-- Experience & Education -->
+  <!-- Experience -->
   <section id="experience">
     <div class="section-header reveal">
       <p class="section-label">// trayectoria</p>
-      <h2 class="section-title">Experiencia & Formación</h2>
+      <h2 class="section-title">Experiencia y Formacion</h2>
     </div>
-
-    <!-- Work -->
     <div class="timeline">
       <div class="timeline-item reveal">
-        <div class="timeline-date">May 2026 — Actualidad</div>
+        <div class="timeline-date">May 2026 - Actualidad</div>
         <h3 class="timeline-title">Desarrollador Full Stack</h3>
         <p class="timeline-company">Pisamonas</p>
         <ul class="timeline-desc">
           <li>Desarrollo full stack en entorno e-commerce, trabajando conjuntamente con el departamento de Marketing</li>
           <li>Mantenimiento y desarrollo de nuevas funcionalidades sobre plataforma Magento</li>
           <li>Desarrollo de componentes frontend con React integrados en el ecosistema de la tienda</li>
-          <li>Backend con Laravel/PHP para lógica de negocio y servicios internos</li>
+          <li>Backend con Laravel/PHP para logica de negocio y servicios internos</li>
         </ul>
         <div class="timeline-tech">
           <span>Magento</span>
@@ -1111,16 +972,15 @@
           <span>GitHub</span>
         </div>
       </div>
-
       <div class="timeline-item reveal">
-        <div class="timeline-date">Sep 2025 — Dic 2025</div>
+        <div class="timeline-date">Sep 2025 - Dic 2025</div>
         <h3 class="timeline-title">Desarrollador Web Junior</h3>
-        <p class="timeline-company">Samanà Digital</p>
+        <p class="timeline-company">Samana Digital</p>
         <ul class="timeline-desc">
-          <li>Desarrollé un sistema para extraer y estructurar información de CVs en PDF</li>
-          <li>Integré modelos GPT para interpretar contenido y generar informes mejor redactados</li>
-          <li>Implementé la generación automática de documentos DOCX con secciones dinámicas</li>
-          <li>Trabajé con Git y una arquitectura modular en Python</li>
+          <li>Desarrolle un sistema para extraer y estructurar informacion de CVs en PDF</li>
+          <li>Integre modelos GPT para interpretar contenido y generar informes mejor redactados</li>
+          <li>Implemente la generacion automatica de documentos DOCX con secciones dinamicas</li>
+          <li>Trabaje con Git y una arquitectura modular en Python</li>
         </ul>
         <div class="timeline-tech">
           <span>Python</span>
@@ -1130,20 +990,18 @@
         </div>
       </div>
     </div>
-
-    <!-- Education -->
     <div class="education-grid">
       <div class="edu-card reveal">
         <div class="edu-icon">&#127891;</div>
         <h3 class="edu-title">C.F.G.S Desarrollo de Aplicaciones Web</h3>
-        <p class="edu-school">I.E.S Isidra de Guzmán</p>
-        <p class="edu-date">Sep 2023 — Jun 2025</p>
+        <p class="edu-school">I.E.S Isidra de Guzman</p>
+        <p class="edu-date">Sep 2023 - Jun 2025</p>
       </div>
       <div class="edu-card reveal">
         <div class="edu-icon">&#128218;</div>
         <h3 class="edu-title">Bachillerato de Humanidades</h3>
-        <p class="edu-school">I.E.S Ignacio Ellacuría</p>
-        <p class="edu-date">Sep 2019 — Jun 2021</p>
+        <p class="edu-school">I.E.S Ignacio Ellacuria</p>
+        <p class="edu-date">Sep 2019 - Jun 2021</p>
       </div>
     </div>
   </section>
@@ -1152,20 +1010,16 @@
   <section class="contact-section" id="contact">
     <div class="reveal">
       <p class="section-label">// contacto</p>
-      <h2 class="section-title">¿Hablamos?</h2>
+      <h2 class="section-title">Hablamos?</h2>
       <p class="contact-subtitle">
-        Estoy buscando nuevas oportunidades y siempre abierto a conversaciones interesantes.
+        Siempre abierto a conversaciones interesantes y nuevas oportunidades.
         No dudes en escribirme.
       </p>
     </div>
-    <div class="contact-links reveal stagger-children">
+    <div class="contact-links reveal">
       <a href="mailto:victormgalonso26@gmail.com" class="contact-card">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         victormgalonso26@gmail.com
-      </a>
-      <a href="tel:+34605585987" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        605 58 59 87
       </a>
       <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" class="contact-card">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -1178,179 +1032,175 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <p>Diseñado y desarrollado por <span>Víctor García</span> — 2026</p>
+    <p>Disenado y desarrollado por <span>Victor Garcia</span> - 2026</p>
   </footer>
 
-  <!-- ═══════════════════════════════════════════════════
-       JAVASCRIPT
-  ═══════════════════════════════════════════════════ -->
   <script>
-    // ─── Theme Toggle ───────────────────────────────
-    const html = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
+    // ── Theme Toggle ──
+    var html = document.documentElement;
+    var themeToggle = document.getElementById('themeToggle');
+    var themeIcon = document.getElementById('themeIcon');
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', savedTheme);
-    updateIcon(savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const current = html.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateIcon(next);
-    });
-
-    function updateIcon(theme) {
-      themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    function setIcon(t) {
+      if (t === 'dark') {
+        themeIcon.innerHTML = '&#9788;';
+      } else {
+        themeIcon.innerHTML = '&#9790;';
+      }
     }
 
-    // ─── Hamburger Menu ─────────────────────────────
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
+    var savedTheme = 'dark';
+    try {
+      var s = localStorage.getItem('theme');
+      if (s) savedTheme = s;
+    } catch(e) {}
 
-    hamburger.addEventListener('click', () => {
+    html.setAttribute('data-theme', savedTheme);
+    setIcon(savedTheme);
+
+    themeToggle.onclick = function() {
+      var current = html.getAttribute('data-theme');
+      var next = (current === 'dark') ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+      setIcon(next);
+    };
+
+    // ── Hamburger ──
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
+
+    hamburger.onclick = function() {
       hamburger.classList.toggle('open');
       navLinks.classList.toggle('open');
-    });
+    };
 
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
+    var allNavLinks = navLinks.querySelectorAll('a');
+    for (var i = 0; i < allNavLinks.length; i++) {
+      allNavLinks[i].onclick = function() {
         hamburger.classList.remove('open');
         navLinks.classList.remove('open');
-      });
-    });
+      };
+    }
 
-    // ─── Active nav on scroll ───────────────────────
-    const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links a');
+    // ── Active nav on scroll ──
+    var allSections = document.querySelectorAll('section[id]');
+    var navItems = document.querySelectorAll('.nav-links a');
 
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY + 200;
-
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        const id = section.getAttribute('id');
-
+    window.onscroll = function() {
+      var scrollY = window.scrollY + 200;
+      for (var j = 0; j < allSections.length; j++) {
+        var sec = allSections[j];
+        var top = sec.offsetTop;
+        var height = sec.offsetHeight;
+        var id = sec.getAttribute('id');
         if (scrollY >= top && scrollY < top + height) {
-          navItems.forEach(a => a.classList.remove('active'));
-          const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+          for (var k = 0; k < navItems.length; k++) {
+            navItems[k].classList.remove('active');
+          }
+          var activeLink = document.querySelector('.nav-links a[href="#' + id + '"]');
           if (activeLink) activeLink.classList.add('active');
         }
-      });
-    });
+      }
+    };
 
-    // ─── Scroll Reveal ──────────────────────────────
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    // ── Scroll Reveal ──
+    var reveals = document.querySelectorAll('.reveal');
+
+    for (var r = 0; r < reveals.length; r++) {
+      reveals[r].classList.add('will-animate');
+    }
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        for (var e = 0; e < entries.length; e++) {
+          if (entries[e].isIntersecting) {
+            entries[e].target.classList.remove('will-animate');
+            entries[e].target.classList.add('animated');
+          }
         }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      }, { threshold: 0.05 });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      for (var o = 0; o < reveals.length; o++) {
+        observer.observe(reveals[o]);
+      }
+    } else {
+      // Fallback: just show everything
+      for (var f = 0; f < reveals.length; f++) {
+        reveals[f].classList.remove('will-animate');
+      }
+    }
 
-    // Fallback: reveal all sections after 2s in case IntersectionObserver misses
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
-    }, 2000);
-
-    // ─── Cursor Glow (desktop only) ─────────────────
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (window.matchMedia('(pointer: fine)').matches) {
-      document.addEventListener('mousemove', (e) => {
+    // ── Cursor Glow ──
+    var cursorGlow = document.getElementById('cursorGlow');
+    if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+      document.onmousemove = function(e) {
         cursorGlow.style.left = e.clientX + 'px';
         cursorGlow.style.top = e.clientY + 'px';
         cursorGlow.style.opacity = '1';
-      });
-
-      document.addEventListener('mouseleave', () => {
-        cursorGlow.style.opacity = '0';
-      });
+      };
     }
 
-    // ─── Particle Background ────────────────────────
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let animId;
-    let mouse = { x: null, y: null };
+    // ── Particles ──
+    var canvas = document.getElementById('particles-canvas');
+    var ctx = canvas.getContext('2d');
+    var particles = [];
 
-    function resize() {
+    function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
 
-    window.addEventListener('resize', resize);
-    resize();
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (mouse.x !== null) {
-          const dx = mouse.x - this.x;
-          const dy = mouse.y - this.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
-            this.x -= dx * 0.01;
-            this.y -= dy * 0.01;
-          }
-        }
-
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
-
-      draw() {
-        const theme = html.getAttribute('data-theme');
-        const color = theme === 'dark' ? `rgba(124, 92, 252, ${this.opacity})` : `rgba(107, 70, 229, ${this.opacity * 0.5})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
+    function Particle() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.speedY = (Math.random() - 0.5) * 0.5;
+      this.opacity = Math.random() * 0.5 + 0.1;
     }
 
-    function initParticles() {
-      const count = Math.min(80, Math.floor(window.innerWidth * window.innerHeight / 15000));
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
+    Particle.prototype.update = function() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    };
+
+    Particle.prototype.draw = function() {
+      var theme = html.getAttribute('data-theme');
+      var color = (theme === 'dark')
+        ? 'rgba(124, 92, 252, ' + this.opacity + ')'
+        : 'rgba(107, 70, 229, ' + (this.opacity * 0.5) + ')';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    };
+
+    var count = Math.min(60, Math.floor(window.innerWidth * window.innerHeight / 20000));
+    for (var p = 0; p < count; p++) {
+      particles.push(new Particle());
     }
 
     function connectParticles() {
-      const theme = html.getAttribute('data-theme');
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      var theme = html.getAttribute('data-theme');
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
-            const opacity = (1 - dist / 120) * 0.15;
-            const color = theme === 'dark' ? `rgba(124, 92, 252, ${opacity})` : `rgba(107, 70, 229, ${opacity * 0.5})`;
+            var op = (1 - dist / 120) * 0.15;
+            var c = (theme === 'dark')
+              ? 'rgba(124, 92, 252, ' + op + ')'
+              : 'rgba(107, 70, 229, ' + (op * 0.5) + ')';
             ctx.beginPath();
-            ctx.strokeStyle = color;
+            ctx.strokeStyle = c;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -1362,37 +1212,27 @@
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      for (var i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
       connectParticles();
-      animId = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     }
 
-    document.addEventListener('mousemove', e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    initParticles();
     animate();
 
-    // ─── Smooth scroll for nav links ────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    // ── Smooth scroll ──
+    var anchors = document.querySelectorAll('a[href^="#"]');
+    for (var a = 0; a < anchors.length; a++) {
+      anchors[a].onclick = function(e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        var target = document.querySelector(this.getAttribute('href'));
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      });
-    });
-
-    // ─── Magnetic hover on buttons ──────────────────
-    document.querySelectorAll('.btn, .contact-card').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.1}px, 
+      };
+    }
+  </script>
+</body>
+</html>
