@@ -79,19 +79,13 @@
     a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
     a:hover { color: var(--accent-secondary); }
 
-    /* ── Cursor Glow ── */
-    .cursor-glow {
-      position: fixed;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: -1;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+    /* ── Hover highlights ── */
+    .nav-links a:hover { color: var(--accent); }
+    .tech-pill:hover { color: var(--accent); border-color: var(--accent); }
+    .stat-card:hover .stat-number { filter: brightness(1.3); }
+    .timeline-item:hover .timeline-title { color: var(--accent); }
+    .edu-card:hover .edu-title { color: var(--accent-secondary); }
+    .contact-card:hover { color: var(--accent); }
 
     /* ── Navigation ── */
     nav {
@@ -787,7 +781,6 @@
   </style>
 </head>
 <body>
-  <div class="cursor-glow" id="cursorGlow"></div>
   <canvas id="particles-canvas"></canvas>
 
   <!-- Nav -->
@@ -1131,15 +1124,6 @@
       }
     }
 
-    // ── Cursor Glow ──
-    var cursorGlow = document.getElementById('cursorGlow');
-    if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
-      document.onmousemove = function(e) {
-        cursorGlow.style.left = e.clientX + 'px';
-        cursorGlow.style.top = e.clientY + 'px';
-        cursorGlow.style.opacity = '1';
-      };
-    }
 
     // ── Particles ──
     var canvas = document.getElementById('particles-canvas');
