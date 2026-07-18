@@ -450,6 +450,29 @@
       margin-bottom: 4rem;
       padding: 1.5rem;
       border-radius: 20px;
+      border: none;
+    }
+
+    .section-header.glow-card:hover {
+      border-color: transparent;
+      box-shadow: none;
+      transform: perspective(800px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+    }
+
+    .section-header.glow-card::before {
+      background: radial-gradient(
+        400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(124, 92, 252, 0.08),
+        transparent 50%
+      );
+    }
+
+    [data-theme="light"] .section-header.glow-card::before {
+      background: radial-gradient(
+        400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(107, 70, 229, 0.05),
+        transparent 50%
+      );
     }
 
     .section-label {
@@ -471,13 +494,7 @@
     }
 
     .section-title:hover {
-      background: var(--gradient-hero);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 200% 200%;
-      animation: gradientShift 3s ease-in-out infinite;
-      transform: scale(1.03);
+      color: var(--accent);
     }
 
     /* Reveal — visible by default, JS adds .will-animate then .animated */
