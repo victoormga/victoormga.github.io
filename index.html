@@ -7,10 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- GSAP + ScrollTrigger + Lenis -->
+  <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <!-- Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -50,6 +49,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
+      scroll-behavior: smooth;
       scrollbar-width: thin;
       scrollbar-color: #2a2a3a #0a0a0f;
     }
@@ -63,7 +63,7 @@
       transition: background 0.6s, color 0.6s;
     }
 
-    /* ── Custom Cursor ── */
+    /* -- Custom Cursor -- */
     .cursor {
       position: fixed;
       width: 16px;
@@ -95,7 +95,7 @@
       transform: translate(-50%, -50%);
     }
 
-    /* ── Noise Overlay ── */
+    /* -- Noise Overlay -- */
     .noise {
       position: fixed;
       inset: 0;
@@ -107,7 +107,7 @@
       background-size: 128px;
     }
 
-    /* ── Nav ── */
+    /* -- Nav -- */
     nav {
       position: fixed;
       top: 0;
@@ -117,11 +117,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--nav-bg);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.6s;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
+      transition: background 0.4s, backdrop-filter 0.4s, transform 0.4s;
     }
 
     .nav-logo {
@@ -178,6 +178,7 @@
       background: none;
       border: none;
       padding: 4px;
+      z-index: 10000;
     }
 
     .hamburger span {
@@ -188,22 +189,23 @@
       border-radius: 2px;
     }
 
-    /* ── Hero ── */
+    /* -- Hero -- */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       position: relative;
-      padding: 0 3rem;
+      padding: 6rem 3rem 0;
     }
 
     #hero-canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
       width: 50%;
-      height: 100%;
+      height: 100vh;
       z-index: 0;
+      pointer-events: none;
     }
 
     .hero-content {
@@ -255,6 +257,35 @@
 
     .hero-title .accent {
       color: var(--accent);
+    }
+
+    /* -- Hero title hover swap -- */
+    .hero-title { position: relative; cursor: none; }
+
+    .title-default {
+      transition: opacity 1.5s var(--ease);
+    }
+
+    .title-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1.5s var(--ease);
+    }
+
+    .title-hover .line-inner-hover {
+      display: block;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .hero-title:hover .title-default {
+      opacity: 0;
+    }
+
+    .hero-title:hover .title-hover {
+      opacity: 1;
     }
 
     .hero-sub {
@@ -317,12 +348,15 @@
       color: var(--accent);
     }
 
-    /* ── Marquee ── */
+    /* -- Marquee -- */
     .marquee-section {
-      padding: 3rem 0;
+      padding: 2rem 0;
       overflow: hidden;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      width: 100vw;
     }
 
     .marquee-track {
@@ -352,7 +386,7 @@
       to { transform: translateX(-50%); }
     }
 
-    /* ── Sections ── */
+    /* -- Sections -- */
     section {
       padding: 8rem 3rem;
       max-width: 1200px;
@@ -373,13 +407,17 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 800;
       letter-spacing: -2px;
-      line-height: 1.1;
+      line-height: 1.4;
       margin-bottom: 4rem;
+      overflow: visible;
     }
 
     .section-title .char {
       display: inline-block;
       transition: color 0.3s;
+      overflow: visible;
+      line-height: 1.4;
+      vertical-align: bottom;
     }
 
     .section-title:hover .char {
@@ -387,7 +425,7 @@
       transition-delay: calc(var(--char-index) * 0.02s);
     }
 
-    /* ── About ── */
+    /* -- About -- */
     .about-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -451,7 +489,7 @@
       position: relative;
     }
 
-    /* ── Skills ── */
+    /* -- Skills -- */
     .skills-horizontal {
       display: flex;
       gap: 2rem;
@@ -518,7 +556,7 @@
       transform: translateY(-2px);
     }
 
-    /* ── Experience ── */
+    /* -- Experience -- */
     .exp-item {
       display: grid;
       grid-template-columns: 200px 1fr;
@@ -600,7 +638,7 @@
       color: var(--accent);
     }
 
-    /* ── Education ── */
+    /* -- Education -- */
     .edu-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -638,7 +676,7 @@
     .edu-school { color: var(--text-muted); font-size: 0.85rem; position: relative; }
     .edu-date { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent2); margin-top: 0.75rem; position: relative; }
 
-    /* ── Contact ── */
+    /* -- Contact -- */
     .contact-section {
       text-align: center;
       padding: 10rem 3rem;
@@ -691,7 +729,7 @@
 
     .contact-link svg { width: 18px; height: 18px; }
 
-    /* ── Footer ── */
+    /* -- Footer -- */
     footer {
       text-align: center;
       padding: 2rem 3rem;
@@ -701,13 +739,13 @@
       letter-spacing: 1px;
     }
 
-    /* ── Responsive ── */
+    /* -- Responsive -- */
     @media (max-width: 768px) {
       body { cursor: auto; }
       .cursor, .cursor-dot { display: none; }
       nav { padding: 1rem 1.5rem; }
       .hero { padding: 0 1.5rem; }
-      #hero-canvas { width: 100%; opacity: 0.3; }
+      #hero-canvas { width: 100%; height: 100vh; opacity: 0.2; }
       section { padding: 5rem 1.5rem; }
       .about-grid { grid-template-columns: 1fr; }
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
@@ -721,11 +759,11 @@
         justify-content: center;
         align-items: center;
         gap: 2rem;
-        z-index: 99;
+        z-index: 9999;
       }
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 1.5rem; }
-      .hamburger { display: flex; z-index: 101; }
+      .hamburger { display: flex; }
       .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
       .hamburger.open span:nth-child(2) { opacity: 0; }
       .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
@@ -756,18 +794,25 @@
     </div>
   </nav>
 
+  <!-- Three.js Background -->
+  <canvas id="hero-canvas"></canvas>
+
   <!-- Hero -->
   <section class="hero" id="hero">
-    <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
       <div class="hero-badge">
         <span class="dot"></span>
         Full Stack Developer @ Pisamonas
       </div>
       <h1 class="hero-title">
-        <span class="line"><span class="line-inner">Hola, soy</span></span>
-        <span class="line"><span class="line-inner accent">Victor</span></span>
-        <span class="line"><span class="line-inner accent">Garcia</span></span>
+        <div class="title-default">
+          <span class="line"><span class="line-inner accent">Victor</span></span>
+          <span class="line"><span class="line-inner accent">Garcia</span></span>
+        </div>
+        <div class="title-hover" aria-hidden="true">
+          <span class="line"><span class="line-inner-hover">Full Stack</span></span>
+          <span class="line"><span class="line-inner-hover">Dev.</span></span>
+        </div>
       </h1>
       <p class="hero-sub" id="heroSub">Desarrollador Full Stack apasionado por la IA y la creacion de experiencias digitales. Actualmente en Pisamonas, trabajando con e-commerce y marketing digital.</p>
       <div class="hero-cta">
@@ -777,40 +822,9 @@
     </div>
   </section>
 
-  <!-- Tech Marquee -->
-  <div class="marquee-section">
-    <div class="marquee-track">
-      <span>Python</span><span>&#183;</span>
-      <span>PHP</span><span>&#183;</span>
-      <span>React</span><span>&#183;</span>
-      <span>Laravel</span><span>&#183;</span>
-      <span>Magento</span><span>&#183;</span>
-      <span>TypeScript</span><span>&#183;</span>
-      <span>Django</span><span>&#183;</span>
-      <span>Docker</span><span>&#183;</span>
-      <span>PostgreSQL</span><span>&#183;</span>
-      <span>FastAPI</span><span>&#183;</span>
-      <span>Tailwind</span><span>&#183;</span>
-      <span>NGINX</span><span>&#183;</span>
-      <!-- Duplicate for seamless loop -->
-      <span>Python</span><span>&#183;</span>
-      <span>PHP</span><span>&#183;</span>
-      <span>React</span><span>&#183;</span>
-      <span>Laravel</span><span>&#183;</span>
-      <span>Magento</span><span>&#183;</span>
-      <span>TypeScript</span><span>&#183;</span>
-      <span>Django</span><span>&#183;</span>
-      <span>Docker</span><span>&#183;</span>
-      <span>PostgreSQL</span><span>&#183;</span>
-      <span>FastAPI</span><span>&#183;</span>
-      <span>Tailwind</span><span>&#183;</span>
-      <span>NGINX</span><span>&#183;</span>
-    </div>
-  </div>
-
   <!-- About -->
   <section id="about">
-    <p class="section-label">// 01 &mdash; Sobre mi</p>
+    <p class="section-label">Sobre mi</p>
     <h2 class="section-title" data-split>Conoceme un poco mas</h2>
     <div class="about-grid">
       <div class="about-text">
@@ -840,52 +854,45 @@
 
   <!-- Skills -->
   <section id="skills">
-    <p class="section-label">// 02 &mdash; Tech Stack</p>
-    <h2 class="section-title" data-split>Herramientas que uso</h2>
-    <div class="skills-horizontal">
-      <div class="skill-group" data-glow>
-        <div class="skill-group-title">Backend</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">PHP</span>
-          <span class="skill-tag">Java</span>
-          <span class="skill-tag">Laravel</span>
-          <span class="skill-tag">FastAPI</span>
-          <span class="skill-tag">Django / DRF</span>
-          <span class="skill-tag">Magento</span>
-          <span class="skill-tag">SQL</span>
-          <span class="skill-tag">PostgreSQL</span>
-        </div>
-      </div>
-      <div class="skill-group" data-glow>
-        <div class="skill-group-title">Frontend</div>
-        <div class="skill-tags">
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">React + Vite</span>
-          <span class="skill-tag">HTML5</span>
-          <span class="skill-tag">CSS3</span>
-          <span class="skill-tag">Tailwind</span>
-          <span class="skill-tag">Bootstrap</span>
-        </div>
-      </div>
-      <div class="skill-group" data-glow>
-        <div class="skill-group-title">DevOps & Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">NGINX</span>
-          <span class="skill-tag">Git</span>
-          <span class="skill-tag">GitHub</span>
-          <span class="skill-tag">Bitbucket</span>
-          <span class="skill-tag">OpenAI API</span>
-        </div>
+    <p class="section-label">Tech Stack</p>
+    <h2 class="section-title" data-split>Tecnologias</h2>
+
+    <!-- Tech Marquee -->
+    <div class="marquee-section" style="margin-bottom: 3rem;">
+      <div class="marquee-track">
+        <span>Python</span><span>&#183;</span>
+        <span>PHP</span><span>&#183;</span>
+        <span>React</span><span>&#183;</span>
+        <span>Laravel</span><span>&#183;</span>
+        <span>Magento</span><span>&#183;</span>
+        <span>TypeScript</span><span>&#183;</span>
+        <span>Django</span><span>&#183;</span>
+        <span>Docker</span><span>&#183;</span>
+        <span>PostgreSQL</span><span>&#183;</span>
+        <span>FastAPI</span><span>&#183;</span>
+        <span>Tailwind</span><span>&#183;</span>
+        <span>NGINX</span><span>&#183;</span>
+        <!-- Duplicate for seamless loop -->
+        <span>Python</span><span>&#183;</span>
+        <span>PHP</span><span>&#183;</span>
+        <span>React</span><span>&#183;</span>
+        <span>Laravel</span><span>&#183;</span>
+        <span>Magento</span><span>&#183;</span>
+        <span>TypeScript</span><span>&#183;</span>
+        <span>Django</span><span>&#183;</span>
+        <span>Docker</span><span>&#183;</span>
+        <span>PostgreSQL</span><span>&#183;</span>
+        <span>FastAPI</span><span>&#183;</span>
+        <span>Tailwind</span><span>&#183;</span>
+        <span>NGINX</span><span>&#183;</span>
       </div>
     </div>
+
   </section>
 
   <!-- Experience -->
   <section id="experience">
-    <p class="section-label">// 03 &mdash; Trayectoria</p>
+    <p class="section-label">Trayectoria</p>
     <h2 class="section-title" data-split>Experiencia</h2>
     <div class="exp-item">
       <div class="exp-date">May 2026 &mdash; Actual</div>
@@ -938,7 +945,7 @@
 
   <!-- Contact -->
   <section class="contact-section" id="contact">
-    <p class="section-label">// 04 &mdash; Contacto</p>
+    <p class="section-label">Contacto</p>
     <h2 class="contact-title" data-split>Hablamos?</h2>
     <p class="contact-sub">Siempre abierto a conversaciones interesantes y nuevas oportunidades.</p>
     <div class="contact-links">
@@ -962,21 +969,7 @@
   </footer>
 
   <script>
-    // ── Lenis Smooth Scroll ──
-    var lenis = new Lenis({ duration: 1.2, easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Sync GSAP ScrollTrigger with Lenis
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-
-    // ── Theme ──
+    // -- Theme --
     var html = document.documentElement;
     var themeBtn = document.getElementById('themeBtn');
     var themeIcon = document.getElementById('themeIcon');
@@ -994,7 +987,34 @@
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
-    // ── Hamburger ──
+    // -- Nav hide on scroll --
+    var navEl = document.querySelector('nav');
+    var lastScroll = 0;
+    window.addEventListener('scroll', function() {
+      var current = window.scrollY;
+      if (current > 100) {
+        // Past hero top: add background blur
+        navEl.style.background = 'var(--nav-bg)';
+        navEl.style.backdropFilter = 'blur(30px)';
+        navEl.style.webkitBackdropFilter = 'blur(30px)';
+        if (current > lastScroll && current > 200) {
+          // Scrolling down: hide nav
+          navEl.style.transform = 'translateY(-100%)';
+        } else {
+          // Scrolling up: show nav
+          navEl.style.transform = 'translateY(0)';
+        }
+      } else {
+        // At top: transparent, always visible
+        navEl.style.background = 'transparent';
+        navEl.style.backdropFilter = 'none';
+        navEl.style.webkitBackdropFilter = 'none';
+        navEl.style.transform = 'translateY(0)';
+      }
+      lastScroll = current;
+    });
+
+    // -- Hamburger --
     var hamburger = document.getElementById('hamburger');
     var navLinks = document.getElementById('navLinks');
     hamburger.onclick = function() {
@@ -1006,7 +1026,7 @@
       navAs[i].onclick = function() { hamburger.classList.remove('open'); navLinks.classList.remove('open'); };
     }
 
-    // ── Custom Cursor ──
+    // -- Custom Cursor --
     var cursor = document.getElementById('cursor');
     var cursorDot = document.getElementById('cursorDot');
     var cx = 0, cy = 0, dx = 0, dy = 0;
@@ -1036,7 +1056,7 @@
       }
     }
 
-    // ── GSAP Animations ──
+    // -- GSAP Animations --
     gsap.registerPlugin(ScrollTrigger);
 
     // Hero entrance
@@ -1075,36 +1095,28 @@
     gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
     gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
 
-    // Section reveals
-    gsap.utils.toArray('.section-label, .about-text p, .exp-item, .edu-card').forEach(function(el) {
-      gsap.from(el, {
-        scrollTrigger: { trigger: el, start: 'top 85%' },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power3.out'
+    // Section reveals using IntersectionObserver (reliable, no Lenis dependency)
+    var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group');
+    for (var r = 0; r < revealEls.length; r++) {
+      revealEls[r].style.opacity = '0';
+      revealEls[r].style.transform = 'translateY(40px)';
+      revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
+    }
+
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          revealObserver.unobserve(entry.target);
+        }
       });
-    });
+    }, { threshold: 0.1 });
 
-    // Stats stagger
-    gsap.from('.stat', {
-      scrollTrigger: { trigger: '.stats-row', start: 'top 80%' },
-      opacity: 0,
-      y: 30,
-      stagger: 0.1,
-      duration: 0.7,
-      ease: 'power3.out'
-    });
-
-    // Skill groups
-    gsap.from('.skill-group', {
-      scrollTrigger: { trigger: '.skills-horizontal', start: 'top 80%' },
-      opacity: 0,
-      x: 60,
-      stagger: 0.15,
-      duration: 0.8,
-      ease: 'power3.out'
-    });
+    for (var ro = 0; ro < revealEls.length; ro++) {
+      revealObserver.observe(revealEls[ro]);
+    }
 
     // Section title char split
     var splitTitles = document.querySelectorAll('[data-split]');
@@ -1115,7 +1127,12 @@
       for (var c = 0; c < text.length; c++) {
         var charSpan = document.createElement('span');
         charSpan.className = 'char';
-        charSpan.textContent = text[c] === ' ' ? ' ' : text[c];
+        if (text[c] === ' ') {
+          charSpan.innerHTML = '&nbsp;';
+          charSpan.style.width = '0.3em';
+        } else {
+          charSpan.textContent = text[c];
+        }
         charSpan.style.setProperty('--char-index', c);
         title.appendChild(charSpan);
       }
@@ -1131,7 +1148,7 @@
       });
     }
 
-    // ── Glow Cards (spotlight) ──
+    // -- Glow Cards (spotlight) --
     var glowEls = document.querySelectorAll('[data-glow]');
     for (var g = 0; g < glowEls.length; g++) {
       (function(el) {
@@ -1143,7 +1160,7 @@
       })(glowEls[g]);
     }
 
-    // ── Three.js Hero ──
+    // -- Three.js Hero --
     (function() {
       var canvas = document.getElementById('hero-canvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
@@ -1202,9 +1219,9 @@
       }
       animate3d();
 
-      // Scroll parallax
+      // Scroll parallax + fade out canvas like a rocket leaving
       gsap.to(mesh.position, {
-        y: -2,
+        y: -4,
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
@@ -1212,15 +1229,25 @@
           scrub: 1
         }
       });
+
+      gsap.to(canvas, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: '.hero',
+          start: '60% top',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
     })();
 
-    // ── Smooth anchor scroll ──
+    // -- Smooth anchor scroll (native) --
     var anchors = document.querySelectorAll('a[href^="#"]');
     for (var a = 0; a < anchors.length; a++) {
       anchors[a].onclick = function(e) {
         e.preventDefault();
         var target = document.querySelector(this.getAttribute('href'));
-        if (target) lenis.scrollTo(target);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
       };
     }
   </script>
