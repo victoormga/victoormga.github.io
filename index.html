@@ -285,7 +285,7 @@
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 700px;
+      max-width: 780px;
     }
 
     .hero-badge {
@@ -312,12 +312,14 @@
 
     .hero-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-size: clamp(2.75rem, 6.5vw, 5.75rem);
       font-weight: 800;
       line-height: 0.95;
       letter-spacing: -3px;
       margin-bottom: 2rem;
     }
+
+    .hero-title .line { white-space: nowrap; }
 
     .hero-title .line {
       display: block;
@@ -948,7 +950,7 @@
       .hero-sub, .about-text, .contact-sub { font-size: 1rem; }
       .exp-role { font-size: 1.4rem; }
       .project-title { font-size: 1.25rem; }
-      .stat-value { font-size: 1.75rem; }
+      .stat-value { font-size: 1.4rem; }
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
@@ -979,7 +981,7 @@
       .contact-links { flex-direction: column; align-items: center; }
       .contact-link { width: 100%; max-width: 320px; justify-content: center; }
       .skills-horizontal { flex-direction: column; }
-      .skill-group { min-width: auto; }
+      .skill-group { min-width: auto; flex: none; }
       .projects-grid { grid-template-columns: 1fr; }
     }
   </style>
