@@ -277,6 +277,9 @@
       height: 100svh;
       z-index: 0;
       pointer-events: none;
+      /* Difuminar la figura bajo el nav para que los enlaces se lean siempre */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
     }
 
     .hero-content {
