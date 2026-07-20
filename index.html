@@ -959,8 +959,8 @@
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
-      /* Figura 3D visible de fondo */
-      #hero-canvas { opacity: 0.35; }
+      /* Figura 3D grande de fondo, sutil para no comerse el texto */
+      #hero-canvas { opacity: 0.2; }
 
       .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
@@ -1541,7 +1541,7 @@
           mesh.scale.setScalar(1);
         } else {
           mesh.position.x = 0;
-          mesh.scale.setScalar(0.6);
+          mesh.scale.setScalar(1.4);
         }
       }
 
