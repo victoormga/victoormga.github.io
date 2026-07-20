@@ -240,6 +240,7 @@
     /* -- Hero -- */
     .hero {
       min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       align-items: center;
       position: relative;
@@ -252,6 +253,7 @@
       left: 0;
       width: 100%;
       height: 100vh;
+      height: 100svh;
       z-index: 0;
       pointer-events: none;
     }
@@ -938,9 +940,29 @@
       body { cursor: auto; }
       .cursor, .cursor-dot { display: none; }
       nav { padding: 1rem 1.5rem; }
-      .hero { padding: 0 1.5rem; }
-      #hero-canvas { width: 100%; height: 100vh; opacity: 0.2; }
-      section { padding: 5rem 1.5rem; }
+
+      /* Espaciado: más aire en los bordes, menos relleno interno en tarjetas */
+      .hero { padding: 7rem 1.75rem 3rem; }
+      section { padding: 4.5rem 1.75rem; }
+      .contact-section { padding: 6rem 1.75rem; }
+      .stat { padding: 1.5rem; }
+      .skill-group, .edu-card, .project-card { padding: 1.75rem; }
+
+      /* Tipografía: escala coherente en todos los títulos y textos */
+      .hero-title { font-size: clamp(2.75rem, 12vw, 3.5rem); letter-spacing: -1px; }
+      .section-title { font-size: 2.25rem; letter-spacing: -1px; margin-bottom: 2.5rem; }
+      .contact-title { font-size: 2.5rem; letter-spacing: -1px; }
+      .hero-sub, .about-text, .contact-sub { font-size: 1rem; }
+      .exp-role { font-size: 1.4rem; }
+      .project-title { font-size: 1.25rem; }
+      .stat-value { font-size: 1.75rem; }
+      .marquee-track { gap: 2.5rem; }
+      .marquee-track span { font-size: 1.1rem; }
+
+      /* Figura 3D visible de fondo */
+      #hero-canvas { opacity: 0.35; }
+
+      .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .edu-row { grid-template-columns: 1fr; }
@@ -962,7 +984,7 @@
       .hamburger.open span:nth-child(2) { opacity: 0; }
       .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
       .contact-links { flex-direction: column; align-items: center; }
-      .contact-section { padding: 6rem 1.5rem; }
+      .contact-link { width: 100%; max-width: 320px; justify-content: center; }
       .skills-horizontal { flex-direction: column; }
       .skill-group { min-width: auto; }
       .projects-grid { grid-template-columns: 1fr; }
@@ -1511,13 +1533,15 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        // Canvas a ancho completo: desplazar el torus al cuadrante derecho
-        // (centrado en móvil, donde el canvas queda de fondo)
+        // Canvas a ancho completo: torus en el cuadrante derecho en escritorio,
+        // centrado y reducido en móvil (de fondo tras el contenido)
         if (window.innerWidth > 768) {
           var visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
           mesh.position.x = visibleWidth / 4;
+          mesh.scale.setScalar(1);
         } else {
           mesh.position.x = 0;
+          mesh.scale.setScalar(0.6);
         }
       }
 
