@@ -150,6 +150,24 @@
       background-size: 128px;
     }
 
+    /* -- Velo superior (móvil): los textos se difuminan al pasar bajo el nav -- */
+    .scroll-veil {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 110px;
+      z-index: 99;
+      pointer-events: none;
+      background: linear-gradient(to bottom, var(--bg) 35%, transparent);
+      transition: background 0.6s;
+    }
+
+    @media (max-width: 768px) {
+      .scroll-veil { display: block; }
+    }
+
     /* -- Nav -- */
     nav {
       position: fixed;
@@ -997,6 +1015,7 @@
 </head>
 <body>
   <div class="noise"></div>
+  <div class="scroll-veil" aria-hidden="true"></div>
   <div class="cursor" id="cursor"></div>
   <div class="cursor-dot" id="cursorDot"></div>
 
@@ -1426,6 +1445,21 @@
 
       gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
       gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
+
+      // Móvil: el hero se desvanece con el scroll en vez de chocar con el nav
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        gsap.to('.hero-content', {
+          opacity: 0,
+          y: -30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: '55% top',
+            scrub: true
+          }
+        });
+      }
 
       // Section reveals using IntersectionObserver
       var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
