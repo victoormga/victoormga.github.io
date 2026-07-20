@@ -3,15 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Victor Garcia - Full Stack Developer</title>
+  <title>Víctor García — Full Stack Developer</title>
+  <meta name="description" content="Portfolio de Víctor García, desarrollador Full Stack en Madrid especializado en e-commerce e integración de IA. PHP, Laravel, Magento, React y Python.">
+  <meta name="author" content="Víctor García">
+  <link rel="canonical" href="https://victoormga.github.io/">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Víctor García — Full Stack Developer">
+  <meta property="og:description" content="Desarrollador Full Stack en Madrid: e-commerce, IA y experiencias digitales con PHP, Laravel, Magento, React y Python.">
+  <meta property="og:url" content="https://victoormga.github.io/">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c5cfc'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial,sans-serif' font-weight='bold' text-anchor='middle' fill='%23fff'%3EV%3C/text%3E%3C/svg%3E">
+
+  <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
+  <script>
+    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);})();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Víctor Manuel García Alonso",
+    "jobTitle": "Full Stack Developer",
+    "url": "https://victoormga.github.io/",
+    "email": "mailto:victormgalonso26@gmail.com",
+    "worksFor": { "@type": "Organization", "name": "Pisamonas" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
+    "sameAs": [
+      "https://github.com/victoormga",
+      "https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/"
+    ]
+  }
+  </script>
 
   <style>
     :root {
@@ -23,13 +58,14 @@
       --bg-card: #0e0e12;
       --text: #f5f5f7;
       --text-dim: #8a8a9a;
-      --text-muted: #4a4a5a;
+      --text-muted: #7a7a90;
       --accent: #7c5cfc;
       --accent2: #00d4aa;
       --accent3: #fc5c7c;
       --border: rgba(255,255,255,0.06);
       --nav-bg: rgba(5,5,5,0.8);
       --glow: rgba(124, 92, 252, 0.08);
+      --accent-glow: rgba(124, 92, 252, 0.3);
     }
 
     [data-theme="light"] {
@@ -37,21 +73,25 @@
       --bg-card: #ffffff;
       --text: #111118;
       --text-dim: #6a6a78;
-      --text-muted: #aaaabc;
+      --text-muted: #70708a;
       --accent: #6b46e5;
       --accent2: #00b894;
       --accent3: #e54666;
       --border: rgba(0,0,0,0.06);
       --nav-bg: rgba(250,250,250,0.85);
       --glow: rgba(107, 70, 229, 0.05);
+      --accent-glow: rgba(107, 70, 229, 0.22);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
-      scroll-behavior: smooth;
       scrollbar-width: thin;
-      scrollbar-color: #2a2a3a #0a0a0f;
+      scrollbar-color: var(--text-muted) var(--bg);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     body {
@@ -123,6 +163,14 @@
       border-bottom: none;
       transition: background 0.4s, backdrop-filter 0.4s, transform 0.4s;
     }
+
+    nav.scrolled {
+      background: var(--nav-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+
+    nav.nav-hidden { transform: translateY(-100%); }
 
     .nav-logo {
       font-family: 'Syne', sans-serif;
@@ -333,7 +381,7 @@
     }
 
     .btn-fill:hover {
-      box-shadow: 0 0 40px rgba(124, 92, 252, 0.3);
+      box-shadow: 0 0 40px var(--accent-glow);
       transform: translateY(-2px);
     }
 
@@ -492,19 +540,20 @@
     /* -- Skills -- */
     .skills-horizontal {
       display: flex;
+      flex-wrap: wrap;
       gap: 2rem;
       padding: 2rem 0;
     }
 
     .skill-group {
-      min-width: 350px;
+      flex: 1 1 320px;
+      min-width: 0;
       padding: 2.5rem;
       border: 1px solid var(--border);
       border-radius: 24px;
       transition: all 0.4s var(--ease);
       position: relative;
       overflow: hidden;
-      flex-shrink: 0;
     }
 
     .skill-group::before {
@@ -554,6 +603,136 @@
       color: var(--text);
       background: var(--glow);
       transform: translateY(-2px);
+    }
+
+    /* -- Projects -- */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .project-card {
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      transition: all 0.4s var(--ease);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .project-card.future { border-style: dashed; }
+    .project-card.future:hover { border-color: var(--accent2); }
+
+    .project-type-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .project-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .project-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .project-desc {
+      color: var(--text-dim);
+      line-height: 1.8;
+      font-size: 0.95rem;
+      position: relative;
+      flex: 1;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      position: relative;
+    }
+
+    .project-tech span {
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+      position: relative;
+    }
+
+    .project-links a {
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.3s, border-color 0.3s;
+      cursor: none;
+    }
+
+    .project-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .project-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 1.25rem;
+      position: relative;
     }
 
     /* -- Experience -- */
@@ -724,7 +903,7 @@
       border-color: var(--accent);
       color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(124, 92, 252, 0.1);
+      box-shadow: 0 10px 30px var(--glow);
     }
 
     .contact-link svg { width: 18px; height: 18px; }
@@ -737,6 +916,23 @@
       color: var(--text-muted);
       font-size: 0.75rem;
       letter-spacing: 1px;
+    }
+
+    /* -- Accesibilidad -- */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track {
+        animation: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: auto;
+      }
+      .noise { display: none; }
     }
 
     /* -- Responsive -- */
@@ -771,6 +967,8 @@
       .contact-section { padding: 6rem 1.5rem; }
       .skills-horizontal { flex-direction: column; }
       .skill-group { min-width: auto; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .title-hover .line-inner-hover { white-space: normal; }
     }
   </style>
 </head>
@@ -780,22 +978,25 @@
   <div class="cursor-dot" id="cursorDot"></div>
 
   <!-- Nav -->
-  <nav>
-    <div class="nav-logo">Victor Garcia</div>
+  <nav aria-label="Navegación principal">
+    <div class="nav-logo">Víctor García</div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">Sobre mí</a></li>
+      <li><a href="#skills">Stack</a></li>
+      <li><a href="#projects">Proyectos</a></li>
+      <li><a href="#experience">Experiencia</a></li>
+      <li><a href="#contact">Contacto</a></li>
     </ul>
     <div style="display:flex;align-items:center;gap:0.75rem;">
-      <button class="theme-btn" id="themeBtn"><span id="themeIcon">&#9788;</span></button>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema claro/oscuro"><span id="themeIcon">&#9788;</span></button>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
   <!-- Three.js Background -->
-  <canvas id="hero-canvas"></canvas>
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <main>
 
   <!-- Hero -->
   <section class="hero" id="hero">
@@ -804,41 +1005,41 @@
         <span class="dot"></span>
         Full Stack Developer @ Pisamonas
       </div>
-      <h1 class="hero-title">
+      <h1 class="hero-title" aria-label="Víctor García">
         <div class="title-default">
-          <span class="line"><span class="line-inner accent">Victor</span></span>
-          <span class="line"><span class="line-inner accent">Garcia</span></span>
+          <span class="line"><span class="line-inner accent">Víctor</span></span>
+          <span class="line"><span class="line-inner accent">García</span></span>
         </div>
         <div class="title-hover" aria-hidden="true">
           <span class="line"><span class="line-inner-hover">Full Stack</span></span>
           <span class="line"><span class="line-inner-hover">Dev.</span></span>
         </div>
       </h1>
-      <p class="hero-sub" id="heroSub">Desarrollador Full Stack apasionado por la IA y la creacion de experiencias digitales. Actualmente en Pisamonas, trabajando con e-commerce y marketing digital.</p>
+      <p class="hero-sub" id="heroSub">Desarrollador Full Stack apasionado por la IA y la creación de experiencias digitales. Actualmente en Pisamonas, trabajando con e-commerce y marketing digital.</p>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-fill">Contactame</a>
-        <a href="https://github.com/victoormga" target="_blank" class="btn btn-ghost">GitHub</a>
+        <a href="#contact" class="btn btn-fill">Contáctame</a>
+        <a href="https://github.com/victoormga" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
       </div>
     </div>
   </section>
 
   <!-- About -->
   <section id="about">
-    <p class="section-label">Sobre mi</p>
-    <h2 class="section-title" data-split>Conoceme un poco mas</h2>
+    <p class="section-label">Sobre mí</p>
+    <h2 class="section-title" data-split>Conóceme un poco más</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p>Soy un desarrollador web con base en Madrid, apasionado por el desarrollo de software, la inteligencia artificial y sus aplicaciones practicas. Me caracterizo por la curiosidad tecnologica y un enfoque analitico para resolver problemas.</p>
+        <p>Soy un desarrollador web con base en Madrid, apasionado por el desarrollo de software, la inteligencia artificial y sus aplicaciones prácticas. Me caracterizo por la curiosidad tecnológica y un enfoque analítico para resolver problemas.</p>
         <p>He trabajado construyendo sistemas que integran modelos de IA para automatizar procesos, y disfruto tanto del backend robusto como del frontend con buena experiencia de usuario.</p>
       </div>
       <div class="stats-row">
         <div class="stat" data-glow>
           <div class="stat-value">15+</div>
-          <div class="stat-label">Tecnologias</div>
+          <div class="stat-label">Tecnologías</div>
         </div>
         <div class="stat" data-glow>
           <div class="stat-value">DAW</div>
-          <div class="stat-label">Formacion</div>
+          <div class="stat-label">Formación</div>
         </div>
         <div class="stat" data-glow>
           <div class="stat-value">ES/EN</div>
@@ -888,6 +1089,104 @@
       </div>
     </div>
 
+    <div class="skills-horizontal">
+      <div class="skill-group" data-glow>
+        <p class="skill-group-title">Backend</p>
+        <div class="skill-tags">
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">Laravel</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Django</span>
+          <span class="skill-tag">FastAPI</span>
+        </div>
+      </div>
+      <div class="skill-group" data-glow>
+        <p class="skill-group-title">Frontend</p>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Tailwind</span>
+          <span class="skill-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skill-group" data-glow>
+        <p class="skill-group-title">E-commerce &amp; IA</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Magento</span>
+          <span class="skill-tag">OpenAI API</span>
+          <span class="skill-tag">Integración LLM</span>
+          <span class="skill-tag">Automatización</span>
+        </div>
+      </div>
+      <div class="skill-group" data-glow>
+        <p class="skill-group-title">DevOps &amp; Datos</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">NGINX</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Bitbucket</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <p class="section-label">Proyectos</p>
+    <h2 class="section-title" data-split>Cosas que construyo</h2>
+    <div class="projects-grid">
+      <div class="project-card" data-glow>
+        <div class="project-type-row">
+          <p class="project-type">Web &#183; 3D</p>
+        </div>
+        <h3 class="project-title">Portfolio interactivo</h3>
+        <p class="project-desc">Este mismo sitio: portfolio con fondo 3D en Three.js, animaciones con GSAP, tema claro/oscuro y cero frameworks. Diseñado y construido desde cero.</p>
+        <div class="project-tech">
+          <span>HTML/CSS</span><span>JavaScript</span><span>Three.js</span><span>GSAP</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/victoormga/victoormga.github.io" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
+        </div>
+      </div>
+      <div class="project-card" data-glow>
+        <div class="project-type-row">
+          <p class="project-type">Python &#183; IA</p>
+        </div>
+        <h3 class="project-title">Analizador de CVs con IA</h3>
+        <p class="project-desc">Sistema que extrae y estructura información de CVs en PDF usando modelos GPT, y genera informes DOCX con secciones dinámicas de forma automática.</p>
+        <div class="project-tech">
+          <span>Python</span><span>OpenAI API</span><span>JSON</span>
+        </div>
+        <p class="project-note">// Código privado (proyecto profesional)</p>
+      </div>
+      <div class="project-card future" data-glow>
+        <div class="project-type-row">
+          <p class="project-type">IA &#183; RAG</p>
+          <span class="project-badge">Próximamente</span>
+        </div>
+        <h3 class="project-title">Asistente de documentación</h3>
+        <p class="project-desc">Chat sobre documentación técnica propia con búsqueda semántica y modelos de lenguaje: pregunta en lenguaje natural, responde con fuentes.</p>
+        <div class="project-tech">
+          <span>FastAPI</span><span>PostgreSQL</span><span>React</span>
+        </div>
+      </div>
+      <div class="project-card future" data-glow>
+        <div class="project-type-row">
+          <p class="project-type">E-commerce &#183; Datos</p>
+          <span class="project-badge">Próximamente</span>
+        </div>
+        <h3 class="project-title">Dashboard de analítica e-commerce</h3>
+        <p class="project-desc">Panel de métricas para tienda online: ventas, campañas y stock en tiempo real. Inspirado en mi día a día trabajando con Magento y Marketing.</p>
+        <div class="project-tech">
+          <span>Laravel</span><span>React</span><span>TypeScript</span>
+        </div>
+      </div>
+    </div>
+    <!-- TODO: sustituir/añadir tarjetas con repos destacados de github.com/victoormga -->
   </section>
 
   <!-- Experience -->
@@ -903,7 +1202,7 @@
           <li>Desarrollo full stack en entorno e-commerce, trabajando con el departamento de Marketing</li>
           <li>Mantenimiento y desarrollo de nuevas funcionalidades sobre Magento</li>
           <li>Componentes frontend con React integrados en el ecosistema de la tienda</li>
-          <li>Backend con Laravel/PHP para logica de negocio y servicios internos</li>
+          <li>Backend con Laravel/PHP para lógica de negocio y servicios internos</li>
         </ul>
         <div class="exp-tech">
           <span>Magento</span><span>React</span><span>Laravel</span><span>PHP</span><span>Bitbucket</span><span>GitHub</span>
@@ -916,9 +1215,9 @@
         <h3 class="exp-role">Web Developer Junior</h3>
         <p class="exp-company">Samana Digital</p>
         <ul class="exp-desc">
-          <li>Sistema para extraer y estructurar informacion de CVs en PDF</li>
-          <li>Integracion de modelos GPT para interpretar contenido y generar informes</li>
-          <li>Generacion automatica de documentos DOCX con secciones dinamicas</li>
+          <li>Sistema para extraer y estructurar información de CVs en PDF</li>
+          <li>Integración de modelos GPT para interpretar contenido y generar informes</li>
+          <li>Generación automática de documentos DOCX con secciones dinámicas</li>
           <li>Arquitectura modular en Python con Git</li>
         </ul>
         <div class="exp-tech">
@@ -931,13 +1230,13 @@
       <div class="edu-card" data-glow>
         <div class="edu-emoji">&#127891;</div>
         <h3 class="edu-title">CFGS Desarrollo de Aplicaciones Web</h3>
-        <p class="edu-school">I.E.S Isidra de Guzman</p>
+        <p class="edu-school">I.E.S. Isidra de Guzmán</p>
         <p class="edu-date">Sep 2023 &mdash; Jun 2025</p>
       </div>
       <div class="edu-card" data-glow>
         <div class="edu-emoji">&#128218;</div>
         <h3 class="edu-title">Bachillerato de Humanidades</h3>
-        <p class="edu-school">I.E.S Ignacio Ellacuria</p>
+        <p class="edu-school">I.E.S. Ignacio Ellacuría</p>
         <p class="edu-date">Sep 2019 &mdash; Jun 2021</p>
       </div>
     </div>
@@ -946,38 +1245,39 @@
   <!-- Contact -->
   <section class="contact-section" id="contact">
     <p class="section-label">Contacto</p>
-    <h2 class="contact-title" data-split>Hablamos?</h2>
+    <h2 class="contact-title" data-split>¿Hablamos?</h2>
     <p class="contact-sub">Siempre abierto a conversaciones interesantes y nuevas oportunidades.</p>
     <div class="contact-links">
       <a href="mailto:victormgalonso26@gmail.com" class="contact-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         victormgalonso26@gmail.com
       </a>
-      <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" class="contact-link">
+      <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" rel="noopener noreferrer" class="contact-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-      <a href="https://github.com/victoormga" target="_blank" class="contact-link">
+      <a href="https://github.com/victoormga" target="_blank" rel="noopener noreferrer" class="contact-link">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         GitHub
       </a>
     </div>
   </section>
 
+  </main>
+
   <footer>
-    <p>Victor Garcia &mdash; 2026</p>
+    <p>Víctor García &mdash; 2026</p>
   </footer>
 
   <script>
-    // -- Theme --
+  document.addEventListener('DOMContentLoaded', function () {
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // -- Theme (aplicado en <head> para evitar FOUC; aquí solo el toggle) --
     var html = document.documentElement;
     var themeBtn = document.getElementById('themeBtn');
     var themeIcon = document.getElementById('themeIcon');
-
-    var saved = 'dark';
-    try { var s = localStorage.getItem('theme'); if (s) saved = s; } catch(e) {}
-    html.setAttribute('data-theme', saved);
-    themeIcon.innerHTML = saved === 'dark' ? '&#9788;' : '&#9790;';
+    themeIcon.innerHTML = html.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
 
     themeBtn.onclick = function() {
       var cur = html.getAttribute('data-theme');
@@ -987,43 +1287,46 @@
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
-    // -- Nav hide on scroll --
+    // -- Nav hide on scroll (clases + rAF, sin escribir estilos inline) --
     var navEl = document.querySelector('nav');
     var lastScroll = 0;
-    window.addEventListener('scroll', function() {
+    var ticking = false;
+
+    function updateNav() {
       var current = window.scrollY;
       if (current > 100) {
-        // Past hero top: add background blur
-        navEl.style.background = 'var(--nav-bg)';
-        navEl.style.backdropFilter = 'blur(30px)';
-        navEl.style.webkitBackdropFilter = 'blur(30px)';
+        navEl.classList.add('scrolled');
         if (current > lastScroll && current > 200) {
-          // Scrolling down: hide nav
-          navEl.style.transform = 'translateY(-100%)';
+          navEl.classList.add('nav-hidden');
         } else {
-          // Scrolling up: show nav
-          navEl.style.transform = 'translateY(0)';
+          navEl.classList.remove('nav-hidden');
         }
       } else {
-        // At top: transparent, always visible
-        navEl.style.background = 'transparent';
-        navEl.style.backdropFilter = 'none';
-        navEl.style.webkitBackdropFilter = 'none';
-        navEl.style.transform = 'translateY(0)';
+        navEl.classList.remove('scrolled', 'nav-hidden');
       }
       lastScroll = current;
-    });
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!ticking) { requestAnimationFrame(updateNav); ticking = true; }
+    }, { passive: true });
 
     // -- Hamburger --
     var hamburger = document.getElementById('hamburger');
     var navLinks = document.getElementById('navLinks');
-    hamburger.onclick = function() {
-      hamburger.classList.toggle('open');
-      navLinks.classList.toggle('open');
-    };
+
+    function setMenu(open) {
+      hamburger.classList.toggle('open', open);
+      navLinks.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hamburger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    }
+
+    hamburger.onclick = function() { setMenu(!hamburger.classList.contains('open')); };
     var navAs = navLinks.querySelectorAll('a');
     for (var i = 0; i < navAs.length; i++) {
-      navAs[i].onclick = function() { hamburger.classList.remove('open'); navLinks.classList.remove('open'); };
+      navAs[i].addEventListener('click', function() { setMenu(false); });
     }
 
     // -- Custom Cursor --
@@ -1059,93 +1362,100 @@
     // -- GSAP Animations --
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero entrance
-    gsap.to('.line-inner', {
-      y: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: 'power4.out',
-      delay: 0.3
-    });
-
-    // Hero subtitle word-by-word
-    var subEl = document.getElementById('heroSub');
-    var subText = subEl.textContent;
-    var words = subText.split(' ');
-    subEl.innerHTML = '';
-    for (var w = 0; w < words.length; w++) {
-      var span = document.createElement('span');
-      span.className = 'word';
-      var inner = document.createElement('span');
-      inner.className = 'word-inner';
-      inner.textContent = words[w];
-      span.appendChild(inner);
-      subEl.appendChild(span);
-      subEl.appendChild(document.createTextNode(' '));
-    }
-
-    gsap.to('.word-inner', {
-      y: 0,
-      duration: 0.8,
-      stagger: 0.02,
-      ease: 'power3.out',
-      delay: 0.8
-    });
-
-    gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
-    gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
-
-    // Section reveals using IntersectionObserver (reliable, no Lenis dependency)
-    var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group');
-    for (var r = 0; r < revealEls.length; r++) {
-      revealEls[r].style.opacity = '0';
-      revealEls[r].style.transform = 'translateY(40px)';
-      revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-      revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
-    }
-
-    var revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          revealObserver.unobserve(entry.target);
-        }
+    if (reduced) {
+      // Sin animaciones: mostrar todo directamente
+      gsap.set('.line-inner', { y: 0 });
+    } else {
+      // Hero entrance
+      gsap.to('.line-inner', {
+        y: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power4.out',
+        delay: 0.3
       });
-    }, { threshold: 0.1 });
 
-    for (var ro = 0; ro < revealEls.length; ro++) {
-      revealObserver.observe(revealEls[ro]);
-    }
-
-    // Section title char split
-    var splitTitles = document.querySelectorAll('[data-split]');
-    for (var st = 0; st < splitTitles.length; st++) {
-      var title = splitTitles[st];
-      var text = title.textContent;
-      title.innerHTML = '';
-      for (var c = 0; c < text.length; c++) {
-        var charSpan = document.createElement('span');
-        charSpan.className = 'char';
-        if (text[c] === ' ') {
-          charSpan.innerHTML = '&nbsp;';
-          charSpan.style.width = '0.3em';
-        } else {
-          charSpan.textContent = text[c];
-        }
-        charSpan.style.setProperty('--char-index', c);
-        title.appendChild(charSpan);
+      // Hero subtitle word-by-word
+      var subEl = document.getElementById('heroSub');
+      var subText = subEl.textContent;
+      var words = subText.split(' ');
+      subEl.innerHTML = '';
+      for (var w = 0; w < words.length; w++) {
+        var span = document.createElement('span');
+        span.className = 'word';
+        var inner = document.createElement('span');
+        inner.className = 'word-inner';
+        inner.textContent = words[w];
+        span.appendChild(inner);
+        subEl.appendChild(span);
+        subEl.appendChild(document.createTextNode(' '));
       }
 
-      gsap.from(title.querySelectorAll('.char'), {
-        scrollTrigger: { trigger: title, start: 'top 85%' },
-        opacity: 0,
-        y: 30,
-        rotateX: -40,
-        stagger: 0.025,
-        duration: 0.6,
-        ease: 'power3.out'
+      gsap.to('.word-inner', {
+        y: 0,
+        duration: 0.8,
+        stagger: 0.02,
+        ease: 'power3.out',
+        delay: 0.8
       });
+
+      gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
+      gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
+
+      // Section reveals using IntersectionObserver
+      var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
+      for (var r = 0; r < revealEls.length; r++) {
+        revealEls[r].style.opacity = '0';
+        revealEls[r].style.transform = 'translateY(40px)';
+        revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
+      }
+
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      for (var ro = 0; ro < revealEls.length; ro++) {
+        revealObserver.observe(revealEls[ro]);
+      }
+
+      // Section title char split (aria-label conserva el texto para lectores de pantalla)
+      var splitTitles = document.querySelectorAll('[data-split]');
+      for (var st = 0; st < splitTitles.length; st++) {
+        var title = splitTitles[st];
+        var text = title.textContent;
+        title.setAttribute('aria-label', text);
+        title.innerHTML = '';
+        for (var c = 0; c < text.length; c++) {
+          var charSpan = document.createElement('span');
+          charSpan.className = 'char';
+          charSpan.setAttribute('aria-hidden', 'true');
+          if (text[c] === ' ') {
+            charSpan.innerHTML = '&nbsp;';
+            charSpan.style.width = '0.3em';
+          } else {
+            charSpan.textContent = text[c];
+          }
+          charSpan.style.setProperty('--char-index', c);
+          title.appendChild(charSpan);
+        }
+
+        gsap.from(title.querySelectorAll('.char'), {
+          scrollTrigger: { trigger: title, start: 'top 85%' },
+          opacity: 0,
+          y: 30,
+          rotateX: -40,
+          stagger: 0.025,
+          duration: 0.6,
+          ease: 'power3.out'
+        });
+      }
     }
 
     // -- Glow Cards (spotlight) --
@@ -1160,8 +1470,8 @@
       })(glowEls[g]);
     }
 
-    // -- Three.js Hero --
-    (function() {
+    // -- Three.js Hero (no se inicia con reduced-motion; se pausa fuera de vista) --
+    if (!reduced) (function() {
       var canvas = document.getElementById('hero-canvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1209,15 +1519,30 @@
       window.addEventListener('resize', onResize);
       onResize();
 
+      // Pausar el bucle de render cuando el hero no está en pantalla
+      var heroVisible = true;
+      var running = false;
+
       function animate3d() {
-        requestAnimationFrame(animate3d);
+        if (!heroVisible) { running = false; return; }
         mesh.rotation.x += 0.003;
         mesh.rotation.y += 0.005;
         mesh.rotation.x += mouseY * 0.003;
         mesh.rotation.y += mouseX * 0.003;
         renderer.render(scene, camera);
+        requestAnimationFrame(animate3d);
       }
-      animate3d();
+
+      function startLoop() {
+        if (!running) { running = true; requestAnimationFrame(animate3d); }
+      }
+
+      new IntersectionObserver(function(entries) {
+        heroVisible = entries[0].isIntersecting;
+        if (heroVisible) startLoop();
+      }).observe(document.querySelector('.hero'));
+
+      startLoop();
 
       // Scroll parallax + fade out canvas like a rocket leaving
       gsap.to(mesh.position, {
@@ -1241,15 +1566,20 @@
       });
     })();
 
-    // -- Smooth anchor scroll (native) --
+    // -- Smooth anchor scroll (conserva el hash en la URL) --
     var anchors = document.querySelectorAll('a[href^="#"]');
     for (var a = 0; a < anchors.length; a++) {
-      anchors[a].onclick = function(e) {
+      anchors[a].addEventListener('click', function(e) {
         e.preventDefault();
-        var target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      };
+        var href = this.getAttribute('href');
+        var target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+          history.pushState(null, '', href);
+        }
+      });
     }
+  });
   </script>
 </body>
 </html>
