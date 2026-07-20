@@ -7,7 +7,7 @@
   <meta name="description" content="Portfolio de Víctor García, desarrollador Full Stack en Madrid especializado en e-commerce e integración de IA. PHP, Laravel, Magento, React y Python.">
   <meta name="author" content="Víctor García">
   <link rel="canonical" href="https://victoormga.github.io/">
-  <meta name="theme-color" content="#050505">
+  <meta name="theme-color" id="metaTheme" content="#050505">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Víctor García — Full Stack Developer">
   <meta property="og:description" content="Desarrollador Full Stack en Madrid: e-commerce, IA y experiencias digitales con PHP, Laravel, Magento, React y Python.">
@@ -18,7 +18,7 @@
 
   <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
   <script>
-    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);})();
+    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#fafafa');})();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,6 +86,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
+      background: var(--bg);
       scrollbar-width: thin;
       scrollbar-color: var(--text-muted) var(--bg);
     }
@@ -1304,6 +1305,8 @@
       var next = cur === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
+      var metaTheme = document.getElementById('metaTheme');
+      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#fafafa');
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
