@@ -249,8 +249,8 @@
     #hero-canvas {
       position: fixed;
       top: 0;
-      right: 0;
-      width: 50%;
+      left: 0;
+      width: 100%;
       height: 100vh;
       z-index: 0;
       pointer-events: none;
@@ -458,6 +458,8 @@
       line-height: 1.4;
       margin-bottom: 4rem;
       overflow: visible;
+      padding-top: 0.15em;
+      margin-top: -0.15em;
     }
 
     .section-title .char {
@@ -749,9 +751,6 @@
       border-top: 1px solid var(--border);
     }
 
-    .exp-item:hover {
-      padding-left: 1rem;
-    }
 
     .exp-date {
       font-family: 'JetBrains Mono', monospace;
@@ -847,7 +846,6 @@
 
     .edu-card:hover {
       border-color: var(--accent2);
-      transform: translateY(-4px);
     }
 
     .edu-emoji { font-size: 2rem; margin-bottom: 1rem; position: relative; }
@@ -1056,7 +1054,7 @@
   <!-- Skills -->
   <section id="skills">
     <p class="section-label">Tech Stack</p>
-    <h2 class="section-title" data-split>Tecnologias</h2>
+    <h2 class="section-title" data-split>Tecnologías</h2>
 
     <!-- Tech Marquee -->
     <div class="marquee-section" style="margin-bottom: 3rem;">
@@ -1450,7 +1448,6 @@
           scrollTrigger: { trigger: title, start: 'top 85%' },
           opacity: 0,
           y: 30,
-          rotateX: -40,
           stagger: 0.025,
           duration: 0.6,
           ease: 'power3.out'
@@ -1514,6 +1511,14 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        // Canvas a ancho completo: desplazar el torus al cuadrante derecho
+        // (centrado en móvil, donde el canvas queda de fondo)
+        if (window.innerWidth > 768) {
+          var visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
+          mesh.position.x = visibleWidth / 4;
+        } else {
+          mesh.position.x = 0;
+        }
       }
 
       window.addEventListener('resize', onResize);
