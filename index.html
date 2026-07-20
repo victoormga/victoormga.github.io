@@ -329,38 +329,7 @@
       transform: translateY(110%);
     }
 
-    .hero-title .accent {
-      color: var(--accent);
-    }
-
-    /* -- Hero title hover swap -- */
-    .hero-title { position: relative; cursor: none; }
-
-    .title-default {
-      transition: opacity 1.5s var(--ease);
-    }
-
-    .title-hover {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 1.5s var(--ease);
-    }
-
-    .title-hover .line-inner-hover {
-      display: block;
-      color: var(--text);
-      white-space: nowrap;
-    }
-
-    .hero-title:hover .title-default {
-      opacity: 0;
-    }
-
-    .hero-title:hover .title-hover {
-      opacity: 1;
-    }
+    .hero-title { color: var(--text); }
 
     .hero-sub {
       font-size: 1.15rem;
@@ -1012,7 +981,6 @@
       .skills-horizontal { flex-direction: column; }
       .skill-group { min-width: auto; }
       .projects-grid { grid-template-columns: 1fr; }
-      .title-hover .line-inner-hover { white-space: normal; }
     }
   </style>
 </head>
@@ -1050,15 +1018,9 @@
         <span class="dot"></span>
         Full Stack Developer @ Pisamonas
       </div>
-      <h1 class="hero-title" aria-label="Víctor García">
-        <div class="title-default">
-          <span class="line"><span class="line-inner accent">Víctor</span></span>
-          <span class="line"><span class="line-inner accent">García</span></span>
-        </div>
-        <div class="title-hover" aria-hidden="true">
-          <span class="line"><span class="line-inner-hover">Full Stack</span></span>
-          <span class="line"><span class="line-inner-hover">Dev.</span></span>
-        </div>
+      <h1 class="hero-title">
+        <span class="line"><span class="line-inner">Full Stack</span></span>
+        <span class="line"><span class="line-inner">Dev.</span></span>
       </h1>
       <p class="hero-sub" id="heroSub">Construyo productos web completos, del servidor a la interfaz, y me interesa especialmente lo que la IA puede automatizar por el camino.</p>
       <div class="hero-cta">
@@ -1339,6 +1301,11 @@
     var lastScroll = 0;
     var ticking = false;
 
+    // Móvil: el hero se desvanece con el scroll en vez de chocar con el nav
+    // (cálculo manual: sin depender de ScrollTrigger, que falla en iOS Safari)
+    var heroFadeEl = (!reduced && window.matchMedia('(max-width: 768px)').matches)
+      ? document.querySelector('.hero-content') : null;
+
     function updateNav() {
       var current = window.scrollY;
       if (current > 100) {
@@ -1351,6 +1318,10 @@
       } else {
         navEl.classList.remove('scrolled', 'nav-hidden');
       }
+      if (heroFadeEl) {
+        var fp = Math.min(Math.max(current / (window.innerHeight * 0.55), 0), 1);
+        heroFadeEl.style.opacity = String(1 - fp);
+      }
       lastScroll = current;
       ticking = false;
     }
@@ -1358,6 +1329,7 @@
     window.addEventListener('scroll', function() {
       if (!ticking) { requestAnimationFrame(updateNav); ticking = true; }
     }, { passive: true });
+    updateNav();
 
     // -- Hamburger --
     var hamburger = document.getElementById('hamburger');
@@ -1406,7 +1378,18 @@
       }
     }
 
+    // -- Red de seguridad: si las animaciones fallan (CDN bloqueado, error
+    // en iOS...), todo el contenido se muestra sin efectos --
+    function showEverything() {
+      var safeEls = document.querySelectorAll('.line-inner, .word-inner, .hero-badge, .hero-cta, .char, .section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
+      for (var se = 0; se < safeEls.length; se++) {
+        safeEls[se].style.opacity = '';
+        safeEls[se].style.transform = 'none';
+      }
+    }
+
     // -- GSAP Animations --
+    try {
     gsap.registerPlugin(ScrollTrigger);
 
     if (reduced) {
@@ -1449,21 +1432,6 @@
       gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
       gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
 
-      // Móvil: el hero se desvanece con el scroll en vez de chocar con el nav
-      if (window.matchMedia('(max-width: 768px)').matches) {
-        gsap.to('.hero-content', {
-          opacity: 0,
-          y: -30,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: '55% top',
-            scrub: true
-          }
-        });
-      }
-
       // Section reveals using IntersectionObserver
       var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
       for (var r = 0; r < revealEls.length; r++) {
@@ -1488,6 +1456,22 @@
       }
 
       // Section title char split (aria-label conserva el texto para lectores de pantalla)
+      // Revelado con IntersectionObserver (ScrollTrigger es poco fiable en iOS)
+      var titleObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            gsap.to(entry.target.querySelectorAll('.char'), {
+              opacity: 1,
+              y: 0,
+              stagger: 0.025,
+              duration: 0.6,
+              ease: 'power3.out'
+            });
+            titleObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
       var splitTitles = document.querySelectorAll('[data-split]');
       for (var st = 0; st < splitTitles.length; st++) {
         var title = splitTitles[st];
@@ -1508,15 +1492,12 @@
           title.appendChild(charSpan);
         }
 
-        gsap.from(title.querySelectorAll('.char'), {
-          scrollTrigger: { trigger: title, start: 'top 85%' },
-          opacity: 0,
-          y: 30,
-          stagger: 0.025,
-          duration: 0.6,
-          ease: 'power3.out'
-        });
+        gsap.set(title.querySelectorAll('.char'), { opacity: 0, y: 30 });
+        titleObserver.observe(title);
       }
+    }
+    } catch (animErr) {
+      showEverything();
     }
 
     // -- Glow Cards (spotlight) --
@@ -1532,7 +1513,7 @@
     }
 
     // -- Three.js Hero (no se inicia con reduced-motion; se pausa fuera de vista) --
-    if (!reduced) (function() {
+    if (!reduced) try { (function() {
       var canvas = document.getElementById('hero-canvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1635,7 +1616,7 @@
           scrub: 1
         }
       });
-    })();
+    })(); } catch (threeErr) { /* sin WebGL o sin CDN: la web funciona igual */ }
 
     // -- Smooth anchor scroll (conserva el hash en la URL) --
     var anchors = document.querySelectorAll('a[href^="#"]');
