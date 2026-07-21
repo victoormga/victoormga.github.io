@@ -18,7 +18,7 @@
 
   <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
   <script>
-    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#fafafa');})();
+    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#faf8f4');})();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,20 +69,22 @@
       --accent-glow: rgba(124, 92, 252, 0.3);
     }
 
+    /* Paleta "papel cálido": fondo hueso y tinta cálida en lugar de blanco
+       puro y gris azulado. Menos clínico, más editorial. */
     [data-theme="light"] {
       color-scheme: light;
-      --bg: #fafafa;
-      --bg-card: #ffffff;
-      --text: #111118;
-      --text-dim: #6a6a78;
-      --text-muted: #70708a;
-      --accent: #6b46e5;
-      --accent2: #00b894;
-      --accent3: #e54666;
-      --border: rgba(0,0,0,0.06);
-      --nav-bg: rgba(250,250,250,0.85);
-      --glow: rgba(107, 70, 229, 0.05);
-      --accent-glow: rgba(107, 70, 229, 0.22);
+      --bg: #faf8f4;
+      --bg-card: #fffdf9;
+      --text: #1a1a17;
+      --text-dim: #5f5c54;
+      --text-muted: #7d7a6c;
+      --accent: #5b3fd9;
+      --accent2: #b4761f;
+      --accent3: #c2410c;
+      --border: rgba(26, 26, 23, 0.09);
+      --nav-bg: rgba(250, 248, 244, 0.85);
+      --glow: rgba(91, 63, 217, 0.06);
+      --accent-glow: rgba(91, 63, 217, 0.22);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -106,36 +108,26 @@
       transition: background 0.6s, color 0.6s;
     }
 
-    /* -- Custom Cursor -- */
+    /* -- Cursor: sólo la circunferencia, nunca relleno, para no tapar
+          aquello sobre lo que se pasa -- */
     .cursor {
       position: fixed;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--accent);
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--accent);
       border-radius: 50%;
       pointer-events: none;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s, border-color 0.3s;
-      mix-blend-mode: difference;
+      transition: width 0.3s var(--ease), height 0.3s var(--ease),
+                  border-color 0.3s, border-width 0.3s;
     }
 
     .cursor.hover {
-      width: 50px;
-      height: 50px;
-      background: var(--accent);
+      width: 56px;
+      height: 56px;
+      border-width: 2px;
       border-color: var(--accent);
-    }
-
-    .cursor-dot {
-      position: fixed;
-      width: 4px;
-      height: 4px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10001;
-      transform: translate(-50%, -50%);
     }
 
     /* -- Noise Overlay -- */
@@ -1061,7 +1053,7 @@
     /* -- Responsive -- */
     @media (max-width: 768px) {
       body { cursor: auto; }
-      .cursor, .cursor-dot { display: none; }
+      .cursor { display: none; }
       nav { padding: 1rem 1.5rem; }
 
       /* Espaciado: más aire en los bordes, menos relleno interno en tarjetas */
@@ -1107,7 +1099,6 @@
   <div class="noise"></div>
   <div class="scroll-veil" aria-hidden="true"></div>
   <div class="cursor" id="cursor"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
 
   <!-- Nav -->
   <nav aria-label="Navegación principal">
@@ -1422,7 +1413,7 @@
       window.dispatchEvent(new Event('themechange'));
       themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
       var metaTheme = document.getElementById('metaTheme');
-      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#fafafa');
+      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#faf8f4');
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
@@ -1544,15 +1535,12 @@
 
     // -- Custom Cursor --
     var cursor = document.getElementById('cursor');
-    var cursorDot = document.getElementById('cursorDot');
     var cx = 0, cy = 0, dx = 0, dy = 0;
 
     if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
       document.addEventListener('mousemove', function(e) {
         dx = e.clientX;
         dy = e.clientY;
-        cursorDot.style.left = dx + 'px';
-        cursorDot.style.top = dy + 'px';
       });
 
       function animateCursor() {
@@ -1777,7 +1765,7 @@
       // Niebla del color del fondo, para que el espacio no tenga "final"
       function syncFog() {
         var dark = document.documentElement.getAttribute('data-theme') !== 'light';
-        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xfafafa, 12, DEPTH * 0.9);
+        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xfaf8f4, 12, DEPTH * 0.9);
       }
       syncFog();
       window.addEventListener('themechange', syncFog);
