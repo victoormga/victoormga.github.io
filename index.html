@@ -1848,9 +1848,8 @@
         threads.rotation.y      += 0.0005;
         threads.rotation.x      -= 0.0003;
 
-        // Respiración lenta del conjunto
+        // Respiración lenta del conjunto (el tamaño final se aplica abajo)
         var breath = 1 + Math.sin(clock * 0.006) * 0.035;
-        artifact.scale.setScalar(breath);
 
         // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
         // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
@@ -1865,6 +1864,17 @@
         var targetY = -flight * flight * 8.5;                  // caída acelerada
         targetZ = -flight * DEPTH * 0.85;                      // profundidad
 
+        // Regreso: cerca del final de la página vuelve a acercarse, ahora
+        // hacia la esquina inferior izquierda y muy pequeño (~15%).
+        var ret = p > 0.72 ? Math.min((p - 0.72) / 0.28, 1) : 0;
+        ret = ret * ret * (3 - 2 * ret);   // suavizado de entrada y salida
+
+        if (ret > 0) {
+          targetX += (-8.2 - targetX) * ret;
+          targetY += (-3.9 - targetY) * ret;
+          targetZ += (-7 - targetZ) * ret;
+        }
+
         artifact.position.x += (targetX - artifact.position.x) * 0.11;
         artifact.position.y += (targetY - artifact.position.y) * 0.11;
         artifact.position.z += (targetZ - artifact.position.z) * 0.11;
@@ -1872,7 +1882,12 @@
         // Se inclina hacia donde va, como un cuerpo lanzado
         artifact.rotation.z += ((flight * 1.4) - artifact.rotation.z) * 0.06;
         artifact.rotation.x += ((-flight * 0.5) - artifact.rotation.x) * 0.06;
-        var visibility = 1 - flight * 0.75;
+
+        // Al regresar es diminuto: un 15% del tamaño original
+        var sizeFactor = 1 - ret * 0.85;
+        artifact.scale.setScalar(breath * sizeFactor);
+
+        var visibility = (1 - flight * 0.75) + ret * 0.3;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
         shellKnot2.material.opacity   = 0.34 * visibility;
