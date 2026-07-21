@@ -1731,6 +1731,7 @@
       // Nudos toroidales: los "serpenteantes". Cada uno con otro enlace.
       var shellKnot   = shell(new THREE.TorusKnotGeometry(1.75, 0.1, 190, 8, 2, 3), 0xa855f7, 0.42);
       var shellKnot2  = shell(new THREE.TorusKnotGeometry(2.25, 0.075, 210, 8, 3, 4), 0x6d5cf0, 0.34);
+      var shellKnot3  = shell(new THREE.TorusKnotGeometry(2.7, 0.06, 230, 8, 3, 5), 0x00d4aa, 0.26);
       var shellMid    = shell(new THREE.IcosahedronGeometry(1.55, 2),  0x8b6cff, 0.28);
       var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   0x00d4aa, 0.45);
       var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  0xffffff, 0.7);
@@ -1825,6 +1826,8 @@
         shellKnot.rotation.x    -= 0.0013;
         shellKnot2.rotation.y   += 0.0018;
         shellKnot2.rotation.x   += 0.0009;
+        shellKnot3.rotation.z   -= 0.0015;
+        shellKnot3.rotation.y   -= 0.0007;
         shellMid.rotation.y     -= 0.0027;
         shellMid.rotation.z     += 0.0014;
         shellInner.rotation.x   += 0.0038;
@@ -1879,6 +1882,7 @@
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
         shellKnot2.material.opacity   = 0.34 * visibility;
+        shellKnot3.material.opacity   = 0.26 * visibility;
         shellMid.material.opacity     = 0.28 * visibility;
         shellInner.material.opacity   = 0.45 * visibility;
         shellCore.material.opacity    = 0.70 * visibility;
