@@ -1807,6 +1807,57 @@
       window.addEventListener('scroll', readScroll, { passive: true });
       window.addEventListener('resize', readScroll);
 
+      // ── Coreografía del recorrido ───────────────────────────────────────
+      // Puntos clave a lo largo del scroll. x va en múltiplos del ancho
+      // visible, así el encuadre se respeta en cualquier pantalla.
+      var keys = [];
+
+      function buildPath() {
+        var maxScroll = document.body.scrollHeight - window.innerHeight;
+        var expEl = document.getElementById('experience');
+        var pExp = 0.66;
+        if (expEl && maxScroll > 0) {
+          pExp = (expEl.getBoundingClientRect().top + window.scrollY
+                  - window.innerHeight * 0.3) / maxScroll;
+          pExp = Math.min(Math.max(pExp, 0.4), 0.82);
+        }
+        keys = [
+          // Hero: pegado al borde derecho, cortado por él
+          { p: 0,           x: 0.42,  y: 0.0,  z: 0,   o: 1.00 },
+          // Se marcha por la derecha, hundiéndose
+          { p: 0.16,        x: 0.85,  y: 0.2,  z: -26, o: 0.6 },
+          { p: 0.32,        x: 1.25,  y: 0.3,  z: -60, o: 0.08 },
+          // Fuera de plano durante el tramo de lectura
+          { p: pExp - 0.1,  x: -0.55, y: -0.6, z: -55, o: 0.05 },
+          // Reaparece en Trabajo: pequeño por lejanía, hacia el centro
+          { p: pExp,        x: -0.12, y: -1.0, z: -28, o: 0.7 },
+          // Y vuelve a irse por la derecha hasta el final
+          { p: 0.92,        x: 0.6,   y: -0.4, z: -36, o: 0.45 },
+          { p: 1,           x: 1.2,   y: 0.1,  z: -55, o: 0.1 }
+        ];
+      }
+
+      buildPath();
+      window.addEventListener('resize', buildPath);
+
+      function pathAt(p) {
+        var a = keys[0], b = keys[keys.length - 1];
+        for (var q = 0; q < keys.length - 1; q++) {
+          if (p >= keys[q].p && p <= keys[q + 1].p) { a = keys[q]; b = keys[q + 1]; break; }
+        }
+        if (p <= keys[0].p) { a = b = keys[0]; }
+        else if (p >= keys[keys.length - 1].p) { a = b = keys[keys.length - 1]; }
+        var span = b.p - a.p;
+        var u = span > 0 ? (p - a.p) / span : 0;
+        u = u * u * (3 - 2 * u);   // suavizado
+        return {
+          x: a.x + (b.x - a.x) * u,
+          y: a.y + (b.y - a.y) * u,
+          z: a.z + (b.z - a.z) * u,
+          o: a.o + (b.o - a.o) * u
+        };
+      }
+
       document.addEventListener('visibilitychange', function() {
         pageVisible = !document.hidden;
         if (pageVisible) startLoop();
@@ -1845,40 +1896,24 @@
 
         // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
         // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
-        // La huida es rápida: en el primer tramo de scroll ya está lejos,
-        // así deja de competir con el texto en cuanto empiezas a leer.
-        var flight = Math.min(p * 3.2, 1);
+        // Recorrido definido por los puntos clave
+        var step = pathAt(p);
+        var targetX = step.x * visibleWidth;
+        var targetY = step.y;
+        targetZ = step.z;
 
-        // Trayectoria parabólica: parte del margen derecho, cae describiendo
-        // un arco y barre hacia la izquierda mientras se hunde en el fondo.
-        var startX = visibleWidth * 0.27;
-        var targetX = startX - flight * visibleWidth * 1.15;   // barrido lateral
-        var targetY = -flight * flight * 8.5;                  // caída acelerada
-        targetZ = -flight * DEPTH * 0.85;                      // profundidad
+        artifact.position.x += (targetX - artifact.position.x) * 0.09;
+        artifact.position.y += (targetY - artifact.position.y) * 0.09;
+        artifact.position.z += (targetZ - artifact.position.z) * 0.09;
 
-        // Regreso: cerca del final vuelve a acercarse, grande y muy cerca,
-        // con el centro fuera de plano: sólo asoma un fragmento por la
-        // esquina inferior izquierda.
-        var ret = p > 0.72 ? Math.min((p - 0.72) / 0.28, 1) : 0;
-        ret = ret * ret * (3 - 2 * ret);   // suavizado de entrada y salida
-
-        if (ret > 0) {
-          targetX += (-6.6 - targetX) * ret;
-          targetY += (-3.7 - targetY) * ret;
-          targetZ += (-1.5 - targetZ) * ret;
-        }
-
-        artifact.position.x += (targetX - artifact.position.x) * 0.11;
-        artifact.position.y += (targetY - artifact.position.y) * 0.11;
-        artifact.position.z += (targetZ - artifact.position.z) * 0.11;
-
-        // Se inclina hacia donde va, como un cuerpo lanzado
-        artifact.rotation.z += ((flight * 1.4) - artifact.rotation.z) * 0.06;
-        artifact.rotation.x += ((-flight * 0.5) - artifact.rotation.x) * 0.06;
+        // Se inclina según lo lejos que esté: acompaña al movimiento
+        var tilt = Math.min(-targetZ / DEPTH, 1);
+        artifact.rotation.z += ((tilt * 1.2) - artifact.rotation.z) * 0.05;
+        artifact.rotation.x += ((-tilt * 0.45) - artifact.rotation.x) * 0.05;
 
         artifact.scale.setScalar(breath);
 
-        var visibility = (1 - flight * 0.75) + ret * 0.55;
+        var visibility = step.o;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
         shellKnot2.material.opacity   = 0.34 * visibility;
