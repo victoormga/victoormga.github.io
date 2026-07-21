@@ -1073,12 +1073,8 @@
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
-      /* En móvil no hay margen libre: el stack se queda muy al fondo */
-      #hero-canvas {
-        opacity: 0.3;
-        -webkit-mask-image: radial-gradient(90% 60% at 50% 32%, #000 20%, transparent 78%);
-        mask-image: radial-gradient(90% 60% at 50% 32%, #000 20%, transparent 78%);
-      }
+      /* En móvil no hay margen libre: nada de figuras de fondo */
+      #hero-canvas { display: none; }
 
       .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
@@ -1699,8 +1695,9 @@
       })(glowEls[g]);
     }
 
-    // -- Three.js Hero (no se inicia con reduced-motion; se pausa fuera de vista) --
-    if (!reduced) try { (function() {
+    // -- Fondo 3D: sólo en escritorio (en móvil ni se inicia, así no gasta
+    //    batería ni compite con el contenido) y nunca con reduced-motion --
+    if (!reduced && window.innerWidth > 768) try { (function() {
       var canvas = document.getElementById('hero-canvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1737,7 +1734,7 @@
       scene.add(stack);
 
       var mouseX = 0, mouseY = 0;
-      var visibleWidth = 8, isDesktopView = true;
+      var visibleWidth = 8;
       document.addEventListener('mousemove', function(e) {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
         mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -1750,7 +1747,6 @@
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
-        isDesktopView = window.innerWidth > 768;
       }
 
       window.addEventListener('resize', onResize);
@@ -1811,9 +1807,9 @@
         stack.rotation.z += ((0.1 + mouseX * 0.06) - stack.rotation.z) * 0.04;
 
         // Se retira hacia el margen derecho y se encoge conforme bajas
-        var targetX = isDesktopView ? visibleWidth * (0.3 + p * 0.08) : 0;
-        var targetY = isDesktopView ? (0.2 + p * 1.1) : (-0.2 + p * 0.8);
-        var targetGroupScale = isDesktopView ? (0.8 - p * 0.35) : (0.85 - p * 0.3);
+        var targetX = visibleWidth * (0.3 + p * 0.08);
+        var targetY = 0.2 + p * 1.1;
+        var targetGroupScale = 0.8 - p * 0.35;
 
         stack.position.x += (targetX - stack.position.x) * 0.05;
         stack.position.y += (targetY - stack.position.y) * 0.05;
