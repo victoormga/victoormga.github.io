@@ -18,7 +18,7 @@
 
   <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
   <script>
-    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#faf8f4');})();
+    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#fafafa');})();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,22 +69,20 @@
       --accent-glow: rgba(124, 92, 252, 0.3);
     }
 
-    /* Paleta "papel cálido": fondo hueso y tinta cálida en lugar de blanco
-       puro y gris azulado. Menos clínico, más editorial. */
     [data-theme="light"] {
       color-scheme: light;
-      --bg: #faf8f4;
-      --bg-card: #fffdf9;
-      --text: #1a1a17;
-      --text-dim: #5f5c54;
-      --text-muted: #7d7a6c;
-      --accent: #5b3fd9;
-      --accent2: #b4761f;
-      --accent3: #c2410c;
-      --border: rgba(26, 26, 23, 0.09);
-      --nav-bg: rgba(250, 248, 244, 0.85);
-      --glow: rgba(91, 63, 217, 0.06);
-      --accent-glow: rgba(91, 63, 217, 0.22);
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --text: #111118;
+      --text-dim: #6a6a78;
+      --text-muted: #70708a;
+      --accent: #6b46e5;
+      --accent2: #00b894;
+      --accent3: #e54666;
+      --border: rgba(0,0,0,0.06);
+      --nav-bg: rgba(250,250,250,0.85);
+      --glow: rgba(107, 70, 229, 0.05);
+      --accent-glow: rgba(107, 70, 229, 0.22);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1413,7 +1411,7 @@
       window.dispatchEvent(new Event('themechange'));
       themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
       var metaTheme = document.getElementById('metaTheme');
-      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#faf8f4');
+      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#fafafa');
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
@@ -1724,26 +1722,27 @@
         return mesh;
       }
 
-      var shellLattice= shell(new THREE.IcosahedronGeometry(2.35, 2),  0x7c5cfc, 0.20);
+      // Gama fría: del azul marino profundo al gris acero y el blanco
+      var shellLattice= shell(new THREE.IcosahedronGeometry(2.35, 2),  0x24405c, 0.28);
       // Nudos toroidales: los "serpenteantes". Cada uno con otro enlace.
-      var shellKnot   = shell(new THREE.TorusKnotGeometry(1.75, 0.1, 190, 8, 2, 3), 0xa855f7, 0.42);
-      var shellKnot2  = shell(new THREE.TorusKnotGeometry(2.25, 0.075, 210, 8, 3, 4), 0x6d5cf0, 0.34);
-      var shellKnot3  = shell(new THREE.TorusKnotGeometry(2.7, 0.06, 230, 8, 3, 5), 0x00d4aa, 0.26);
-      var shellMid    = shell(new THREE.IcosahedronGeometry(1.55, 2),  0x8b6cff, 0.28);
-      var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   0x00d4aa, 0.45);
-      var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  0xffffff, 0.7);
+      var shellKnot   = shell(new THREE.TorusKnotGeometry(1.75, 0.1, 190, 8, 2, 3), 0x3f6795, 0.45);
+      var shellKnot2  = shell(new THREE.TorusKnotGeometry(2.25, 0.075, 210, 8, 3, 4), 0x1b3350, 0.4);
+      var shellKnot3  = shell(new THREE.TorusKnotGeometry(2.7, 0.06, 230, 8, 3, 5), 0x7e93ab, 0.3);
+      var shellMid    = shell(new THREE.IcosahedronGeometry(1.55, 2),  0x5b7a9c, 0.3);
+      var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   0x9fb2c6, 0.45);
+      var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  0xeef3f8, 0.75);
 
       // Aura de puntos y constelación de aristas entre ellos
       var auraGeo = new THREE.IcosahedronGeometry(3.35, 3);
       var aura = new THREE.Points(auraGeo, new THREE.PointsMaterial({
-        color: 0x9f8cff, size: 0.032, transparent: true,
-        opacity: 0.2, sizeAttenuation: true, fog: true
+        color: 0xb8c8d8, size: 0.032, transparent: true,
+        opacity: 0.22, sizeAttenuation: true, fog: true
       }));
       artifact.add(aura);
 
       var auraInner = new THREE.Points(new THREE.IcosahedronGeometry(1.9, 2), new THREE.PointsMaterial({
-        color: 0x00d4aa, size: 0.03, transparent: true,
-        opacity: 0.18, sizeAttenuation: true, fog: true
+        color: 0x6d8aa8, size: 0.03, transparent: true,
+        opacity: 0.2, sizeAttenuation: true, fog: true
       }));
       artifact.add(auraInner);
 
@@ -1758,14 +1757,14 @@
       var threadGeo = new THREE.BufferGeometry();
       threadGeo.setAttribute('position', new THREE.Float32BufferAttribute(threadPos, 3));
       var threads = new THREE.LineSegments(threadGeo, new THREE.LineBasicMaterial({
-        color: 0x7c5cfc, transparent: true, opacity: 0.13, fog: true
+        color: 0x486a90, transparent: true, opacity: 0.15, fog: true
       }));
       artifact.add(threads);
 
       // Niebla del color del fondo, para que el espacio no tenga "final"
       function syncFog() {
         var dark = document.documentElement.getAttribute('data-theme') !== 'light';
-        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xfaf8f4, 12, DEPTH * 0.9);
+        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xfafafa, 12, DEPTH * 0.9);
       }
       syncFog();
       window.addEventListener('themechange', syncFog);
@@ -1912,16 +1911,16 @@
         artifact.scale.setScalar(breath * pose.s);
 
         var visibility = pose.o;
-        shellLattice.material.opacity = 0.20 * visibility;
-        shellKnot.material.opacity    = 0.42 * visibility;
-        shellKnot2.material.opacity   = 0.34 * visibility;
-        shellKnot3.material.opacity   = 0.26 * visibility;
-        shellMid.material.opacity     = 0.28 * visibility;
+        shellLattice.material.opacity = 0.28 * visibility;
+        shellKnot.material.opacity    = 0.45 * visibility;
+        shellKnot2.material.opacity   = 0.40 * visibility;
+        shellKnot3.material.opacity   = 0.30 * visibility;
+        shellMid.material.opacity     = 0.30 * visibility;
         shellInner.material.opacity   = 0.45 * visibility;
-        shellCore.material.opacity    = 0.70 * visibility;
-        aura.material.opacity         = 0.20 * visibility;
-        auraInner.material.opacity    = 0.18 * visibility;
-        threads.material.opacity      = 0.13 * visibility;
+        shellCore.material.opacity    = 0.75 * visibility;
+        aura.material.opacity         = 0.22 * visibility;
+        auraInner.material.opacity    = 0.20 * visibility;
+        threads.material.opacity      = 0.15 * visibility;
 
         // El mundo se inclina con el ratón: la cámara "flota"
         world.rotation.y += ((mouseX * 0.08) - world.rotation.y) * 0.03;
