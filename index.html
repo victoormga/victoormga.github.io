@@ -1855,12 +1855,15 @@
 
         // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
         // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
-        targetZ = -p * DEPTH * 0.72;
-        artifact.position.z += (targetZ - artifact.position.z) * 0.055;
+        // La huida es rápida: en el primer tramo de scroll ya está lejos,
+        // así deja de competir con el texto en cuanto empiezas a leer.
+        var flight = Math.min(p * 3.2, 1);
+        targetZ = -flight * DEPTH * 0.85;
+        artifact.position.z += (targetZ - artifact.position.z) * 0.11;
 
         // Al alejarse gira un poco sobre sí mismo y pierde presencia
-        artifact.rotation.z += ((p * 0.9) - artifact.rotation.z) * 0.04;
-        var visibility = 1 - p * 0.25;
+        artifact.rotation.z += ((flight * 1.1) - artifact.rotation.z) * 0.06;
+        var visibility = 1 - flight * 0.75;
         shellOuter.material.opacity   = 0.22 * visibility;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
