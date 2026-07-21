@@ -193,12 +193,14 @@
 
     nav.nav-hidden { transform: translateY(-100%); }
 
-    /* Con el menú abierto el nav siempre visible y sin blur */
+    /* Con el menú abierto: nav visible, sin blur y POR ENCIMA del overlay
+       (si no, el botón de cerrar queda tapado y el menú no se puede salir) */
     nav.menu-open {
       transform: none !important;
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      z-index: 9500;
     }
 
     body.menu-open { overflow: hidden; }
@@ -669,15 +671,18 @@
       border-radius: 24px;
       transition: all 0.4s var(--ease);
       position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
+    /* El degradado se recorta a sí mismo con su propio border-radius,
+       así la tarjeta no necesita overflow:hidden (que recortaba las letras) */
     .project-card::before {
       content: '';
       position: absolute;
       inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
       background: radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 55%);
       opacity: 0;
       transition: opacity 0.4s;
@@ -1411,6 +1416,11 @@
     });
 
     hamburger.onclick = function() { setMenu(!hamburger.classList.contains('open')); };
+
+    // Red de seguridad: tocar cualquier zona vacía del overlay también cierra
+    mobileMenu.addEventListener('click', function(e) {
+      if (e.target === mobileMenu || e.target === mobileMenu.firstElementChild) setMenu(false);
+    });
 
     var menuAs = mobileMenu.querySelectorAll('a');
     for (var i = 0; i < menuAs.length; i++) {
