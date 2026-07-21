@@ -252,6 +252,13 @@
       font-weight: 800;
       font-size: 1.4rem;
       letter-spacing: -1px;
+      transition: transform 0.5s var(--ease), color 0.4s;
+    }
+
+    /* El logo "engulle" los enlaces: da un pequeño respingo al absorberlos */
+    nav.collapsed .nav-logo {
+      transform: scale(1.12);
+      color: var(--accent);
     }
 
     .nav-links {
@@ -272,6 +279,32 @@
     }
 
     .nav-links a:hover { color: var(--accent); }
+
+    /* -- Colapso de los enlaces hacia el logo (solo escritorio) -- */
+    .nav-links li {
+      transition: transform 0.55s var(--ease), opacity 0.4s var(--ease), filter 0.4s;
+      will-change: transform, opacity;
+    }
+
+    nav.collapsed .nav-links li {
+      transform: translateX(var(--dx, -200px)) scale(0.35);
+      opacity: 0;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    /* Al pasar el ratón por el nav, los enlaces vuelven a salir del logo */
+    nav.collapsed:hover .nav-links li {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      pointer-events: auto;
+    }
+
+    nav.collapsed:hover .nav-logo {
+      transform: none;
+      color: var(--text);
+    }
 
     .theme-btn {
       width: 40px;
@@ -986,6 +1019,13 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      nav.collapsed .nav-links li {
+        transform: none;
+        opacity: 1;
+        filter: none;
+        pointer-events: auto;
+      }
+      nav.collapsed .nav-logo { transform: none; color: var(--text); }
       .marquee-track {
         animation: none;
         flex-wrap: wrap;
@@ -1371,17 +1411,45 @@
     var heroFadeEl = (!reduced && window.matchMedia('(max-width: 768px)').matches)
       ? document.querySelector('.hero-content') : null;
 
+    // Escritorio: al bajar, los enlaces viajan hasta el logo y desaparecen.
+    // Se mide la distancia real de cada uno hasta el "VG" para que converjan ahí.
+    var navLogo = document.querySelector('.nav-logo');
+    var navItems = document.querySelectorAll('.nav-links li');
+
+    function measureNavItems() {
+      if (window.innerWidth <= 768) return;
+      var wasCollapsed = navEl.classList.contains('collapsed');
+      navEl.classList.remove('collapsed');
+      var logoBox = navLogo.getBoundingClientRect();
+      var target = logoBox.left + logoBox.width / 2;
+      for (var n = 0; n < navItems.length; n++) {
+        var box = navItems[n].getBoundingClientRect();
+        navItems[n].style.setProperty('--dx', (target - (box.left + box.width / 2)) + 'px');
+        // Los más cercanos al logo salen antes: efecto de absorción en cadena
+        navItems[n].style.transitionDelay = (n * 0.04) + 's';
+      }
+      if (wasCollapsed) navEl.classList.add('collapsed');
+    }
+
+    measureNavItems();
+    window.addEventListener('resize', measureNavItems);
+
     function updateNav() {
       var current = window.scrollY;
+      var isDesktop = window.innerWidth > 768;
       if (current > 100) {
         navEl.classList.add('scrolled');
-        if (current > lastScroll && current > 200) {
-          navEl.classList.add('nav-hidden');
-        } else {
+        var goingDown = current > lastScroll && current > 200;
+        if (isDesktop) {
+          // En escritorio el nav no se esconde: se "come" los enlaces
           navEl.classList.remove('nav-hidden');
+          navEl.classList.toggle('collapsed', goingDown);
+        } else {
+          navEl.classList.remove('collapsed');
+          navEl.classList.toggle('nav-hidden', goingDown);
         }
       } else {
-        navEl.classList.remove('scrolled', 'nav-hidden');
+        navEl.classList.remove('scrolled', 'nav-hidden', 'collapsed');
       }
       if (heroFadeEl) {
         var fp = Math.min(Math.max(current / (window.innerHeight * 0.55), 0), 1);
