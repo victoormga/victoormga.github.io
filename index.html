@@ -1807,55 +1807,74 @@
       window.addEventListener('scroll', readScroll, { passive: true });
       window.addEventListener('resize', readScroll);
 
-      // ── Coreografía del recorrido ───────────────────────────────────────
-      // Puntos clave a lo largo del scroll. x va en múltiplos del ancho
-      // visible, así el encuadre se respeta en cualquier pantalla.
-      var keys = [];
+      // ── Coreografía: sólo tres apariciones ──────────────────────────────
+      // Fuera de estas tres ventanas de scroll el artefacto no existe.
+      // Las posiciones van en fracciones del semi-encuadre a su propia
+      // profundidad (1 = justo el borde), así siempre sale por donde toca.
+      var windows = [];
 
       function buildPath() {
         var maxScroll = document.body.scrollHeight - window.innerHeight;
-        var expEl = document.getElementById('experience');
-        var pExp = 0.66;
-        if (expEl && maxScroll > 0) {
-          pExp = (expEl.getBoundingClientRect().top + window.scrollY
-                  - window.innerHeight * 0.3) / maxScroll;
-          pExp = Math.min(Math.max(pExp, 0.4), 0.82);
+
+        function pOf(id, bias) {
+          var el = document.getElementById(id);
+          if (!el || maxScroll <= 0) return null;
+          return (el.getBoundingClientRect().top + window.scrollY
+                  - window.innerHeight * bias) / maxScroll;
         }
-        keys = [
-          // Hero: pegado al borde derecho, cortado por él
-          { p: 0,           x: 0.42,  y: 0.0,  z: 0,   o: 1.00 },
-          // Se marcha por la derecha, hundiéndose
-          { p: 0.16,        x: 0.85,  y: 0.2,  z: -26, o: 0.6 },
-          { p: 0.32,        x: 1.25,  y: 0.3,  z: -60, o: 0.08 },
-          // Fuera de plano durante el tramo de lectura
-          { p: pExp - 0.1,  x: -0.55, y: -0.6, z: -55, o: 0.05 },
-          // Reaparece en Trabajo: pequeño por lejanía, hacia el centro
-          { p: pExp,        x: -0.12, y: -1.0, z: -28, o: 0.7 },
-          // Y vuelve a irse por la derecha hasta el final
-          { p: 0.92,        x: 0.6,   y: -0.4, z: -36, o: 0.45 },
-          { p: 1,           x: 1.2,   y: 0.1,  z: -55, o: 0.1 }
+
+        var pExp = pOf('experience', 0.35);
+        if (pExp === null) pExp = 0.66;
+        pExp = Math.min(Math.max(pExp, 0.4), 0.8);
+
+        windows = [
+          // 1) Hero: pegado al borde derecho. Sale por la derecha.
+          {
+            from: 0, to: 0.14, fadeIn: false,
+            a: { fx: 0.80, fy: 0.02, z: 0 },
+            b: { fx: 2.60, fy: 0.15, z: -10 }
+          },
+          // 2) Trabajo: entra pequeña por la lejanía y cruza hacia la derecha
+          {
+            from: pExp - 0.06, to: pExp + 0.10, fadeIn: true,
+            a: { fx: -0.55, fy: -0.30, z: -26 },
+            b: { fx:  2.20, fy: -0.22, z: -22 }
+          },
+          // 3) Final de la página: cruza y sale por la derecha
+          {
+            from: 0.9, to: 1.0, fadeIn: true,
+            a: { fx: -0.30, fy: -0.35, z: -15 },
+            b: { fx:  2.20, fy: -0.20, z: -13 }
+          }
         ];
       }
 
       buildPath();
       window.addEventListener('resize', buildPath);
 
-      function pathAt(p) {
-        var a = keys[0], b = keys[keys.length - 1];
-        for (var q = 0; q < keys.length - 1; q++) {
-          if (p >= keys[q].p && p <= keys[q + 1].p) { a = keys[q]; b = keys[q + 1]; break; }
+      function smooth(u) { return u * u * (3 - 2 * u); }
+
+      // Devuelve la pose actual, o null si no toca estar en pantalla
+      function poseAt(p) {
+        for (var w = 0; w < windows.length; w++) {
+          var win = windows[w];
+          if (p < win.from || p > win.to) continue;
+          var u = (p - win.from) / (win.to - win.from);
+          var e = smooth(u);
+          var z = win.a.z + (win.b.z - win.a.z) * e;
+          var fx = win.a.fx + (win.b.fx - win.a.fx) * e;
+          var fy = win.a.fy + (win.b.fy - win.a.fy) * e;
+
+          // Semi-encuadre a esa profundidad: convierte fracción → unidades
+          var halfH = Math.tan(22.5 * Math.PI / 180) * (camera.position.z - z);
+          var halfW = halfH * camera.aspect;
+
+          // Sólo se atenúa al entrar; al salir se va de plano por sí sola
+          var o = 1;
+          if (win.fadeIn && u < 0.18) o = smooth(u / 0.18);
+          return { x: fx * halfW, y: fy * halfH, z: z, o: o };
         }
-        if (p <= keys[0].p) { a = b = keys[0]; }
-        else if (p >= keys[keys.length - 1].p) { a = b = keys[keys.length - 1]; }
-        var span = b.p - a.p;
-        var u = span > 0 ? (p - a.p) / span : 0;
-        u = u * u * (3 - 2 * u);   // suavizado
-        return {
-          x: a.x + (b.x - a.x) * u,
-          y: a.y + (b.y - a.y) * u,
-          z: a.z + (b.z - a.z) * u,
-          o: a.o + (b.o - a.o) * u
-        };
+        return null;
       }
 
       document.addEventListener('visibilitychange', function() {
@@ -1896,24 +1915,23 @@
 
         // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
         // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
-        // Recorrido definido por los puntos clave
-        var step = pathAt(p);
-        var targetX = step.x * visibleWidth;
-        var targetY = step.y;
-        targetZ = step.z;
+        // Fuera de las tres ventanas el artefacto simplemente no está
+        var pose = poseAt(p);
+        artifact.visible = pose !== null;
+        if (!pose) {
+          renderer.render(scene, camera);
+          requestAnimationFrame(animate3d);
+          return;
+        }
 
-        artifact.position.x += (targetX - artifact.position.x) * 0.09;
-        artifact.position.y += (targetY - artifact.position.y) * 0.09;
-        artifact.position.z += (targetZ - artifact.position.z) * 0.09;
-
-        // Se inclina según lo lejos que esté: acompaña al movimiento
-        var tilt = Math.min(-targetZ / DEPTH, 1);
-        artifact.rotation.z += ((tilt * 1.2) - artifact.rotation.z) * 0.05;
-        artifact.rotation.x += ((-tilt * 0.45) - artifact.rotation.x) * 0.05;
+        // La posición se aplica directa: cada ventana ya trae su suavizado,
+        // y así nunca se ve "viajar" de una aparición a la siguiente
+        artifact.position.set(pose.x, pose.y, pose.z);
+        targetZ = pose.z;
 
         artifact.scale.setScalar(breath);
 
-        var visibility = step.o;
+        var visibility = pose.o;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
         shellKnot2.material.opacity   = 0.34 * visibility;
