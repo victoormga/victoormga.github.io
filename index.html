@@ -3,50 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Victor García - Portfolio</title>
-  <meta name="description" content="Portfolio de Víctor García, desarrollador Full Stack en Madrid especializado en e-commerce e integración de IA. PHP, Laravel, Magento, React y Python.">
-  <meta name="author" content="Víctor García">
-  <link rel="canonical" href="https://victoormga.github.io/">
-  <meta name="theme-color" id="metaTheme" content="#050505">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Víctor García — Full Stack Developer">
-  <meta property="og:description" content="Desarrollador Full Stack en Madrid: e-commerce, IA y experiencias digitales con PHP, Laravel, Magento, React y Python.">
-  <meta property="og:url" content="https://victoormga.github.io/">
-  <meta property="og:locale" content="es_ES">
-  <meta name="twitter:card" content="summary">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%237c5cfc'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial,sans-serif' font-weight='bold' text-anchor='middle' fill='%23fff'%3EV%3C/text%3E%3C/svg%3E">
-
-  <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
-  <script>
-    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#f2f5f9');})();
-  </script>
-
+  <title>Victor Garcia - Full Stack Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- GSAP + ScrollTrigger -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <!-- Three.js -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Víctor Manuel García Alonso",
-    "jobTitle": "Full Stack Developer",
-    "url": "https://victoormga.github.io/",
-    "email": "mailto:victormgalonso26@gmail.com",
-    "worksFor": { "@type": "Organization", "name": "Pisamonas" },
-    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
-    "sameAs": [
-      "https://github.com/victoormga",
-      "https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/"
-    ]
-  }
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
     :root {
@@ -54,49 +19,39 @@
     }
 
     [data-theme="dark"] {
-      color-scheme: dark;
       --bg: #050505;
       --bg-card: #0e0e12;
       --text: #f5f5f7;
       --text-dim: #8a8a9a;
-      --text-muted: #7a7a90;
+      --text-muted: #4a4a5a;
       --accent: #7c5cfc;
       --accent2: #00d4aa;
       --accent3: #fc5c7c;
       --border: rgba(255,255,255,0.06);
       --nav-bg: rgba(5,5,5,0.8);
       --glow: rgba(124, 92, 252, 0.08);
-      --accent-glow: rgba(124, 92, 252, 0.3);
     }
 
-    /* Modo claro en la misma familia fría que la figura 3D:
-       papel gris azulado, tinta marino y acentos de azul acero. */
     [data-theme="light"] {
-      color-scheme: light;
-      --bg: #f2f5f9;
-      --bg-card: #ffffff;
-      --text: #0f1e33;
-      --text-dim: #465872;
-      --text-muted: #6b7c96;
-      --accent: #14305f;
-      --accent2: #2a5c99;
-      --accent3: #7a4fb5;
-      --border: rgba(15, 30, 51, 0.10);
-      --nav-bg: rgba(242, 245, 249, 0.85);
-      --glow: rgba(20, 48, 95, 0.07);
-      --accent-glow: rgba(20, 48, 95, 0.25);
+      --bg: #f0f0f0;
+      --bg-card: #f5f5f5;
+      --text: #111118;
+      --text-dim: #6a6a78;
+      --text-muted: #aaaabc;
+      --accent: #6b46e5;
+      --accent2: #00b894;
+      --accent3: #e54666;
+      --border: rgba(0,0,0,0.06);
+      --nav-bg: rgba(240,240,240,0.85);
+      --glow: rgba(107, 70, 229, 0.05);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
-      background: var(--bg);
+      scroll-behavior: smooth;
       scrollbar-width: thin;
-      scrollbar-color: var(--text-muted) var(--bg);
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      html { scroll-behavior: smooth; }
+      scrollbar-color: #2a2a3a #0a0a0f;
     }
 
     body {
@@ -108,26 +63,36 @@
       transition: background 0.6s, color 0.6s;
     }
 
-    /* -- Cursor: sólo la circunferencia, nunca relleno, para no tapar
-          aquello sobre lo que se pasa -- */
+    /* -- Custom Cursor -- */
     .cursor {
       position: fixed;
-      width: 22px;
-      height: 22px;
-      border: 1.5px solid var(--accent);
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--accent);
       border-radius: 50%;
       pointer-events: none;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      transition: width 0.3s var(--ease), height 0.3s var(--ease),
-                  border-color 0.3s, border-width 0.3s;
+      transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s, border-color 0.3s;
+      mix-blend-mode: difference;
     }
 
     .cursor.hover {
-      width: 56px;
-      height: 56px;
-      border-width: 2px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
       border-color: var(--accent);
+    }
+
+    .cursor-dot {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10001;
+      transform: translate(-50%, -50%);
     }
 
     /* -- Noise Overlay -- */
@@ -140,20 +105,6 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-repeat: repeat;
       background-size: 128px;
-    }
-
-    /* -- Velo superior: los textos se difuminan al pasar bajo el nav,
-          sin borde ni corte visible entre contenido y menú -- */
-    .scroll-veil {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 130px;
-      z-index: 99;
-      pointer-events: none;
-      background: linear-gradient(to bottom, var(--bg) 30%, transparent);
-      transition: background 0.6s;
     }
 
     /* -- Nav -- */
@@ -173,85 +124,11 @@
       transition: background 0.4s, backdrop-filter 0.4s, transform 0.4s;
     }
 
-    /* Sin fondo ni blur al hacer scroll: el degradado de .scroll-veil se encarga
-       de que el contenido se difumine bajo el nav sin ninguna línea de corte */
-
-    nav.nav-hidden { transform: translateY(-100%); }
-
-    /* Con el menú abierto: nav visible, sin blur y POR ENCIMA del overlay
-       (si no, el botón de cerrar queda tapado y el menú no se puede salir) */
-    nav.menu-open {
-      transform: none !important;
-      background: transparent;
-      z-index: 9500;
-    }
-
-    /* El velo se oculta con el menú abierto (el overlay ya cubre la pantalla) */
-    body.menu-open .scroll-veil { display: none; }
-
-    /* Con el menú abierto sólo quedan la X y el interruptor de tema */
-    body.menu-open .nav-logo {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s;
-    }
-
-    body.menu-open { overflow: hidden; }
-
-    /* -- Menú móvil a pantalla completa -- */
-    .mobile-menu {
-      position: fixed;
-      inset: 0;
-      z-index: 9000;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.35s var(--ease), visibility 0.35s;
-    }
-
-    .mobile-menu.open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .mobile-menu ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    .mobile-menu a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 1.5rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: color 0.3s;
-    }
-
-    .mobile-menu a:active,
-    .mobile-menu a:focus-visible { color: var(--accent); }
-
     .nav-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1.4rem;
       letter-spacing: -1px;
-      transition: transform 0.5s var(--ease), color 0.4s;
-    }
-
-    /* El logo "engulle" los enlaces: da un pequeño respingo al absorberlos */
-    nav.collapsed .nav-logo {
-      transform: scale(1.12);
-      color: var(--accent);
     }
 
     .nav-links {
@@ -273,49 +150,24 @@
 
     .nav-links a:hover { color: var(--accent); }
 
-    /* -- Colapso de los enlaces hacia el logo (solo escritorio) -- */
-    .nav-links li {
-      transition: transform 0.55s var(--ease), opacity 0.4s var(--ease), filter 0.4s;
-      will-change: transform, opacity;
-    }
-
-    nav.collapsed .nav-links li {
-      transform: translateX(var(--dx, -200px)) scale(0.35);
-      opacity: 0;
-      filter: blur(2px);
-      pointer-events: none;
-    }
-
-    /* Al pasar el ratón por el nav, los enlaces vuelven a salir del logo */
-    nav.collapsed:hover .nav-links li {
-      transform: none;
-      opacity: 1;
-      filter: none;
-      pointer-events: auto;
-    }
-
-    nav.collapsed:hover .nav-logo {
-      transform: none;
-      color: var(--text);
-    }
-
     .theme-btn {
       width: 40px;
       height: 40px;
-      border: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
       background: transparent;
       color: var(--text);
       cursor: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      transition: color 0.3s, transform 0.3s;
+      font-size: 1.1rem;
+      transition: all 0.3s;
     }
 
     .theme-btn:hover {
+      border-color: var(--accent);
       color: var(--accent);
-      transform: scale(1.1);
     }
 
     .hamburger {
@@ -340,7 +192,6 @@
     /* -- Hero -- */
     .hero {
       min-height: 100vh;
-      min-height: 100svh;
       display: flex;
       align-items: center;
       position: relative;
@@ -350,22 +201,17 @@
     #hero-canvas {
       position: fixed;
       top: 0;
-      left: 0;
-      width: 100%;
+      right: 0;
+      width: 50%;
       height: 100vh;
-      height: 100svh;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.8;
-      /* Sólo se difumina bajo el nav; el espacio ocupa todo el viewport */
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 780px;
+      max-width: 700px;
     }
 
     .hero-badge {
@@ -392,22 +238,16 @@
 
     .hero-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2.5rem, 6.5vw, 5.75rem);
+      font-size: clamp(3rem, 8vw, 6.5rem);
       font-weight: 800;
-      line-height: 1.02;
+      line-height: 0.95;
       letter-spacing: -3px;
       margin-bottom: 2rem;
     }
 
-    /* overflow:hidden es necesario para la animación de entrada, pero con
-       line-height ajustado recortaba los glifos. El padding agranda la caja
-       de recorte y el margen negativo compensa el hueco en el layout. */
     .hero-title .line {
       display: block;
-      white-space: nowrap;
       overflow: hidden;
-      padding: 0.12em 0.08em 0.2em;
-      margin: -0.12em -0.08em -0.2em;
     }
 
     .hero-title .line-inner {
@@ -415,7 +255,38 @@
       transform: translateY(110%);
     }
 
-    .hero-title { color: var(--text); }
+    .hero-title .accent {
+      color: var(--accent);
+    }
+
+    /* -- Hero title hover swap -- */
+    .hero-title { position: relative; cursor: none; }
+
+    .title-default {
+      transition: opacity 1.5s var(--ease);
+    }
+
+    .title-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1.5s var(--ease);
+    }
+
+    .title-hover .line-inner-hover {
+      display: block;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .hero-title:hover .title-default {
+      opacity: 0;
+    }
+
+    .hero-title:hover .title-hover {
+      opacity: 1;
+    }
 
     .hero-sub {
       font-size: 1.15rem;
@@ -462,7 +333,7 @@
     }
 
     .btn-fill:hover {
-      box-shadow: 0 0 40px var(--accent-glow);
+      box-shadow: 0 0 40px rgba(124, 92, 252, 0.3);
       transform: translateY(-2px);
     }
 
@@ -478,16 +349,14 @@
     }
 
     /* -- Marquee -- */
-    /* Alineado con el resto del contenido: mismo margen a izquierda y derecha */
     .marquee-section {
       padding: 2rem 0;
       overflow: hidden;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      width: 100%;
-      /* Los extremos se desvanecen para que el corte no sea seco */
-      -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-      mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      width: 100vw;
     }
 
     .marquee-track {
@@ -522,12 +391,7 @@
       padding: 8rem 3rem;
       max-width: 1200px;
       margin: 0 auto;
-      /* Por encima del canvas, que ahora acompaña a toda la página */
-      position: relative;
-      z-index: 1;
     }
-
-    footer { position: relative; z-index: 1; }
 
     .section-label {
       font-family: 'JetBrains Mono', monospace;
@@ -546,13 +410,9 @@
       line-height: 1.4;
       margin-bottom: 4rem;
       overflow: visible;
-      padding-top: 0.15em;
-      margin-top: -0.15em;
     }
 
-    /* Aplica a TODOS los títulos con data-split, no sólo a .section-title
-       (si no, los de contacto quedaban como spans en línea y se deformaban) */
-    .char {
+    .section-title .char {
       display: inline-block;
       transition: color 0.3s;
       overflow: visible;
@@ -614,9 +474,7 @@
 
     .stat-value {
       font-family: 'Syne', sans-serif;
-      /* Se adapta al ancho: en pantallas estrechas "ES/EN" no cabía */
-      font-size: clamp(1.1rem, 1.6vw, 1.6rem);
-      white-space: nowrap;
+      font-size: 2.25rem;
       font-weight: 800;
       color: var(--accent);
       position: relative;
@@ -634,20 +492,19 @@
     /* -- Skills -- */
     .skills-horizontal {
       display: flex;
-      flex-wrap: wrap;
       gap: 2rem;
       padding: 2rem 0;
     }
 
     .skill-group {
-      flex: 1 1 320px;
-      min-width: 0;
+      min-width: 350px;
       padding: 2.5rem;
       border: 1px solid var(--border);
       border-radius: 24px;
       transition: all 0.4s var(--ease);
       position: relative;
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     .skill-group::before {
@@ -699,142 +556,6 @@
       transform: translateY(-2px);
     }
 
-    /* -- Projects -- */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .project-card {
-      padding: 2.5rem;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      transition: all 0.4s var(--ease);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* El degradado se recorta a sí mismo con su propio border-radius,
-       así la tarjeta no necesita overflow:hidden (que recortaba las letras) */
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      overflow: hidden;
-      background: radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 55%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .project-card:hover::before { opacity: 1; }
-
-    .project-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-    }
-
-    .project-card.future { border-style: dashed; }
-    .project-card.future:hover { border-color: var(--accent2); }
-
-    .project-type-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
-    .project-type {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
-
-    .project-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--accent2);
-      border: 1px solid var(--accent2);
-      padding: 0.25rem 0.7rem;
-      border-radius: 100px;
-      white-space: nowrap;
-    }
-
-    .project-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      line-height: 1.5;
-      padding-bottom: 0.3em;
-      margin-bottom: 0.75rem;
-      position: relative;
-      overflow: visible;
-    }
-
-    .project-desc {
-      color: var(--text-dim);
-      line-height: 1.8;
-      font-size: 0.95rem;
-      position: relative;
-      flex: 1;
-    }
-
-    .project-tech {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      position: relative;
-    }
-
-    .project-tech span {
-      padding: 0.3rem 0.75rem;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--accent);
-    }
-
-    .project-links {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 1.25rem;
-      position: relative;
-    }
-
-    .project-links a {
-      color: var(--text);
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 2px;
-      transition: color 0.3s, border-color 0.3s;
-      cursor: none;
-    }
-
-    .project-links a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .project-note {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 1.25rem;
-      position: relative;
-    }
-
     /* -- Experience -- */
     .exp-item {
       display: grid;
@@ -849,6 +570,9 @@
       border-top: 1px solid var(--border);
     }
 
+    .exp-item:hover {
+      padding-left: 1rem;
+    }
 
     .exp-date {
       font-family: 'JetBrains Mono', monospace;
@@ -862,11 +586,8 @@
       font-family: 'Syne', sans-serif;
       font-size: 1.75rem;
       font-weight: 700;
-      line-height: 1.45;
-      padding-bottom: 0.25em;
       margin-bottom: 0.25rem;
       transition: color 0.3s;
-      overflow: visible;
     }
 
     .exp-item:hover .exp-role { color: var(--accent); }
@@ -920,7 +641,7 @@
     /* -- Education -- */
     .edu-row {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 2rem;
       margin-top: 3rem;
     }
@@ -947,10 +668,11 @@
 
     .edu-card:hover {
       border-color: var(--accent2);
+      transform: translateY(-4px);
     }
 
     .edu-emoji { font-size: 2rem; margin-bottom: 1rem; position: relative; }
-    .edu-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; line-height: 1.5; padding-bottom: 0.3em; margin-bottom: 0.5rem; position: relative; overflow: visible; }
+    .edu-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; position: relative; }
     .edu-school { color: var(--text-muted); font-size: 0.85rem; position: relative; }
     .edu-date { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent2); margin-top: 0.75rem; position: relative; }
 
@@ -965,8 +687,6 @@
       font-size: clamp(2.5rem, 6vw, 5rem);
       font-weight: 800;
       letter-spacing: -2px;
-      line-height: 1.25;
-      padding-bottom: 0.1em;
       margin-bottom: 1.5rem;
     }
 
@@ -1004,7 +724,7 @@
       border-color: var(--accent);
       color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px var(--glow);
+      box-shadow: 0 10px 30px rgba(124, 92, 252, 0.1);
     }
 
     .contact-link svg { width: 18px; height: 18px; }
@@ -1019,119 +739,63 @@
       letter-spacing: 1px;
     }
 
-    /* -- Accesibilidad -- */
-    a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      nav.collapsed .nav-links li {
-        transform: none;
-        opacity: 1;
-        filter: none;
-        pointer-events: auto;
-      }
-      nav.collapsed .nav-logo { transform: none; color: var(--text); }
-      .marquee-track {
-        animation: none;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: auto;
-      }
-      .noise { display: none; }
-    }
-
-    /* -- Escritorio estrecho / tablet -- */
-    @media (max-width: 1024px) {
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .stat { padding: 1.5rem; }
-      section { padding: 6rem 2rem; }
-    }
-
     /* -- Responsive -- */
     @media (max-width: 768px) {
       body { cursor: auto; }
-      .cursor { display: none; }
+      .cursor, .cursor-dot { display: none; }
       nav { padding: 1rem 1.5rem; }
-
-      /* Espaciado: más aire en los bordes, menos relleno interno en tarjetas */
-      .hero { padding: 7rem 2.25rem 3rem 1.75rem; }
-      section { padding: 4.5rem 2.25rem 4.5rem 1.75rem; }
-      .contact-section { padding: 6rem 2.25rem 6rem 1.75rem; }
-      .stat { padding: 1.5rem; }
-      .skill-group, .edu-card, .project-card { padding: 1.75rem; }
-
-      /* Tipografía: escala coherente en todos los títulos y textos */
-      /* Tamaños con margen de sobra para que ningún título se corte */
-      .hero-title { font-size: clamp(2.1rem, 9.5vw, 3rem); letter-spacing: -1px; }
-      .section-title { font-size: 2rem; letter-spacing: -1px; margin-bottom: 2.5rem; }
-      .contact-title { font-size: 2.1rem; letter-spacing: -1px; }
-      .hero-sub, .about-text, .contact-sub { font-size: 1rem; }
-      .exp-role { font-size: 1.4rem; }
-      .project-title { font-size: 1.25rem; }
-      .stat-value { font-size: clamp(1.05rem, 4.5vw, 1.4rem); }
-      .marquee-track { gap: 2.5rem; }
-      .marquee-track span { font-size: 1.1rem; }
-
-      /* En móvil no hay margen libre: nada de figuras de fondo */
-      #hero-canvas { display: none; }
-
-      .hero-cta { flex-wrap: wrap; }
+      .hero { padding: 0 1.5rem; }
+      #hero-canvas { width: 100%; height: 100vh; opacity: 0.2; }
+      section { padding: 5rem 1.5rem; }
       .about-grid { grid-template-columns: 1fr; }
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .edu-row { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        z-index: 9999;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.5rem; }
       .hamburger { display: flex; }
       .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
       .hamburger.open span:nth-child(2) { opacity: 0; }
       .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
       .contact-links { flex-direction: column; align-items: center; }
-      .contact-link { width: 100%; max-width: 320px; justify-content: center; }
+      .contact-section { padding: 6rem 1.5rem; }
       .skills-horizontal { flex-direction: column; }
-      .skill-group { min-width: auto; flex: none; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .skill-group { min-width: auto; }
     }
   </style>
 </head>
 <body>
   <div class="noise"></div>
-  <div class="scroll-veil" aria-hidden="true"></div>
   <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
   <!-- Nav -->
-  <nav aria-label="Navegación principal">
-    <div class="nav-logo">VG</div>
+  <nav>
+    <div class="nav-logo">Victor Garcia</div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#about">Sobre mí</a></li>
-      <li><a href="#skills">Stack</a></li>
-      <li><a href="#projects">Proyectos</a></li>
-      <li><a href="#experience">Experiencia</a></li>
-      <li><a href="#contact">Contacto</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
     <div style="display:flex;align-items:center;gap:0.75rem;">
-      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema claro/oscuro"><span id="themeIcon">&#9788;</span></button>
-      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="theme-btn" id="themeBtn"><span id="themeIcon">&#9788;</span></button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
-  <!-- Menú móvil: fuera del <nav> a propósito, para que ningún transform ni
-       backdrop-filter del nav afecte a su posicionamiento fijo -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <ul>
-      <li><a href="#about">Sobre mí</a></li>
-      <li><a href="#skills">Stack</a></li>
-      <li><a href="#projects">Proyectos</a></li>
-      <li><a href="#experience">Experiencia</a></li>
-      <li><a href="#contact">Contacto</a></li>
-    </ul>
-  </div>
-
   <!-- Three.js Background -->
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
-
-  <main>
+  <canvas id="hero-canvas"></canvas>
 
   <!-- Hero -->
   <section class="hero" id="hero">
@@ -1141,34 +805,40 @@
         Full Stack Developer @ Pisamonas
       </div>
       <h1 class="hero-title">
-        <span class="line"><span class="line-inner">Full Stack</span></span>
-        <span class="line"><span class="line-inner">Dev.</span></span>
+        <div class="title-default">
+          <span class="line"><span class="line-inner accent">Victor</span></span>
+          <span class="line"><span class="line-inner accent">Garcia</span></span>
+        </div>
+        <div class="title-hover" aria-hidden="true">
+          <span class="line"><span class="line-inner-hover">Full Stack</span></span>
+          <span class="line"><span class="line-inner-hover">Dev.</span></span>
+        </div>
       </h1>
-      <p class="hero-sub" id="heroSub">Construyo productos web completos, del servidor a la interfaz, y me interesa especialmente lo que la IA puede automatizar por el camino.</p>
+      <p class="hero-sub" id="heroSub">Desarrollador Full Stack apasionado por la IA y la creacion de experiencias digitales. Actualmente en Pisamonas, trabajando con e-commerce y marketing digital.</p>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-fill">Contáctame</a>
-        <a href="https://github.com/victoormga" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+        <a href="#contact" class="btn btn-fill">Contactame</a>
+        <a href="https://github.com/victoormga" target="_blank" class="btn btn-ghost">GitHub</a>
       </div>
     </div>
   </section>
 
   <!-- About -->
   <section id="about">
-    <p class="section-label">Intro</p>
-    <h2 class="section-title" data-split>Quién soy</h2>
+    <p class="section-label">Sobre mi</p>
+    <h2 class="section-title" data-split>Conoceme un poco mas</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p>Desarrollador con base en Madrid. Me define la curiosidad: entender cómo funcionan las cosas por dentro y resolver problemas con un enfoque analítico.</p>
-        <p>Vengo de automatizar procesos documentales con modelos de lenguaje y ahora trabajo en el día a día de una tienda online. Me importa que el código sea claro y aguante el paso del tiempo.</p>
+        <p>Soy un desarrollador web con base en Madrid, apasionado por el desarrollo de software, la inteligencia artificial y sus aplicaciones practicas. Me caracterizo por la curiosidad tecnologica y un enfoque analitico para resolver problemas.</p>
+        <p>He trabajado construyendo sistemas que integran modelos de IA para automatizar procesos, y disfruto tanto del backend robusto como del frontend con buena experiencia de usuario.</p>
       </div>
       <div class="stats-row">
         <div class="stat" data-glow>
           <div class="stat-value">15+</div>
-          <div class="stat-label">Tecnologías</div>
+          <div class="stat-label">Tecnologias</div>
         </div>
         <div class="stat" data-glow>
           <div class="stat-value">DAW</div>
-          <div class="stat-label">Formación</div>
+          <div class="stat-label">Formacion</div>
         </div>
         <div class="stat" data-glow>
           <div class="stat-value">ES/EN</div>
@@ -1184,8 +854,8 @@
 
   <!-- Skills -->
   <section id="skills">
-    <p class="section-label">Tech</p>
-    <h2 class="section-title" data-split>Stack</h2>
+    <p class="section-label">Tech Stack</p>
+    <h2 class="section-title" data-split>Tecnologias</h2>
 
     <!-- Tech Marquee -->
     <div class="marquee-section" style="margin-bottom: 3rem;">
@@ -1196,7 +866,6 @@
         <span>Laravel</span><span>&#183;</span>
         <span>Magento</span><span>&#183;</span>
         <span>TypeScript</span><span>&#183;</span>
-        <span>Next.js</span><span>&#183;</span>
         <span>Django</span><span>&#183;</span>
         <span>Docker</span><span>&#183;</span>
         <span>PostgreSQL</span><span>&#183;</span>
@@ -1210,7 +879,6 @@
         <span>Laravel</span><span>&#183;</span>
         <span>Magento</span><span>&#183;</span>
         <span>TypeScript</span><span>&#183;</span>
-        <span>Next.js</span><span>&#183;</span>
         <span>Django</span><span>&#183;</span>
         <span>Docker</span><span>&#183;</span>
         <span>PostgreSQL</span><span>&#183;</span>
@@ -1220,112 +888,12 @@
       </div>
     </div>
 
-    <div class="skills-horizontal">
-      <div class="skill-group" data-glow>
-        <p class="skill-group-title">Backend</p>
-        <div class="skill-tags">
-          <span class="skill-tag">PHP</span>
-          <span class="skill-tag">Laravel</span>
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">Django</span>
-          <span class="skill-tag">FastAPI</span>
-        </div>
-      </div>
-      <div class="skill-group" data-glow>
-        <p class="skill-group-title">Frontend</p>
-        <div class="skill-tags">
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">React</span>
-          <span class="skill-tag">Next.js</span>
-          <span class="skill-tag">Tailwind</span>
-          <span class="skill-tag">HTML/CSS</span>
-        </div>
-      </div>
-      <div class="skill-group" data-glow>
-        <p class="skill-group-title">E-commerce &amp; IA</p>
-        <div class="skill-tags">
-          <span class="skill-tag">Magento</span>
-          <span class="skill-tag">OpenAI API</span>
-          <span class="skill-tag">Integración LLM</span>
-          <span class="skill-tag">Automatización</span>
-        </div>
-      </div>
-      <div class="skill-group" data-glow>
-        <p class="skill-group-title">DevOps &amp; Datos</p>
-        <div class="skill-tags">
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">NGINX</span>
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">MySQL</span>
-          <span class="skill-tag">Git</span>
-          <span class="skill-tag">Bitbucket</span>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <p class="section-label">Código</p>
-    <h2 class="section-title" data-split>Proyectos</h2>
-    <div class="projects-grid">
-      <div class="project-card" data-glow>
-        <div class="project-type-row">
-          <p class="project-type">Full Stack &#183; IoT</p>
-          <span class="project-badge">TFG</span>
-        </div>
-        <h3 class="project-title">SmartIrrigation</h3>
-        <p class="project-desc">Gestión de riego agrícola sobre telemetría simulada: mapa de parcelas con cálculo geodésico de superficie, motor de alertas por reglas configurables y panel de control. Con aislamiento estricto entre usuarios y 37 tests en CI.</p>
-        <div class="project-tech">
-          <span>Django REST</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>Leaflet</span><span>JWT</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/victoormga/SmartIrrigation" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
-        </div>
-      </div>
-      <div class="project-card" data-glow>
-        <div class="project-type-row">
-          <p class="project-type">Python &#183; IA</p>
-        </div>
-        <h3 class="project-title">Analizador de CVs con IA</h3>
-        <p class="project-desc">Pipeline completo: entra un PDF, GPT interpreta el contenido y sale un informe DOCX listo para entregar. Sin intervención manual en ningún paso.</p>
-        <div class="project-tech">
-          <span>Python</span><span>OpenAI API</span><span>JSON</span>
-        </div>
-        <p class="project-note">// Código privado (proyecto profesional)</p>
-      </div>
-      <div class="project-card future" data-glow>
-        <div class="project-type-row">
-          <p class="project-type">IA &#183; RAG</p>
-          <span class="project-badge">Próximamente</span>
-        </div>
-        <h3 class="project-title">Asistente de documentación</h3>
-        <p class="project-desc">Chat sobre documentación técnica propia con búsqueda semántica y modelos de lenguaje: pregunta en lenguaje natural, responde con fuentes.</p>
-        <div class="project-tech">
-          <span>FastAPI</span><span>PostgreSQL</span><span>React</span>
-        </div>
-      </div>
-      <div class="project-card future" data-glow>
-        <div class="project-type-row">
-          <p class="project-type">E-commerce &#183; Datos</p>
-          <span class="project-badge">Próximamente</span>
-        </div>
-        <h3 class="project-title">Dashboard de analítica e-commerce</h3>
-        <p class="project-desc">Panel de métricas para tienda online: ventas, campañas y stock en tiempo real, en un solo vistazo.</p>
-        <div class="project-tech">
-          <span>Laravel</span><span>React</span><span>TypeScript</span>
-        </div>
-      </div>
-    </div>
-    <!-- TODO: sustituir/añadir tarjetas con repos destacados de github.com/victoormga -->
   </section>
 
   <!-- Experience -->
   <section id="experience">
     <p class="section-label">Trayectoria</p>
-    <h2 class="section-title" data-split>Trabajo</h2>
+    <h2 class="section-title" data-split>Experiencia</h2>
     <div class="exp-item">
       <div class="exp-date">May 2026 &mdash; Actual</div>
       <div>
@@ -1335,7 +903,7 @@
           <li>Desarrollo full stack en entorno e-commerce, trabajando con el departamento de Marketing</li>
           <li>Mantenimiento y desarrollo de nuevas funcionalidades sobre Magento</li>
           <li>Componentes frontend con React integrados en el ecosistema de la tienda</li>
-          <li>Backend con Laravel/PHP para lógica de negocio y servicios internos</li>
+          <li>Backend con Laravel/PHP para logica de negocio y servicios internos</li>
         </ul>
         <div class="exp-tech">
           <span>Magento</span><span>React</span><span>Laravel</span><span>PHP</span><span>Bitbucket</span><span>GitHub</span>
@@ -1348,9 +916,9 @@
         <h3 class="exp-role">Web Developer Junior</h3>
         <p class="exp-company">Samana Digital</p>
         <ul class="exp-desc">
-          <li>Sistema para extraer y estructurar información de CVs en PDF</li>
-          <li>Integración de modelos GPT para interpretar contenido y generar informes</li>
-          <li>Generación automática de documentos DOCX con secciones dinámicas</li>
+          <li>Sistema para extraer y estructurar informacion de CVs en PDF</li>
+          <li>Integracion de modelos GPT para interpretar contenido y generar informes</li>
+          <li>Generacion automatica de documentos DOCX con secciones dinamicas</li>
           <li>Arquitectura modular en Python con Git</li>
         </ul>
         <div class="exp-tech">
@@ -1363,8 +931,14 @@
       <div class="edu-card" data-glow>
         <div class="edu-emoji">&#127891;</div>
         <h3 class="edu-title">CFGS Desarrollo de Aplicaciones Web</h3>
-        <p class="edu-school">I.E.S. Isidra de Guzmán</p>
+        <p class="edu-school">I.E.S Isidra de Guzman</p>
         <p class="edu-date">Sep 2023 &mdash; Jun 2025</p>
+      </div>
+      <div class="edu-card" data-glow>
+        <div class="edu-emoji">&#128218;</div>
+        <h3 class="edu-title">Bachillerato de Humanidades</h3>
+        <p class="edu-school">I.E.S Ignacio Ellacuria</p>
+        <p class="edu-date">Sep 2019 &mdash; Jun 2021</p>
       </div>
     </div>
   </section>
@@ -1372,175 +946,97 @@
   <!-- Contact -->
   <section class="contact-section" id="contact">
     <p class="section-label">Contacto</p>
-    <h2 class="contact-title" data-split>Hablamos</h2>
+    <h2 class="contact-title" data-split>Hablamos?</h2>
     <p class="contact-sub">Siempre abierto a conversaciones interesantes y nuevas oportunidades.</p>
     <div class="contact-links">
       <a href="mailto:victormgalonso26@gmail.com" class="contact-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         victormgalonso26@gmail.com
       </a>
-      <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" rel="noopener noreferrer" class="contact-link">
+      <a href="https://www.linkedin.com/in/v%C3%ADctor-manuel-garc%C3%ADa-alonso/" target="_blank" class="contact-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-      <a href="https://github.com/victoormga" target="_blank" rel="noopener noreferrer" class="contact-link">
+      <a href="https://github.com/victoormga" target="_blank" class="contact-link">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         GitHub
       </a>
     </div>
   </section>
 
-  </main>
-
   <footer>
-    <p>Víctor García &mdash; 2026</p>
+    <p>Victor Garcia &mdash; 2026</p>
   </footer>
 
   <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // -- Theme (aplicado en <head> para evitar FOUC; aquí solo el toggle) --
+    // -- Theme --
     var html = document.documentElement;
     var themeBtn = document.getElementById('themeBtn');
     var themeIcon = document.getElementById('themeIcon');
-    themeIcon.innerHTML = html.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
+
+    var saved = 'dark';
+    try { var s = localStorage.getItem('theme'); if (s) saved = s; } catch(e) {}
+    html.setAttribute('data-theme', saved);
+    themeIcon.innerHTML = saved === 'dark' ? '&#9788;' : '&#9790;';
 
     themeBtn.onclick = function() {
       var cur = html.getAttribute('data-theme');
       var next = cur === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
-      window.dispatchEvent(new Event('themechange'));
       themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
-      var metaTheme = document.getElementById('metaTheme');
-      if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#f2f5f9');
       try { localStorage.setItem('theme', next); } catch(e) {}
     };
 
-    // -- Nav hide on scroll (clases + rAF, sin escribir estilos inline) --
+    // -- Nav hide on scroll --
     var navEl = document.querySelector('nav');
     var lastScroll = 0;
-    var ticking = false;
-
-    // Móvil: el hero se desvanece con el scroll en vez de chocar con el nav
-    // (cálculo manual: sin depender de ScrollTrigger, que falla en iOS Safari)
-    var heroFadeEl = (!reduced && window.matchMedia('(max-width: 768px)').matches)
-      ? document.querySelector('.hero-content') : null;
-
-    // Escritorio: al bajar, los enlaces viajan hasta el logo y desaparecen.
-    // Se mide la distancia real de cada uno hasta el "VG" para que converjan ahí.
-    var navLogo = document.querySelector('.nav-logo');
-    var navItems = document.querySelectorAll('.nav-links li');
-
-    function measureNavItems() {
-      if (window.innerWidth <= 768) return;
-      var wasCollapsed = navEl.classList.contains('collapsed');
-      navEl.classList.remove('collapsed');
-      var logoBox = navLogo.getBoundingClientRect();
-      var target = logoBox.left + logoBox.width / 2;
-      for (var n = 0; n < navItems.length; n++) {
-        var box = navItems[n].getBoundingClientRect();
-        navItems[n].style.setProperty('--dx', (target - (box.left + box.width / 2)) + 'px');
-        // Los más cercanos al logo salen antes: efecto de absorción en cadena
-        navItems[n].style.transitionDelay = (n * 0.04) + 's';
-      }
-      if (wasCollapsed) navEl.classList.add('collapsed');
-    }
-
-    measureNavItems();
-    window.addEventListener('resize', measureNavItems);
-
-    // Punto a partir del cual los enlaces quedan absorbidos: el inicio de
-    // "Quién soy". Sólo reaparecen si se sube hasta ahí, no al menor scroll.
-    var aboutSection = document.getElementById('about');
-    var expandPoint = 0;
-
-    function measureExpandPoint() {
-      expandPoint = aboutSection.getBoundingClientRect().top + window.scrollY - 120;
-    }
-
-    measureExpandPoint();
-    window.addEventListener('resize', measureExpandPoint);
-
-    function updateNav() {
+    window.addEventListener('scroll', function() {
       var current = window.scrollY;
-      var isDesktop = window.innerWidth > 768;
       if (current > 100) {
-        navEl.classList.add('scrolled');
-        var goingDown = current > lastScroll && current > 200;
-        if (isDesktop) {
-          // En escritorio el nav no se esconde: se "come" los enlaces.
-          // Se colapsa al bajar y sólo vuelve al subir por encima de "Quién soy".
-          navEl.classList.remove('nav-hidden');
-          if (goingDown) {
-            navEl.classList.add('collapsed');
-          } else if (current <= expandPoint) {
-            navEl.classList.remove('collapsed');
-          }
+        // Past hero top: add background blur
+        navEl.style.background = 'var(--nav-bg)';
+        navEl.style.backdropFilter = 'blur(30px)';
+        navEl.style.webkitBackdropFilter = 'blur(30px)';
+        if (current > lastScroll && current > 200) {
+          // Scrolling down: hide nav
+          navEl.style.transform = 'translateY(-100%)';
         } else {
-          navEl.classList.remove('collapsed');
-          navEl.classList.toggle('nav-hidden', goingDown);
+          // Scrolling up: show nav
+          navEl.style.transform = 'translateY(0)';
         }
       } else {
-        navEl.classList.remove('scrolled', 'nav-hidden', 'collapsed');
-      }
-      if (heroFadeEl) {
-        var fp = Math.min(Math.max(current / (window.innerHeight * 0.55), 0), 1);
-        heroFadeEl.style.opacity = String(1 - fp);
+        // At top: transparent, always visible
+        navEl.style.background = 'transparent';
+        navEl.style.backdropFilter = 'none';
+        navEl.style.webkitBackdropFilter = 'none';
+        navEl.style.transform = 'translateY(0)';
       }
       lastScroll = current;
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function() {
-      if (!ticking) { requestAnimationFrame(updateNav); ticking = true; }
-    }, { passive: true });
-    updateNav();
+    });
 
     // -- Hamburger --
     var hamburger = document.getElementById('hamburger');
-    var mobileMenu = document.getElementById('mobileMenu');
-
-    function setMenu(open) {
-      hamburger.classList.toggle('open', open);
-      mobileMenu.classList.toggle('open', open);
-      navEl.classList.toggle('menu-open', open);
-      document.body.classList.toggle('menu-open', open);
-      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      hamburger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    var navLinks = document.getElementById('navLinks');
+    hamburger.onclick = function() {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    };
+    var navAs = navLinks.querySelectorAll('a');
+    for (var i = 0; i < navAs.length; i++) {
+      navAs[i].onclick = function() { hamburger.classList.remove('open'); navLinks.classList.remove('open'); };
     }
-
-    // Cerrar el menú con Escape
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && hamburger.classList.contains('open')) setMenu(false);
-    });
-
-    hamburger.onclick = function() { setMenu(!hamburger.classList.contains('open')); };
-
-    // Red de seguridad: tocar cualquier zona vacía del overlay también cierra
-    mobileMenu.addEventListener('click', function(e) {
-      if (e.target === mobileMenu || e.target === mobileMenu.firstElementChild) setMenu(false);
-    });
-
-    var menuAs = mobileMenu.querySelectorAll('a');
-    for (var i = 0; i < menuAs.length; i++) {
-      menuAs[i].addEventListener('click', function() { setMenu(false); });
-    }
-
-    // Al volver a escritorio, asegurar que el menú queda cerrado
-    window.matchMedia('(min-width: 769px)').addEventListener('change', function(e) {
-      if (e.matches) setMenu(false);
-    });
 
     // -- Custom Cursor --
     var cursor = document.getElementById('cursor');
+    var cursorDot = document.getElementById('cursorDot');
     var cx = 0, cy = 0, dx = 0, dy = 0;
 
     if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
       document.addEventListener('mousemove', function(e) {
         dx = e.clientX;
         dy = e.clientY;
+        cursorDot.style.left = dx + 'px';
+        cursorDot.style.top = dy + 'px';
       });
 
       function animateCursor() {
@@ -1560,126 +1056,96 @@
       }
     }
 
-    // -- Red de seguridad: si las animaciones fallan (CDN bloqueado, error
-    // en iOS...), todo el contenido se muestra sin efectos --
-    function showEverything() {
-      var safeEls = document.querySelectorAll('.line-inner, .word-inner, .hero-badge, .hero-cta, .char, .section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
-      for (var se = 0; se < safeEls.length; se++) {
-        safeEls[se].style.opacity = '';
-        safeEls[se].style.transform = 'none';
-      }
-    }
-
     // -- GSAP Animations --
-    try {
     gsap.registerPlugin(ScrollTrigger);
 
-    if (reduced) {
-      // Sin animaciones: mostrar todo directamente
-      gsap.set('.line-inner', { y: 0 });
-    } else {
-      // Hero entrance
-      gsap.to('.line-inner', {
-        y: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power4.out',
-        delay: 0.3
-      });
+    // Hero entrance
+    gsap.to('.line-inner', {
+      y: 0,
+      duration: 1.2,
+      stagger: 0.15,
+      ease: 'power4.out',
+      delay: 0.3
+    });
 
-      // Hero subtitle word-by-word
-      var subEl = document.getElementById('heroSub');
-      var subText = subEl.textContent;
-      var words = subText.split(' ');
-      subEl.innerHTML = '';
-      for (var w = 0; w < words.length; w++) {
-        var span = document.createElement('span');
-        span.className = 'word';
-        var inner = document.createElement('span');
-        inner.className = 'word-inner';
-        inner.textContent = words[w];
-        span.appendChild(inner);
-        subEl.appendChild(span);
-        subEl.appendChild(document.createTextNode(' '));
-      }
-
-      gsap.to('.word-inner', {
-        y: 0,
-        duration: 0.8,
-        stagger: 0.02,
-        ease: 'power3.out',
-        delay: 0.8
-      });
-
-      gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
-      gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
-
-      // Section reveals using IntersectionObserver
-      var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
-      for (var r = 0; r < revealEls.length; r++) {
-        revealEls[r].style.opacity = '0';
-        revealEls[r].style.transform = 'translateY(40px)';
-        revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-        revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
-      }
-
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      for (var ro = 0; ro < revealEls.length; ro++) {
-        revealObserver.observe(revealEls[ro]);
-      }
-
-      // Section title char split (aria-label conserva el texto para lectores de pantalla)
-      // Revelado con IntersectionObserver (ScrollTrigger es poco fiable en iOS)
-      var titleObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            gsap.to(entry.target.querySelectorAll('.char'), {
-              opacity: 1,
-              y: 0,
-              stagger: 0.025,
-              duration: 0.6,
-              ease: 'power3.out'
-            });
-            titleObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
-
-      var splitTitles = document.querySelectorAll('[data-split]');
-      for (var st = 0; st < splitTitles.length; st++) {
-        var title = splitTitles[st];
-        var text = title.textContent;
-        title.setAttribute('aria-label', text);
-        title.innerHTML = '';
-        for (var c = 0; c < text.length; c++) {
-          var charSpan = document.createElement('span');
-          charSpan.className = 'char';
-          charSpan.setAttribute('aria-hidden', 'true');
-          if (text[c] === ' ') {
-            charSpan.innerHTML = '&nbsp;';
-            charSpan.style.width = '0.3em';
-          } else {
-            charSpan.textContent = text[c];
-          }
-          charSpan.style.setProperty('--char-index', c);
-          title.appendChild(charSpan);
-        }
-
-        gsap.set(title.querySelectorAll('.char'), { opacity: 0, y: 30 });
-        titleObserver.observe(title);
-      }
+    // Hero subtitle word-by-word
+    var subEl = document.getElementById('heroSub');
+    var subText = subEl.textContent;
+    var words = subText.split(' ');
+    subEl.innerHTML = '';
+    for (var w = 0; w < words.length; w++) {
+      var span = document.createElement('span');
+      span.className = 'word';
+      var inner = document.createElement('span');
+      inner.className = 'word-inner';
+      inner.textContent = words[w];
+      span.appendChild(inner);
+      subEl.appendChild(span);
+      subEl.appendChild(document.createTextNode(' '));
     }
-    } catch (animErr) {
-      showEverything();
+
+    gsap.to('.word-inner', {
+      y: 0,
+      duration: 0.8,
+      stagger: 0.02,
+      ease: 'power3.out',
+      delay: 0.8
+    });
+
+    gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
+    gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
+
+    // Section reveals using IntersectionObserver (reliable, no Lenis dependency)
+    var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group');
+    for (var r = 0; r < revealEls.length; r++) {
+      revealEls[r].style.opacity = '0';
+      revealEls[r].style.transform = 'translateY(40px)';
+      revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
+    }
+
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    for (var ro = 0; ro < revealEls.length; ro++) {
+      revealObserver.observe(revealEls[ro]);
+    }
+
+    // Section title char split
+    var splitTitles = document.querySelectorAll('[data-split]');
+    for (var st = 0; st < splitTitles.length; st++) {
+      var title = splitTitles[st];
+      var text = title.textContent;
+      title.innerHTML = '';
+      for (var c = 0; c < text.length; c++) {
+        var charSpan = document.createElement('span');
+        charSpan.className = 'char';
+        if (text[c] === ' ') {
+          charSpan.innerHTML = '&nbsp;';
+          charSpan.style.width = '0.3em';
+        } else {
+          charSpan.textContent = text[c];
+        }
+        charSpan.style.setProperty('--char-index', c);
+        title.appendChild(charSpan);
+      }
+
+      gsap.from(title.querySelectorAll('.char'), {
+        scrollTrigger: { trigger: title, start: 'top 85%' },
+        opacity: 0,
+        y: 30,
+        rotateX: -40,
+        stagger: 0.025,
+        duration: 0.6,
+        ease: 'power3.out'
+      });
     }
 
     // -- Glow Cards (spotlight) --
@@ -1694,9 +1160,8 @@
       })(glowEls[g]);
     }
 
-    // -- Fondo 3D: sólo en escritorio (en móvil ni se inicia, así no gasta
-    //    batería ni compite con el contenido) y nunca con reduced-motion --
-    if (!reduced && window.innerWidth > 768) try { (function() {
+    // -- Three.js Hero --
+    (function() {
       var canvas = document.getElementById('hero-canvas');
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1705,99 +1170,29 @@
       var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
       camera.position.z = 5;
 
-      // ── Un único artefacto geométrico, denso y articulado ───────────────
-      // Cuatro sólidos anidados que giran a ritmos distintos: al superponer
-      // sus mallas generan un entramado que nunca se repite.
-      var DEPTH = 90;
-      var world = new THREE.Group();
-      scene.add(world);
+      // Torus knot
+      var geometry = new THREE.TorusKnotGeometry(1.2, 0.35, 128, 32);
+      var material = new THREE.MeshStandardMaterial({
+        color: 0x7c5cfc,
+        roughness: 0.3,
+        metalness: 0.8,
+        wireframe: true
+      });
+      var mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
 
-      var artifact = new THREE.Group();
-      world.add(artifact);
+      // Lights
+      var light1 = new THREE.PointLight(0x7c5cfc, 2, 20);
+      light1.position.set(3, 3, 3);
+      scene.add(light1);
 
-      // Gama fría en dos versiones: sobre fondo negro los azules brillan,
-      // pero sobre papel claro hay que oscurecerlos para que se lean.
-      var PALETTE = {
-        dark:  { lattice: 0x1d3f78, knot: 0x3a6fc4, knot2: 0x16357a, knot3: 0x6f92c4,
-                 mid: 0x4a7fc1, inner: 0x93b4de, core: 0xeef3f8,
-                 aura: 0xa9c2e2, auraIn: 0x5d86bd, thread: 0x3d68a8 },
-        light: { lattice: 0x16305f, knot: 0x1f4f9e, knot2: 0x0d2450, knot3: 0x39639f,
-                 mid: 0x2b5da8, inner: 0x14345f, core: 0x0b1c33,
-                 aura: 0x2c4f80, auraIn: 0x1b3c6b, thread: 0x24497d }
-      };
+      var light2 = new THREE.PointLight(0x00d4aa, 1.5, 20);
+      light2.position.set(-3, -2, 2);
+      scene.add(light2);
 
-      var themed = [];   // materiales que siguen al tema
-
-      function shell(geometry, key, opacity) {
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
-          color: PALETTE.dark[key], wireframe: true, transparent: true,
-          opacity: opacity, fog: true
-        }));
-        artifact.add(mesh);
-        themed.push({ mat: mesh.material, key: key });
-        return mesh;
-      }
-
-      var shellLattice= shell(new THREE.IcosahedronGeometry(2.35, 2),  'lattice', 0.28);
-      // Nudos toroidales: los "serpenteantes". Cada uno con otro enlace.
-      var shellKnot   = shell(new THREE.TorusKnotGeometry(1.75, 0.1, 190, 8, 2, 3), 'knot', 0.45);
-      var shellKnot2  = shell(new THREE.TorusKnotGeometry(2.25, 0.075, 210, 8, 3, 4), 'knot2', 0.4);
-      var shellKnot3  = shell(new THREE.TorusKnotGeometry(2.7, 0.06, 230, 8, 3, 5), 'knot3', 0.3);
-      var shellMid    = shell(new THREE.IcosahedronGeometry(1.55, 2),  'mid', 0.3);
-      var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   'inner', 0.45);
-      var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  'core', 0.75);
-
-      // Aura de puntos y constelación de aristas entre ellos
-      var auraGeo = new THREE.IcosahedronGeometry(3.35, 3);
-      var aura = new THREE.Points(auraGeo, new THREE.PointsMaterial({
-        color: PALETTE.dark.aura, size: 0.032, transparent: true,
-        opacity: 0.22, sizeAttenuation: true, fog: true
-      }));
-      artifact.add(aura);
-      themed.push({ mat: aura.material, key: 'aura' });
-
-      var auraInner = new THREE.Points(new THREE.IcosahedronGeometry(1.9, 2), new THREE.PointsMaterial({
-        color: PALETTE.dark.auraIn, size: 0.03, transparent: true,
-        opacity: 0.2, sizeAttenuation: true, fog: true
-      }));
-      artifact.add(auraInner);
-      themed.push({ mat: auraInner.material, key: 'auraIn' });
-
-      // Filamentos radiales: unen el núcleo con puntos sueltos del aura
-      var auraVerts = auraGeo.attributes.position.array;
-      var totalVerts = auraVerts.length / 3;
-      var threadPos = [];
-      for (var v = 0; v < totalVerts; v += 17) {
-        threadPos.push(0, 0, 0);
-        threadPos.push(auraVerts[v * 3], auraVerts[v * 3 + 1], auraVerts[v * 3 + 2]);
-      }
-      var threadGeo = new THREE.BufferGeometry();
-      threadGeo.setAttribute('position', new THREE.Float32BufferAttribute(threadPos, 3));
-      var threads = new THREE.LineSegments(threadGeo, new THREE.LineBasicMaterial({
-        color: PALETTE.dark.thread, transparent: true, opacity: 0.15, fog: true
-      }));
-      artifact.add(threads);
-      themed.push({ mat: threads.material, key: 'thread' });
-
-      // Niebla del color del fondo (el espacio no tiene "final") y colores
-      // de la figura, ambos siguiendo al tema activo
-      var lastTheme = null;
-
-      function syncTheme() {
-        var dark = document.documentElement.getAttribute('data-theme') !== 'light';
-        if (dark === lastTheme) return;
-        lastTheme = dark;
-        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xf2f5f9, 12, DEPTH * 0.9);
-        var set = dark ? PALETTE.dark : PALETTE.light;
-        for (var i = 0; i < themed.length; i++) {
-          themed[i].mat.color.setHex(set[themed[i].key]);
-        }
-      }
-      syncTheme();
-      window.addEventListener('themechange', syncTheme);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.2));
 
       var mouseX = 0, mouseY = 0;
-      var visibleWidth = 8;
       document.addEventListener('mousemove', function(e) {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
         mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -1809,177 +1204,52 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
       }
 
       window.addEventListener('resize', onResize);
       onResize();
 
-      var scrollProgress = 0;   // 0 = arriba del todo, 1 = final de la página
-      var running = false;
-      var pageVisible = true;
-      var clock = 0;
-      var targetZ = 0;
-
-      function readScroll() {
-        var max = document.body.scrollHeight - window.innerHeight;
-        scrollProgress = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      function animate3d() {
+        requestAnimationFrame(animate3d);
+        mesh.rotation.x += 0.003;
+        mesh.rotation.y += 0.005;
+        mesh.rotation.x += mouseY * 0.003;
+        mesh.rotation.y += mouseX * 0.003;
+        renderer.render(scene, camera);
       }
+      animate3d();
 
-      readScroll();
-      window.addEventListener('scroll', readScroll, { passive: true });
-      window.addEventListener('resize', readScroll);
-
-      // ── Coreografía: sólo tres apariciones ──────────────────────────────
-      // Fuera de estas tres ventanas de scroll el artefacto no existe.
-      // Las posiciones van en fracciones del semi-encuadre a su propia
-      // profundidad (1 = justo el borde), así siempre sale por donde toca.
-      var windows = [];
-
-      function buildPath() {
-        windows = [
-          // 1) Hero: pequeña, junto al borde derecho. Sale por la derecha.
-          {
-            from: 0, to: 0.15, fadeIn: false,
-            a: { fx: 0.72, fy: 0.05, z: 0,  s: 0.5 },
-            b: { fx: 2.80, fy: 0.18, z: -8, s: 0.5 }
-          },
-          // 2) Final: entra por la esquina inferior izquierda y se queda
-          //    ahí, cortada por ella: apenas asoma un fragmento.
-          {
-            from: 0.88, to: 1.0, fadeIn: true,
-            a: { fx: -1.75, fy: -1.65, z: -4, s: 1 },
-            b: { fx: -0.95, fy: -0.95, z: -4, s: 1 }
-          }
-        ];
-      }
-
-      buildPath();
-      window.addEventListener('resize', buildPath);
-
-      function smooth(u) { return u * u * (3 - 2 * u); }
-
-      // Devuelve la pose actual, o null si no toca estar en pantalla
-      function poseAt(p) {
-        for (var w = 0; w < windows.length; w++) {
-          var win = windows[w];
-          if (p < win.from || p > win.to) continue;
-          var u = (p - win.from) / (win.to - win.from);
-          var e = smooth(u);
-          var z = win.a.z + (win.b.z - win.a.z) * e;
-          var fx = win.a.fx + (win.b.fx - win.a.fx) * e;
-          var fy = win.a.fy + (win.b.fy - win.a.fy) * e;
-          var sc = win.a.s + (win.b.s - win.a.s) * e;
-
-          // Semi-encuadre a esa profundidad: convierte fracción → unidades
-          var halfH = Math.tan(22.5 * Math.PI / 180) * (camera.position.z - z);
-          var halfW = halfH * camera.aspect;
-
-          // Sólo se atenúa al entrar; al salir se va de plano por sí sola
-          var o = 1;
-          if (win.fadeIn && u < 0.18) o = smooth(u / 0.18);
-          return { x: fx * halfW, y: fy * halfH, z: z, o: o, s: sc };
+      // Scroll parallax + fade out canvas like a rocket leaving
+      gsap.to(mesh.position, {
+        y: -4,
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
         }
-        return null;
-      }
-
-      document.addEventListener('visibilitychange', function() {
-        pageVisible = !document.hidden;
-        if (pageVisible) startLoop();
       });
 
-      function animate3d() {
-        if (!pageVisible) { running = false; return; }
-
-        clock += 1;
-        var p = scrollProgress;
-
-        // Cada capa gira sobre ejes y a velocidades distintas: el entramado
-        // que forman al superponerse no se repite nunca
-        shellLattice.rotation.y -= 0.0011;
-        shellLattice.rotation.z += 0.0007;
-        shellKnot.rotation.z    += 0.0024;
-        shellKnot.rotation.x    -= 0.0013;
-        shellKnot2.rotation.y   += 0.0018;
-        shellKnot2.rotation.x   += 0.0009;
-        shellKnot3.rotation.z   -= 0.0015;
-        shellKnot3.rotation.y   -= 0.0007;
-        shellMid.rotation.y     -= 0.0027;
-        shellMid.rotation.z     += 0.0014;
-        shellInner.rotation.x   += 0.0038;
-        shellInner.rotation.y   += 0.0021;
-        shellCore.rotation.x    -= 0.006;
-        shellCore.rotation.z    += 0.0045;
-        aura.rotation.y         += 0.0007;
-        aura.rotation.x         += 0.0004;
-        auraInner.rotation.y    -= 0.0016;
-        threads.rotation.y      += 0.0005;
-        threads.rotation.x      -= 0.0003;
-
-        // Respiración lenta del conjunto (el tamaño final se aplica abajo)
-        var breath = 1 + Math.sin(clock * 0.006) * 0.035;
-
-        // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
-        // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
-        // Fuera de las tres ventanas el artefacto simplemente no está
-        var pose = poseAt(p);
-        artifact.visible = pose !== null;
-        if (!pose) {
-          renderer.render(scene, camera);
-          requestAnimationFrame(animate3d);
-          return;
+      gsap.to(canvas, {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: '.hero',
+          start: '60% top',
+          end: 'bottom top',
+          scrub: 1
         }
+      });
+    })();
 
-        // La posición se aplica directa: cada ventana ya trae su suavizado,
-        // y así nunca se ve "viajar" de una aparición a la siguiente
-        artifact.position.set(pose.x, pose.y, pose.z);
-        targetZ = pose.z;
-
-        artifact.scale.setScalar(breath * pose.s);
-
-        var visibility = pose.o;
-        shellLattice.material.opacity = 0.28 * visibility;
-        shellKnot.material.opacity    = 0.45 * visibility;
-        shellKnot2.material.opacity   = 0.40 * visibility;
-        shellKnot3.material.opacity   = 0.30 * visibility;
-        shellMid.material.opacity     = 0.30 * visibility;
-        shellInner.material.opacity   = 0.45 * visibility;
-        shellCore.material.opacity    = 0.75 * visibility;
-        aura.material.opacity         = 0.22 * visibility;
-        auraInner.material.opacity    = 0.20 * visibility;
-        threads.material.opacity      = 0.15 * visibility;
-
-        // El mundo se inclina con el ratón: la cámara "flota"
-        world.rotation.y += ((mouseX * 0.08) - world.rotation.y) * 0.03;
-        world.rotation.x += ((-mouseY * 0.05) - world.rotation.x) * 0.03;
-
-        if (clock % 40 === 0) syncTheme();
-
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate3d);
-      }
-
-      function startLoop() {
-        if (!running) { running = true; requestAnimationFrame(animate3d); }
-      }
-
-      startLoop();
-    })(); } catch (threeErr) { /* sin WebGL o sin CDN: la web funciona igual */ }
-
-    // -- Smooth anchor scroll (conserva el hash en la URL) --
+    // -- Smooth anchor scroll (native) --
     var anchors = document.querySelectorAll('a[href^="#"]');
     for (var a = 0; a < anchors.length; a++) {
-      anchors[a].addEventListener('click', function(e) {
+      anchors[a].onclick = function(e) {
         e.preventDefault();
-        var href = this.getAttribute('href');
-        var target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
-          history.pushState(null, '', href);
-        }
-      });
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      };
     }
-  });
   </script>
 </body>
 </html>
