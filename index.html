@@ -193,6 +193,17 @@
 
     nav.nav-hidden { transform: translateY(-100%); }
 
+    /* Con el menú abierto, el nav no puede tener transform ni backdrop-filter:
+       ambos crean un bloque contenedor y romperían el position:fixed del overlay */
+    nav.menu-open {
+      transform: none !important;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    body.menu-open { overflow: hidden; }
+
     .nav-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -1344,9 +1355,16 @@
     function setMenu(open) {
       hamburger.classList.toggle('open', open);
       navLinks.classList.toggle('open', open);
+      navEl.classList.toggle('menu-open', open);
+      document.body.classList.toggle('menu-open', open);
       hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
       hamburger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
     }
+
+    // Cerrar el menú con Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && hamburger.classList.contains('open')) setMenu(false);
+    });
 
     hamburger.onclick = function() { setMenu(!hamburger.classList.contains('open')); };
     var navAs = navLinks.querySelectorAll('a');
