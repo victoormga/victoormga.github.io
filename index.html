@@ -1814,37 +1814,19 @@
       var windows = [];
 
       function buildPath() {
-        var maxScroll = document.body.scrollHeight - window.innerHeight;
-
-        function pOf(id, bias) {
-          var el = document.getElementById(id);
-          if (!el || maxScroll <= 0) return null;
-          return (el.getBoundingClientRect().top + window.scrollY
-                  - window.innerHeight * bias) / maxScroll;
-        }
-
-        var pExp = pOf('experience', 0.35);
-        if (pExp === null) pExp = 0.66;
-        pExp = Math.min(Math.max(pExp, 0.4), 0.8);
-
         windows = [
-          // 1) Hero: pegado al borde derecho. Sale por la derecha.
+          // 1) Hero: pequeña, junto al borde derecho. Sale por la derecha.
           {
-            from: 0, to: 0.14, fadeIn: false,
-            a: { fx: 0.80, fy: 0.02, z: 0 },
-            b: { fx: 2.60, fy: 0.15, z: -10 }
+            from: 0, to: 0.15, fadeIn: false,
+            a: { fx: 0.72, fy: 0.05, z: 0,  s: 0.5 },
+            b: { fx: 2.80, fy: 0.18, z: -8, s: 0.5 }
           },
-          // 2) Trabajo: entra pequeña por la lejanía y cruza hacia la derecha
+          // 2) Final: entra por la esquina inferior izquierda y se queda
+          //    ahí, cortada por ella: apenas asoma un fragmento.
           {
-            from: pExp - 0.06, to: pExp + 0.10, fadeIn: true,
-            a: { fx: -0.55, fy: -0.30, z: -26 },
-            b: { fx:  2.20, fy: -0.22, z: -22 }
-          },
-          // 3) Final de la página: cruza y sale por la derecha
-          {
-            from: 0.9, to: 1.0, fadeIn: true,
-            a: { fx: -0.30, fy: -0.35, z: -15 },
-            b: { fx:  2.20, fy: -0.20, z: -13 }
+            from: 0.88, to: 1.0, fadeIn: true,
+            a: { fx: -1.75, fy: -1.65, z: -4, s: 1 },
+            b: { fx: -0.95, fy: -0.95, z: -4, s: 1 }
           }
         ];
       }
@@ -1864,6 +1846,7 @@
           var z = win.a.z + (win.b.z - win.a.z) * e;
           var fx = win.a.fx + (win.b.fx - win.a.fx) * e;
           var fy = win.a.fy + (win.b.fy - win.a.fy) * e;
+          var sc = win.a.s + (win.b.s - win.a.s) * e;
 
           // Semi-encuadre a esa profundidad: convierte fracción → unidades
           var halfH = Math.tan(22.5 * Math.PI / 180) * (camera.position.z - z);
@@ -1872,7 +1855,7 @@
           // Sólo se atenúa al entrar; al salir se va de plano por sí sola
           var o = 1;
           if (win.fadeIn && u < 0.18) o = smooth(u / 0.18);
-          return { x: fx * halfW, y: fy * halfH, z: z, o: o };
+          return { x: fx * halfW, y: fy * halfH, z: z, o: o, s: sc };
         }
         return null;
       }
@@ -1929,7 +1912,7 @@
         artifact.position.set(pose.x, pose.y, pose.z);
         targetZ = pose.z;
 
-        artifact.scale.setScalar(breath);
+        artifact.scale.setScalar(breath * pose.s);
 
         var visibility = pose.o;
         shellLattice.material.opacity = 0.20 * visibility;
