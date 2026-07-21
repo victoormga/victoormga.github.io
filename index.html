@@ -1428,6 +1428,18 @@
     measureNavItems();
     window.addEventListener('resize', measureNavItems);
 
+    // Punto a partir del cual los enlaces quedan absorbidos: el inicio de
+    // "Quién soy". Sólo reaparecen si se sube hasta ahí, no al menor scroll.
+    var aboutSection = document.getElementById('about');
+    var expandPoint = 0;
+
+    function measureExpandPoint() {
+      expandPoint = aboutSection.getBoundingClientRect().top + window.scrollY - 120;
+    }
+
+    measureExpandPoint();
+    window.addEventListener('resize', measureExpandPoint);
+
     function updateNav() {
       var current = window.scrollY;
       var isDesktop = window.innerWidth > 768;
@@ -1435,9 +1447,14 @@
         navEl.classList.add('scrolled');
         var goingDown = current > lastScroll && current > 200;
         if (isDesktop) {
-          // En escritorio el nav no se esconde: se "come" los enlaces
+          // En escritorio el nav no se esconde: se "come" los enlaces.
+          // Se colapsa al bajar y sólo vuelve al subir por encima de "Quién soy".
           navEl.classList.remove('nav-hidden');
-          navEl.classList.toggle('collapsed', goingDown);
+          if (goingDown) {
+            navEl.classList.add('collapsed');
+          } else if (current <= expandPoint) {
+            navEl.classList.remove('collapsed');
+          }
         } else {
           navEl.classList.remove('collapsed');
           navEl.classList.toggle('nav-hidden', goingDown);
