@@ -1708,73 +1708,41 @@
       var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
       camera.position.z = 5;
 
-      // ── Espacio profundo ────────────────────────────────────────────────
-      // Campo de partículas que deriva hacia la cámara: da sensación de
-      // volumen infinito. La niebla hace que todo nazca y muera en el fondo.
+      // ── Un único artefacto geométrico, denso y articulado ───────────────
+      // Cuatro sólidos anidados que giran a ritmos distintos: al superponer
+      // sus mallas generan un entramado que nunca se repite.
       var DEPTH = 90;
       var world = new THREE.Group();
       scene.add(world);
 
-      var starCount = 700;
-      var starPos = new Float32Array(starCount * 3);
-      for (var s = 0; s < starCount; s++) {
-        starPos[s * 3]     = (Math.random() - 0.5) * 60;
-        starPos[s * 3 + 1] = (Math.random() - 0.5) * 40;
-        starPos[s * 3 + 2] = -Math.random() * DEPTH;
+      var artifact = new THREE.Group();
+      world.add(artifact);
+
+      function shell(geometry, color, opacity) {
+        var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+          color: color, wireframe: true, transparent: true,
+          opacity: opacity, fog: true
+        }));
+        artifact.add(mesh);
+        return mesh;
       }
-      var starGeo = new THREE.BufferGeometry();
-      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-      var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
-        color: 0x8f7cff,
-        size: 0.09,
+
+      var shellOuter  = shell(new THREE.DodecahedronGeometry(2.5, 0),  0x7c5cfc, 0.30);
+      var shellMid    = shell(new THREE.IcosahedronGeometry(1.85, 1),  0xa855f7, 0.40);
+      var shellInner  = shell(new THREE.OctahedronGeometry(1.15, 1),   0x00d4aa, 0.55);
+      var shellCore   = shell(new THREE.TetrahedronGeometry(0.6, 0),   0xffffff, 0.65);
+
+      // Aura de puntos: los vértices de una esfera muy subdividida
+      var auraGeo = new THREE.IcosahedronGeometry(3.1, 3);
+      var aura = new THREE.Points(auraGeo, new THREE.PointsMaterial({
+        color: 0x9f8cff,
+        size: 0.055,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.5,
         sizeAttenuation: true,
         fog: true
       }));
-      world.add(stars);
-
-      // ── La criatura ─────────────────────────────────────────────────────
-      // Recorre una órbita cerrada: se acerca hasta casi rozar la cámara,
-      // gira, se pierde en la profundidad y vuelve a aparecer.
-      var path = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(  9,   3, -52),
-        new THREE.Vector3(  3,  -1, -22),
-        new THREE.Vector3( -2,   1,  -3),
-        new THREE.Vector3(-11,   4, -14),
-        new THREE.Vector3( -6,  -3, -40),
-        new THREE.Vector3(  4,   0, -66)
-      ], true, 'catmullrom', 0.6);
-
-      function makeCreature(size, color, opacity) {
-        var body = new THREE.Group();
-        var coreGeo = new THREE.OctahedronGeometry(size, 0);
-        coreGeo.scale(0.55, 0.3, 1.9);   // alargada en el sentido de la marcha
-        body.add(new THREE.Mesh(coreGeo, new THREE.MeshBasicMaterial({
-          color: color, wireframe: true, transparent: true, opacity: opacity, fog: true
-        })));
-        // "Aletas": dos planos que baten despacio
-        var finGeo = new THREE.PlaneGeometry(size * 2.6, size * 1.1, 3, 1);
-        var finMat = new THREE.MeshBasicMaterial({
-          color: color, wireframe: true, transparent: true,
-          opacity: opacity * 0.6, side: THREE.DoubleSide, fog: true
-        });
-        var fin = new THREE.Mesh(finGeo, finMat);
-        fin.rotation.y = Math.PI / 2;
-        body.add(fin);
-        body.userData.fin = fin;
-        return body;
-      }
-
-      var pod = [
-        { mesh: makeCreature(1.0, 0x7c5cfc, 0.75), offset: 0,      drift: 0 },
-        { mesh: makeCreature(0.5, 0x00d4aa, 0.5),  offset: 0.022,  drift: 1.6 },
-        { mesh: makeCreature(0.38, 0xa855f7, 0.42), offset: 0.038, drift: -1.9 }
-      ];
-      for (var c = 0; c < pod.length; c++) world.add(pod[c].mesh);
-
-      var lookTarget = new THREE.Vector3();
-      var tmpPos = new THREE.Vector3();
+      artifact.add(aura);
 
       // Niebla del color del fondo, para que el espacio no tenga "final"
       function syncFog() {
@@ -1798,6 +1766,8 @@
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
+        // El artefacto vive en el margen derecho, junto al texto del hero
+        artifact.position.x = visibleWidth * 0.27;
       }
 
       window.addEventListener('resize', onResize);
@@ -1806,8 +1776,8 @@
       var scrollProgress = 0;   // 0 = arriba del todo, 1 = final de la página
       var running = false;
       var pageVisible = true;
-      var t = 0;                // posición de la criatura en su órbita
       var clock = 0;
+      var targetZ = 0;
 
       function readScroll() {
         var max = document.body.scrollHeight - window.innerHeight;
@@ -1827,50 +1797,38 @@
         if (!pageVisible) { running = false; return; }
 
         clock += 1;
-        t = (t + 0.00028) % 1;   // vuelta completa: algo más de un minuto
+        var p = scrollProgress;
 
-        // Las partículas derivan hacia la cámara y reaparecen al fondo
-        var pos = starGeo.attributes.position.array;
-        for (var i = 0; i < starCount; i++) {
-          pos[i * 3 + 2] += 0.02;
-          if (pos[i * 3 + 2] > 4) {
-            pos[i * 3]     = (Math.random() - 0.5) * 60;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * 40;
-            pos[i * 3 + 2] = -DEPTH;
-          }
-        }
-        starGeo.attributes.position.needsUpdate = true;
+        // Cada capa gira sobre ejes y a velocidades distintas: el entramado
+        // que forman al superponerse no se repite nunca
+        shellOuter.rotation.y += 0.0016;
+        shellOuter.rotation.x -= 0.0009;
+        shellMid.rotation.y   -= 0.0027;
+        shellMid.rotation.z   += 0.0014;
+        shellInner.rotation.x += 0.0038;
+        shellInner.rotation.y += 0.0021;
+        shellCore.rotation.x  -= 0.006;
+        shellCore.rotation.z  += 0.0045;
+        aura.rotation.y       += 0.0007;
+        aura.rotation.x       += 0.0004;
 
-        // La criatura y su séquito recorren la órbita mirando hacia delante
-        for (var k = 0; k < pod.length; k++) {
-          var member = pod[k];
-          var tk = (t - member.offset + 1) % 1;
-          path.getPointAt(tk, tmpPos);
-          path.getPointAt((tk + 0.01) % 1, lookTarget);
+        // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
+        // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
+        targetZ = -p * DEPTH * 0.72;
+        artifact.position.z += (targetZ - artifact.position.z) * 0.055;
 
-          // Cada acompañante nada ligeramente desplazado del líder
-          var sway = Math.sin(clock * 0.01 + k) * 0.5;
-          member.mesh.position.set(
-            tmpPos.x + member.drift + sway * 0.3,
-            tmpPos.y + sway * 0.4,
-            tmpPos.z
-          );
-          member.mesh.lookAt(lookTarget);
+        // Al alejarse gira un poco sobre sí mismo y pierde presencia
+        artifact.rotation.z += ((p * 0.9) - artifact.rotation.z) * 0.04;
+        var visibility = 1 - p * 0.25;
+        shellOuter.material.opacity = 0.30 * visibility;
+        shellMid.material.opacity   = 0.40 * visibility;
+        shellInner.material.opacity = 0.55 * visibility;
+        shellCore.material.opacity  = 0.65 * visibility;
+        aura.material.opacity       = 0.50 * visibility;
 
-          // Aleteo lento
-          var beat = 0.6 + Math.sin(clock * 0.04 + k * 1.3) * 0.4;
-          member.mesh.userData = member.mesh.userData || {};
-          var fin = member.mesh.children[1];
-          if (fin) fin.scale.y = beat;
-        }
-
-        // El mundo entero se inclina con el ratón: la cámara "flota"
-        world.rotation.y += ((mouseX * 0.06) - world.rotation.y) * 0.03;
-        world.rotation.x += ((-mouseY * 0.04) - world.rotation.x) * 0.03;
-
-        // Al bajar por la web, la cámara se eleva un poco: seguimos viajando
-        camera.position.y += ((scrollProgress * 2.2) - camera.position.y) * 0.04;
-        camera.lookAt(0, camera.position.y * 0.6, -18);
+        // El mundo se inclina con el ratón: la cámara "flota"
+        world.rotation.y += ((mouseX * 0.08) - world.rotation.y) * 0.03;
+        world.rotation.x += ((-mouseY * 0.05) - world.rotation.x) * 0.03;
 
         if (clock % 40 === 0) syncFog();
 
