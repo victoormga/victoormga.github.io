@@ -1740,8 +1740,6 @@
       var ringA = shell(new THREE.TorusGeometry(2.15, 0.015, 4, 120), 0x00d4aa, 0.35);
       var ringB = shell(new THREE.TorusGeometry(2.55, 0.015, 4, 120), 0xa855f7, 0.28);
       ringB.rotation.x = Math.PI / 2;
-      var ringC = shell(new THREE.TorusGeometry(2.35, 0.015, 4, 120), 0x7c5cfc, 0.24);
-      ringC.rotation.y = Math.PI / 2;
 
       // Aura de puntos y constelación de aristas entre ellos
       var auraGeo = new THREE.IcosahedronGeometry(3.35, 3);
@@ -1794,8 +1792,6 @@
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
-        // El artefacto vive en el margen derecho, junto al texto del hero
-        artifact.position.x = visibleWidth * 0.27;
       }
 
       window.addEventListener('resize', onResize);
@@ -1846,7 +1842,6 @@
         ringA.rotation.z        += 0.0031;
         ringA.rotation.y        += 0.0012;
         ringB.rotation.z        -= 0.0026;
-        ringC.rotation.x        += 0.0019;
         aura.rotation.y         += 0.0007;
         aura.rotation.x         += 0.0004;
         auraInner.rotation.y    -= 0.0016;
@@ -1862,11 +1857,21 @@
         // La huida es rápida: en el primer tramo de scroll ya está lejos,
         // así deja de competir con el texto en cuanto empiezas a leer.
         var flight = Math.min(p * 3.2, 1);
-        targetZ = -flight * DEPTH * 0.85;
+
+        // Trayectoria parabólica: parte del margen derecho, cae describiendo
+        // un arco y barre hacia la izquierda mientras se hunde en el fondo.
+        var startX = visibleWidth * 0.27;
+        var targetX = startX - flight * visibleWidth * 1.15;   // barrido lateral
+        var targetY = -flight * flight * 8.5;                  // caída acelerada
+        targetZ = -flight * DEPTH * 0.85;                      // profundidad
+
+        artifact.position.x += (targetX - artifact.position.x) * 0.11;
+        artifact.position.y += (targetY - artifact.position.y) * 0.11;
         artifact.position.z += (targetZ - artifact.position.z) * 0.11;
 
-        // Al alejarse gira un poco sobre sí mismo y pierde presencia
-        artifact.rotation.z += ((flight * 1.1) - artifact.rotation.z) * 0.06;
+        // Se inclina hacia donde va, como un cuerpo lanzado
+        artifact.rotation.z += ((flight * 1.4) - artifact.rotation.z) * 0.06;
+        artifact.rotation.x += ((-flight * 0.5) - artifact.rotation.x) * 0.06;
         var visibility = 1 - flight * 0.75;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
@@ -1877,7 +1882,6 @@
         shellCore.material.opacity    = 0.70 * visibility;
         ringA.material.opacity        = 0.35 * visibility;
         ringB.material.opacity        = 0.28 * visibility;
-        ringC.material.opacity        = 0.24 * visibility;
         aura.material.opacity         = 0.20 * visibility;
         auraInner.material.opacity    = 0.18 * visibility;
         threads.material.opacity      = 0.13 * visibility;
