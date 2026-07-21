@@ -364,9 +364,9 @@
       height: 100svh;
       z-index: 0;
       pointer-events: none;
-      /* Difuminar la figura bajo el nav para que los enlaces se lean siempre */
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+      /* Se disuelve hacia la izquierda y hacia los bordes: nunca cruza el texto */
+      -webkit-mask-image: radial-gradient(105% 85% at 92% 45%, #000 25%, transparent 72%);
+      mask-image: radial-gradient(105% 85% at 92% 45%, #000 25%, transparent 72%);
     }
 
     .hero-content {
@@ -1073,8 +1073,12 @@
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
-      /* Stack de fondo, sutil para no comerse el texto */
-      #hero-canvas { opacity: 0.45; }
+      /* En móvil no hay margen libre: el stack se queda muy al fondo */
+      #hero-canvas {
+        opacity: 0.3;
+        -webkit-mask-image: radial-gradient(90% 60% at 50% 32%, #000 20%, transparent 78%);
+        mask-image: radial-gradient(90% 60% at 50% 32%, #000 20%, transparent 78%);
+      }
 
       .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
@@ -1714,12 +1718,12 @@
       var BASE_GAP = 0.5;
 
       for (var li = 0; li < LAYERS; li++) {
-        var planeGeo = new THREE.PlaneGeometry(3.4, 3.4, 9, 9);
+        var planeGeo = new THREE.PlaneGeometry(2.4, 2.4, 7, 7);
         var planeMat = new THREE.MeshBasicMaterial({
           color: layerColors[li],
           wireframe: true,
           transparent: true,
-          opacity: 0.22
+          opacity: 0.2
         });
         var layer = new THREE.Mesh(planeGeo, planeMat);
         layer.rotation.x = -Math.PI / 2;   // tumbada en horizontal
@@ -1733,6 +1737,7 @@
       scene.add(stack);
 
       var mouseX = 0, mouseY = 0;
+      var visibleWidth = 8, isDesktopView = true;
       document.addEventListener('mousemove', function(e) {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
         mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -1744,16 +1749,8 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        // Escritorio: el stack vive en el cuadrante derecho, junto al texto.
-        // Móvil: centrado y más grande, como fondo tras el contenido.
-        if (window.innerWidth > 768) {
-          var visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
-          stack.position.x = visibleWidth / 4;
-          stack.scale.setScalar(0.9);
-        } else {
-          stack.position.x = 0;
-          stack.scale.setScalar(1.05);
-        }
+        visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
+        isDesktopView = window.innerWidth > 768;
       }
 
       window.addEventListener('resize', onResize);
@@ -1783,33 +1780,45 @@
       function animate3d() {
         if (!pageVisible) { running = false; return; }
 
-        // Al bajar, las capas se abren: el stack se "despliega"
-        var targetGap = BASE_GAP + scrollProgress * 0.85;
+        var p = scrollProgress;
+
+        // Al bajar, las capas se abren un poco: el stack se "despliega"
+        var targetGap = BASE_GAP + p * 0.4;
         gap += (targetGap - gap) * 0.06;
 
         // Capa activa según el punto de la página en el que estás
-        var active = Math.min(LAYERS - 1, Math.floor(scrollProgress * LAYERS));
+        var active = Math.min(LAYERS - 1, Math.floor(p * LAYERS));
+
+        // Al avanzar por la web pierde presencia: de protagonista del hero
+        // a detalle ambiental en el margen
+        var fade = 1 - p * 0.55;
 
         for (var n = 0; n < LAYERS; n++) {
           var isActive = (n === active);
           layers[n].position.y = (n - (LAYERS - 1) / 2) * gap;
-          // Cada capa gira un poco distinto: el apilado respira
           layers[n].rotation.z += 0.0008 * (n % 2 === 0 ? 1 : -1);
-          var targetOpacity = isActive ? 0.65 : 0.18;
+          var targetOpacity = (isActive ? 0.5 : 0.16) * fade;
           var mat = layers[n].material;
           mat.opacity += (targetOpacity - mat.opacity) * 0.06;
-          var targetScale = isActive ? 1.08 : 1;
+          var targetScale = isActive ? 1.06 : 1;
           var s = layers[n].scale.x;
           layers[n].scale.setScalar(s + (targetScale - s) * 0.06);
         }
 
         // Giro lento constante + parallax suave con el ratón
         stack.rotation.y += 0.0022;
-        stack.rotation.x += ((0.42 + mouseY * 0.12) - stack.rotation.x) * 0.04;
-        stack.rotation.z += ((0.1 + mouseX * 0.08) - stack.rotation.z) * 0.04;
+        stack.rotation.x += ((0.42 + mouseY * 0.1) - stack.rotation.x) * 0.04;
+        stack.rotation.z += ((0.1 + mouseX * 0.06) - stack.rotation.z) * 0.04;
 
-        // Deriva vertical: el stack sube ligeramente al avanzar por la web
-        stack.position.y = -scrollProgress * 1.2;
+        // Se retira hacia el margen derecho y se encoge conforme bajas
+        var targetX = isDesktopView ? visibleWidth * (0.3 + p * 0.08) : 0;
+        var targetY = isDesktopView ? (0.2 + p * 1.1) : (-0.2 + p * 0.8);
+        var targetGroupScale = isDesktopView ? (0.8 - p * 0.35) : (0.85 - p * 0.3);
+
+        stack.position.x += (targetX - stack.position.x) * 0.05;
+        stack.position.y += (targetY - stack.position.y) * 0.05;
+        var gs = stack.scale.x;
+        stack.scale.setScalar(gs + (targetGroupScale - gs) * 0.05);
 
         renderer.render(scene, camera);
         requestAnimationFrame(animate3d);
