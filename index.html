@@ -393,18 +393,22 @@
 
     .hero-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2.75rem, 6.5vw, 5.75rem);
+      font-size: clamp(2.5rem, 6.5vw, 5.75rem);
       font-weight: 800;
-      line-height: 0.95;
+      line-height: 1.02;
       letter-spacing: -3px;
       margin-bottom: 2rem;
     }
 
-    .hero-title .line { white-space: nowrap; }
-
+    /* overflow:hidden es necesario para la animación de entrada, pero con
+       line-height ajustado recortaba los glifos. El padding agranda la caja
+       de recorte y el margen negativo compensa el hueco en el layout. */
     .hero-title .line {
       display: block;
+      white-space: nowrap;
       overflow: hidden;
+      padding: 0.12em 0.08em 0.2em;
+      margin: -0.12em -0.08em -0.2em;
     }
 
     .hero-title .line-inner {
@@ -542,7 +546,9 @@
       margin-top: -0.15em;
     }
 
-    .section-title .char {
+    /* Aplica a TODOS los títulos con data-split, no sólo a .section-title
+       (si no, los de contacto quedaban como spans en línea y se deformaban) */
+    .char {
       display: inline-block;
       transition: color 0.3s;
       overflow: visible;
@@ -1045,9 +1051,10 @@
       .skill-group, .edu-card, .project-card { padding: 1.75rem; }
 
       /* Tipografía: escala coherente en todos los títulos y textos */
-      .hero-title { font-size: clamp(2.75rem, 12vw, 3.5rem); letter-spacing: -1px; }
-      .section-title { font-size: 2.25rem; letter-spacing: -1px; margin-bottom: 2.5rem; }
-      .contact-title { font-size: 2.5rem; letter-spacing: -1px; }
+      /* Tamaños con margen de sobra para que ningún título se corte */
+      .hero-title { font-size: clamp(2.1rem, 9.5vw, 3rem); letter-spacing: -1px; }
+      .section-title { font-size: 2rem; letter-spacing: -1px; margin-bottom: 2.5rem; }
+      .contact-title { font-size: 2.1rem; letter-spacing: -1px; }
       .hero-sub, .about-text, .contact-sub { font-size: 1rem; }
       .exp-role { font-size: 1.4rem; }
       .project-title { font-size: 1.25rem; }
@@ -1306,7 +1313,7 @@
   <!-- Experience -->
   <section id="experience">
     <p class="section-label">Trayectoria</p>
-    <h2 class="section-title" data-split>Experiencia</h2>
+    <h2 class="section-title" data-split>Trabajo</h2>
     <div class="exp-item">
       <div class="exp-date">May 2026 &mdash; Actual</div>
       <div>
@@ -1353,7 +1360,7 @@
   <!-- Contact -->
   <section class="contact-section" id="contact">
     <p class="section-label">Contacto</p>
-    <h2 class="contact-title" data-split>¿Hablamos?</h2>
+    <h2 class="contact-title" data-split>Hablamos</h2>
     <p class="contact-sub">Siempre abierto a conversaciones interesantes y nuevas oportunidades.</p>
     <div class="contact-links">
       <a href="mailto:victormgalonso26@gmail.com" class="contact-link">
@@ -1726,7 +1733,7 @@
         if (window.innerWidth > 768) {
           var visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
           mesh.position.x = visibleWidth / 4;
-          mesh.scale.setScalar(1);
+          mesh.scale.setScalar(0.68);
         } else {
           mesh.position.x = 0;
           mesh.scale.setScalar(1.4);
