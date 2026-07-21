@@ -1736,11 +1736,6 @@
       var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   0x00d4aa, 0.45);
       var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  0xffffff, 0.7);
 
-      // Anillos cruzados, como un giroscopio
-      var ringA = shell(new THREE.TorusGeometry(2.15, 0.015, 4, 120), 0x00d4aa, 0.35);
-      var ringB = shell(new THREE.TorusGeometry(2.55, 0.015, 4, 120), 0xa855f7, 0.28);
-      ringB.rotation.x = Math.PI / 2;
-
       // Aura de puntos y constelación de aristas entre ellos
       var auraGeo = new THREE.IcosahedronGeometry(3.35, 3);
       var aura = new THREE.Points(auraGeo, new THREE.PointsMaterial({
@@ -1839,9 +1834,6 @@
         shellInner.rotation.y   += 0.0021;
         shellCore.rotation.x    -= 0.006;
         shellCore.rotation.z    += 0.0045;
-        ringA.rotation.z        += 0.0031;
-        ringA.rotation.y        += 0.0012;
-        ringB.rotation.z        -= 0.0026;
         aura.rotation.y         += 0.0007;
         aura.rotation.x         += 0.0004;
         auraInner.rotation.y    -= 0.0016;
@@ -1864,15 +1856,16 @@
         var targetY = -flight * flight * 8.5;                  // caída acelerada
         targetZ = -flight * DEPTH * 0.85;                      // profundidad
 
-        // Regreso: cerca del final de la página vuelve a acercarse, ahora
-        // hacia la esquina inferior izquierda y muy pequeño (~15%).
+        // Regreso: cerca del final vuelve a acercarse, grande y muy cerca,
+        // con el centro fuera de plano: sólo asoma un fragmento por la
+        // esquina inferior izquierda.
         var ret = p > 0.72 ? Math.min((p - 0.72) / 0.28, 1) : 0;
         ret = ret * ret * (3 - 2 * ret);   // suavizado de entrada y salida
 
         if (ret > 0) {
-          targetX += (-8.2 - targetX) * ret;
-          targetY += (-3.9 - targetY) * ret;
-          targetZ += (-7 - targetZ) * ret;
+          targetX += (-6.6 - targetX) * ret;
+          targetY += (-3.7 - targetY) * ret;
+          targetZ += (-1.5 - targetZ) * ret;
         }
 
         artifact.position.x += (targetX - artifact.position.x) * 0.11;
@@ -1883,11 +1876,9 @@
         artifact.rotation.z += ((flight * 1.4) - artifact.rotation.z) * 0.06;
         artifact.rotation.x += ((-flight * 0.5) - artifact.rotation.x) * 0.06;
 
-        // Al regresar es diminuto: un 15% del tamaño original
-        var sizeFactor = 1 - ret * 0.85;
-        artifact.scale.setScalar(breath * sizeFactor);
+        artifact.scale.setScalar(breath);
 
-        var visibility = (1 - flight * 0.75) + ret * 0.3;
+        var visibility = (1 - flight * 0.75) + ret * 0.55;
         shellLattice.material.opacity = 0.20 * visibility;
         shellKnot.material.opacity    = 0.42 * visibility;
         shellKnot2.material.opacity   = 0.34 * visibility;
@@ -1895,8 +1886,6 @@
         shellMid.material.opacity     = 0.28 * visibility;
         shellInner.material.opacity   = 0.45 * visibility;
         shellCore.material.opacity    = 0.70 * visibility;
-        ringA.material.opacity        = 0.35 * visibility;
-        ringB.material.opacity        = 0.28 * visibility;
         aura.material.opacity         = 0.20 * visibility;
         auraInner.material.opacity    = 0.18 * visibility;
         threads.material.opacity      = 0.13 * visibility;
