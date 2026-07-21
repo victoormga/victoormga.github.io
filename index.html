@@ -364,9 +364,10 @@
       height: 100svh;
       z-index: 0;
       pointer-events: none;
-      /* Se disuelve hacia la izquierda y hacia los bordes: nunca cruza el texto */
-      -webkit-mask-image: radial-gradient(105% 85% at 92% 45%, #000 25%, transparent 72%);
-      mask-image: radial-gradient(105% 85% at 92% 45%, #000 25%, transparent 72%);
+      opacity: 0.8;
+      /* Sólo se difumina bajo el nav; el espacio ocupa todo el viewport */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
     }
 
     .hero-content {
@@ -1409,6 +1410,7 @@
       var cur = html.getAttribute('data-theme');
       var next = cur === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
+      window.dispatchEvent(new Event('themechange'));
       themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
       var metaTheme = document.getElementById('metaTheme');
       if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#fafafa');
@@ -1706,32 +1708,81 @@
       var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
       camera.position.z = 5;
 
-      // -- El "stack" literal: capas apiladas en perspectiva --
-      // De abajo arriba: infraestructura, datos, backend, API, interfaz.
-      var LAYERS = 5;
-      var layerColors = [0x00d4aa, 0x00bcc8, 0x4a74f0, 0x7c5cfc, 0xa855f7];
-      var stack = new THREE.Group();
-      var layers = [];
-      var BASE_GAP = 0.5;
+      // ── Espacio profundo ────────────────────────────────────────────────
+      // Campo de partículas que deriva hacia la cámara: da sensación de
+      // volumen infinito. La niebla hace que todo nazca y muera en el fondo.
+      var DEPTH = 90;
+      var world = new THREE.Group();
+      scene.add(world);
 
-      for (var li = 0; li < LAYERS; li++) {
-        var planeGeo = new THREE.PlaneGeometry(2.4, 2.4, 7, 7);
-        var planeMat = new THREE.MeshBasicMaterial({
-          color: layerColors[li],
-          wireframe: true,
-          transparent: true,
-          opacity: 0.2
+      var starCount = 700;
+      var starPos = new Float32Array(starCount * 3);
+      for (var s = 0; s < starCount; s++) {
+        starPos[s * 3]     = (Math.random() - 0.5) * 60;
+        starPos[s * 3 + 1] = (Math.random() - 0.5) * 40;
+        starPos[s * 3 + 2] = -Math.random() * DEPTH;
+      }
+      var starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+        color: 0x8f7cff,
+        size: 0.09,
+        transparent: true,
+        opacity: 0.55,
+        sizeAttenuation: true,
+        fog: true
+      }));
+      world.add(stars);
+
+      // ── La criatura ─────────────────────────────────────────────────────
+      // Recorre una órbita cerrada: se acerca hasta casi rozar la cámara,
+      // gira, se pierde en la profundidad y vuelve a aparecer.
+      var path = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(  9,   3, -52),
+        new THREE.Vector3(  3,  -1, -22),
+        new THREE.Vector3( -2,   1,  -3),
+        new THREE.Vector3(-11,   4, -14),
+        new THREE.Vector3( -6,  -3, -40),
+        new THREE.Vector3(  4,   0, -66)
+      ], true, 'catmullrom', 0.6);
+
+      function makeCreature(size, color, opacity) {
+        var body = new THREE.Group();
+        var coreGeo = new THREE.OctahedronGeometry(size, 0);
+        coreGeo.scale(0.55, 0.3, 1.9);   // alargada en el sentido de la marcha
+        body.add(new THREE.Mesh(coreGeo, new THREE.MeshBasicMaterial({
+          color: color, wireframe: true, transparent: true, opacity: opacity, fog: true
+        })));
+        // "Aletas": dos planos que baten despacio
+        var finGeo = new THREE.PlaneGeometry(size * 2.6, size * 1.1, 3, 1);
+        var finMat = new THREE.MeshBasicMaterial({
+          color: color, wireframe: true, transparent: true,
+          opacity: opacity * 0.6, side: THREE.DoubleSide, fog: true
         });
-        var layer = new THREE.Mesh(planeGeo, planeMat);
-        layer.rotation.x = -Math.PI / 2;   // tumbada en horizontal
-        layer.position.y = (li - (LAYERS - 1) / 2) * BASE_GAP;
-        stack.add(layer);
-        layers.push(layer);
+        var fin = new THREE.Mesh(finGeo, finMat);
+        fin.rotation.y = Math.PI / 2;
+        body.add(fin);
+        body.userData.fin = fin;
+        return body;
       }
 
-      stack.rotation.x = 0.42;   // se ven desde arriba, en escorzo
-      stack.rotation.z = 0.1;
-      scene.add(stack);
+      var pod = [
+        { mesh: makeCreature(1.0, 0x7c5cfc, 0.75), offset: 0,      drift: 0 },
+        { mesh: makeCreature(0.5, 0x00d4aa, 0.5),  offset: 0.022,  drift: 1.6 },
+        { mesh: makeCreature(0.38, 0xa855f7, 0.42), offset: 0.038, drift: -1.9 }
+      ];
+      for (var c = 0; c < pod.length; c++) world.add(pod[c].mesh);
+
+      var lookTarget = new THREE.Vector3();
+      var tmpPos = new THREE.Vector3();
+
+      // Niebla del color del fondo, para que el espacio no tenga "final"
+      function syncFog() {
+        var dark = document.documentElement.getAttribute('data-theme') !== 'light';
+        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xfafafa, 12, DEPTH * 0.9);
+      }
+      syncFog();
+      window.addEventListener('themechange', syncFog);
 
       var mouseX = 0, mouseY = 0;
       var visibleWidth = 8;
@@ -1752,12 +1803,11 @@
       window.addEventListener('resize', onResize);
       onResize();
 
-      // -- El stack acompaña al scroll: las capas se separan y se resalta
-      //    la que corresponde a la sección en la que estás --
       var scrollProgress = 0;   // 0 = arriba del todo, 1 = final de la página
-      var gap = BASE_GAP;
       var running = false;
       var pageVisible = true;
+      var t = 0;                // posición de la criatura en su órbita
+      var clock = 0;
 
       function readScroll() {
         var max = document.body.scrollHeight - window.innerHeight;
@@ -1776,45 +1826,53 @@
       function animate3d() {
         if (!pageVisible) { running = false; return; }
 
-        var p = scrollProgress;
+        clock += 1;
+        t = (t + 0.00028) % 1;   // vuelta completa: algo más de un minuto
 
-        // Al bajar, las capas se abren un poco: el stack se "despliega"
-        var targetGap = BASE_GAP + p * 0.4;
-        gap += (targetGap - gap) * 0.06;
+        // Las partículas derivan hacia la cámara y reaparecen al fondo
+        var pos = starGeo.attributes.position.array;
+        for (var i = 0; i < starCount; i++) {
+          pos[i * 3 + 2] += 0.02;
+          if (pos[i * 3 + 2] > 4) {
+            pos[i * 3]     = (Math.random() - 0.5) * 60;
+            pos[i * 3 + 1] = (Math.random() - 0.5) * 40;
+            pos[i * 3 + 2] = -DEPTH;
+          }
+        }
+        starGeo.attributes.position.needsUpdate = true;
 
-        // Capa activa según el punto de la página en el que estás
-        var active = Math.min(LAYERS - 1, Math.floor(p * LAYERS));
+        // La criatura y su séquito recorren la órbita mirando hacia delante
+        for (var k = 0; k < pod.length; k++) {
+          var member = pod[k];
+          var tk = (t - member.offset + 1) % 1;
+          path.getPointAt(tk, tmpPos);
+          path.getPointAt((tk + 0.01) % 1, lookTarget);
 
-        // Al avanzar por la web pierde presencia: de protagonista del hero
-        // a detalle ambiental en el margen
-        var fade = 1 - p * 0.55;
+          // Cada acompañante nada ligeramente desplazado del líder
+          var sway = Math.sin(clock * 0.01 + k) * 0.5;
+          member.mesh.position.set(
+            tmpPos.x + member.drift + sway * 0.3,
+            tmpPos.y + sway * 0.4,
+            tmpPos.z
+          );
+          member.mesh.lookAt(lookTarget);
 
-        for (var n = 0; n < LAYERS; n++) {
-          var isActive = (n === active);
-          layers[n].position.y = (n - (LAYERS - 1) / 2) * gap;
-          layers[n].rotation.z += 0.0008 * (n % 2 === 0 ? 1 : -1);
-          var targetOpacity = (isActive ? 0.5 : 0.16) * fade;
-          var mat = layers[n].material;
-          mat.opacity += (targetOpacity - mat.opacity) * 0.06;
-          var targetScale = isActive ? 1.06 : 1;
-          var s = layers[n].scale.x;
-          layers[n].scale.setScalar(s + (targetScale - s) * 0.06);
+          // Aleteo lento
+          var beat = 0.6 + Math.sin(clock * 0.04 + k * 1.3) * 0.4;
+          member.mesh.userData = member.mesh.userData || {};
+          var fin = member.mesh.children[1];
+          if (fin) fin.scale.y = beat;
         }
 
-        // Giro lento constante + parallax suave con el ratón
-        stack.rotation.y += 0.0022;
-        stack.rotation.x += ((0.42 + mouseY * 0.1) - stack.rotation.x) * 0.04;
-        stack.rotation.z += ((0.1 + mouseX * 0.06) - stack.rotation.z) * 0.04;
+        // El mundo entero se inclina con el ratón: la cámara "flota"
+        world.rotation.y += ((mouseX * 0.06) - world.rotation.y) * 0.03;
+        world.rotation.x += ((-mouseY * 0.04) - world.rotation.x) * 0.03;
 
-        // Se retira hacia el margen derecho y se encoge conforme bajas
-        var targetX = visibleWidth * (0.3 + p * 0.08);
-        var targetY = 0.2 + p * 1.1;
-        var targetGroupScale = 0.8 - p * 0.35;
+        // Al bajar por la web, la cámara se eleva un poco: seguimos viajando
+        camera.position.y += ((scrollProgress * 2.2) - camera.position.y) * 0.04;
+        camera.lookAt(0, camera.position.y * 0.6, -18);
 
-        stack.position.x += (targetX - stack.position.x) * 0.05;
-        stack.position.y += (targetY - stack.position.y) * 0.05;
-        var gs = stack.scale.x;
-        stack.scale.setScalar(gs + (targetGroupScale - gs) * 0.05);
+        if (clock % 40 === 0) syncFog();
 
         renderer.render(scene, camera);
         requestAnimationFrame(animate3d);
