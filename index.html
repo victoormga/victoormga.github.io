@@ -622,7 +622,9 @@
 
     .stat-value {
       font-family: 'Syne', sans-serif;
-      font-size: 1.6rem;
+      /* Se adapta al ancho: en pantallas estrechas "ES/EN" no cabía */
+      font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+      white-space: nowrap;
       font-weight: 800;
       color: var(--accent);
       position: relative;
@@ -1049,6 +1051,13 @@
       .noise { display: none; }
     }
 
+    /* -- Escritorio estrecho / tablet -- */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .stat { padding: 1.5rem; }
+      section { padding: 6rem 2rem; }
+    }
+
     /* -- Responsive -- */
     @media (max-width: 768px) {
       body { cursor: auto; }
@@ -1070,7 +1079,7 @@
       .hero-sub, .about-text, .contact-sub { font-size: 1rem; }
       .exp-role { font-size: 1.4rem; }
       .project-title { font-size: 1.25rem; }
-      .stat-value { font-size: 1.4rem; }
+      .stat-value { font-size: clamp(1.05rem, 4.5vw, 1.4rem); }
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
