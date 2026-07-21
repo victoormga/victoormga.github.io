@@ -529,7 +529,12 @@
       padding: 8rem 3rem;
       max-width: 1200px;
       margin: 0 auto;
+      /* Por encima del canvas, que ahora acompaña a toda la página */
+      position: relative;
+      z-index: 1;
     }
+
+    footer { position: relative; z-index: 1; }
 
     .section-label {
       font-family: 'JetBrains Mono', monospace;
@@ -1068,8 +1073,8 @@
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
-      /* Figura 3D grande de fondo, sutil para no comerse el texto */
-      #hero-canvas { opacity: 0.2; }
+      /* Stack de fondo, sutil para no comerse el texto */
+      #hero-canvas { opacity: 0.45; }
 
       .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
@@ -1700,27 +1705,32 @@
       var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
       camera.position.z = 5;
 
-      // Torus knot
-      var geometry = new THREE.TorusKnotGeometry(1.2, 0.35, 128, 32);
-      var material = new THREE.MeshStandardMaterial({
-        color: 0x7c5cfc,
-        roughness: 0.3,
-        metalness: 0.8,
-        wireframe: true
-      });
-      var mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      // -- El "stack" literal: capas apiladas en perspectiva --
+      // De abajo arriba: infraestructura, datos, backend, API, interfaz.
+      var LAYERS = 5;
+      var layerColors = [0x00d4aa, 0x00bcc8, 0x4a74f0, 0x7c5cfc, 0xa855f7];
+      var stack = new THREE.Group();
+      var layers = [];
+      var BASE_GAP = 0.5;
 
-      // Lights
-      var light1 = new THREE.PointLight(0x7c5cfc, 2, 20);
-      light1.position.set(3, 3, 3);
-      scene.add(light1);
+      for (var li = 0; li < LAYERS; li++) {
+        var planeGeo = new THREE.PlaneGeometry(3.4, 3.4, 9, 9);
+        var planeMat = new THREE.MeshBasicMaterial({
+          color: layerColors[li],
+          wireframe: true,
+          transparent: true,
+          opacity: 0.22
+        });
+        var layer = new THREE.Mesh(planeGeo, planeMat);
+        layer.rotation.x = -Math.PI / 2;   // tumbada en horizontal
+        layer.position.y = (li - (LAYERS - 1) / 2) * BASE_GAP;
+        stack.add(layer);
+        layers.push(layer);
+      }
 
-      var light2 = new THREE.PointLight(0x00d4aa, 1.5, 20);
-      light2.position.set(-3, -2, 2);
-      scene.add(light2);
-
-      scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+      stack.rotation.x = 0.42;   // se ven desde arriba, en escorzo
+      stack.rotation.z = 0.1;
+      scene.add(stack);
 
       var mouseX = 0, mouseY = 0;
       document.addEventListener('mousemove', function(e) {
@@ -1734,31 +1744,73 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        // Canvas a ancho completo: torus en el cuadrante derecho en escritorio,
-        // centrado y reducido en móvil (de fondo tras el contenido)
+        // Escritorio: el stack vive en el cuadrante derecho, junto al texto.
+        // Móvil: centrado y más grande, como fondo tras el contenido.
         if (window.innerWidth > 768) {
           var visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
-          mesh.position.x = visibleWidth / 4;
-          mesh.scale.setScalar(0.68);
+          stack.position.x = visibleWidth / 4;
+          stack.scale.setScalar(0.9);
         } else {
-          mesh.position.x = 0;
-          mesh.scale.setScalar(1.4);
+          stack.position.x = 0;
+          stack.scale.setScalar(1.05);
         }
       }
 
       window.addEventListener('resize', onResize);
       onResize();
 
-      // Pausar el bucle de render cuando el hero no está en pantalla
-      var heroVisible = true;
+      // -- El stack acompaña al scroll: las capas se separan y se resalta
+      //    la que corresponde a la sección en la que estás --
+      var scrollProgress = 0;   // 0 = arriba del todo, 1 = final de la página
+      var gap = BASE_GAP;
       var running = false;
+      var pageVisible = true;
+
+      function readScroll() {
+        var max = document.body.scrollHeight - window.innerHeight;
+        scrollProgress = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      }
+
+      readScroll();
+      window.addEventListener('scroll', readScroll, { passive: true });
+      window.addEventListener('resize', readScroll);
+
+      document.addEventListener('visibilitychange', function() {
+        pageVisible = !document.hidden;
+        if (pageVisible) startLoop();
+      });
 
       function animate3d() {
-        if (!heroVisible) { running = false; return; }
-        mesh.rotation.x += 0.003;
-        mesh.rotation.y += 0.005;
-        mesh.rotation.x += mouseY * 0.003;
-        mesh.rotation.y += mouseX * 0.003;
+        if (!pageVisible) { running = false; return; }
+
+        // Al bajar, las capas se abren: el stack se "despliega"
+        var targetGap = BASE_GAP + scrollProgress * 0.85;
+        gap += (targetGap - gap) * 0.06;
+
+        // Capa activa según el punto de la página en el que estás
+        var active = Math.min(LAYERS - 1, Math.floor(scrollProgress * LAYERS));
+
+        for (var n = 0; n < LAYERS; n++) {
+          var isActive = (n === active);
+          layers[n].position.y = (n - (LAYERS - 1) / 2) * gap;
+          // Cada capa gira un poco distinto: el apilado respira
+          layers[n].rotation.z += 0.0008 * (n % 2 === 0 ? 1 : -1);
+          var targetOpacity = isActive ? 0.65 : 0.18;
+          var mat = layers[n].material;
+          mat.opacity += (targetOpacity - mat.opacity) * 0.06;
+          var targetScale = isActive ? 1.08 : 1;
+          var s = layers[n].scale.x;
+          layers[n].scale.setScalar(s + (targetScale - s) * 0.06);
+        }
+
+        // Giro lento constante + parallax suave con el ratón
+        stack.rotation.y += 0.0022;
+        stack.rotation.x += ((0.42 + mouseY * 0.12) - stack.rotation.x) * 0.04;
+        stack.rotation.z += ((0.1 + mouseX * 0.08) - stack.rotation.z) * 0.04;
+
+        // Deriva vertical: el stack sube ligeramente al avanzar por la web
+        stack.position.y = -scrollProgress * 1.2;
+
         renderer.render(scene, camera);
         requestAnimationFrame(animate3d);
       }
@@ -1767,33 +1819,7 @@
         if (!running) { running = true; requestAnimationFrame(animate3d); }
       }
 
-      new IntersectionObserver(function(entries) {
-        heroVisible = entries[0].isIntersecting;
-        if (heroVisible) startLoop();
-      }).observe(document.querySelector('.hero'));
-
       startLoop();
-
-      // Scroll parallax + fade out canvas like a rocket leaving
-      gsap.to(mesh.position, {
-        y: -4,
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
-
-      gsap.to(canvas, {
-        opacity: 0,
-        scrollTrigger: {
-          trigger: '.hero',
-          start: '60% top',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
     })(); } catch (threeErr) { /* sin WebGL o sin CDN: la web funciona igual */ }
 
     // -- Smooth anchor scroll (conserva el hash en la URL) --
