@@ -64,7 +64,6 @@
       --border: rgba(255,255,255,0.06);
       --nav-bg: rgba(5,5,5,0.8);
       --glow: rgba(124, 92, 252, 0.08);
-      --accent-glow: rgba(124, 92, 252, 0.3);
     }
 
     /* Modo claro en la misma familia fría que la figura 3D:
@@ -82,7 +81,6 @@
       --border: rgba(15, 30, 51, 0.10);
       --nav-bg: rgba(242, 245, 249, 0.85);
       --glow: rgba(20, 48, 95, 0.07);
-      --accent-glow: rgba(20, 48, 95, 0.25);
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -371,7 +369,6 @@
       height: 6px;
       border-radius: 50%;
       background: var(--accent2);
-      box-shadow: 0 0 10px var(--accent2);
     }
 
     .hero-title {
@@ -446,7 +443,6 @@
     }
 
     .btn-fill:hover {
-      box-shadow: 0 0 40px var(--accent-glow);
       transform: translateY(-2px);
     }
 
@@ -580,17 +576,6 @@
       overflow: hidden;
     }
 
-    .stat::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .stat:hover::before { opacity: 1; }
-
     .stat:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
@@ -633,17 +618,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    .skill-group::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .skill-group:hover::before { opacity: 1; }
 
     .skill-group:hover {
       border-color: var(--accent);
@@ -702,18 +676,6 @@
 
     /* El degradado se recorta a sí mismo con su propio border-radius,
        así la tarjeta no necesita overflow:hidden (que recortaba las letras) */
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      overflow: hidden;
-      background: radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 55%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .project-card:hover::before { opacity: 1; }
 
     .project-card:hover {
       border-color: var(--accent);
@@ -918,17 +880,6 @@
       overflow: hidden;
     }
 
-    .edu-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .edu-card:hover::before { opacity: 1; }
-
     .edu-card:hover {
       border-color: var(--accent2);
     }
@@ -988,7 +939,6 @@
       border-color: var(--accent);
       color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px var(--glow);
     }
 
     .contact-link svg { width: 18px; height: 18px; }
@@ -1142,19 +1092,19 @@
         <p>Vengo de automatizar procesos documentales con modelos de lenguaje y ahora trabajo en el día a día de una tienda online. Me importa que el código sea claro y aguante el paso del tiempo.</p>
       </div>
       <div class="stats-row">
-        <div class="stat" data-glow>
+        <div class="stat">
           <div class="stat-value">15+</div>
           <div class="stat-label">Tecnologías</div>
         </div>
-        <div class="stat" data-glow>
+        <div class="stat">
           <div class="stat-value">DAW</div>
           <div class="stat-label">Formación</div>
         </div>
-        <div class="stat" data-glow>
+        <div class="stat">
           <div class="stat-value">ES/EN</div>
           <div class="stat-label">Idiomas</div>
         </div>
-        <div class="stat" data-glow>
+        <div class="stat">
           <div class="stat-value">IA</div>
           <div class="stat-label">Especialidad</div>
         </div>
@@ -1201,7 +1151,7 @@
     </div>
 
     <div class="skills-horizontal">
-      <div class="skill-group" data-glow>
+      <div class="skill-group">
         <p class="skill-group-title">Backend</p>
         <div class="skill-tags">
           <span class="skill-tag">PHP</span>
@@ -1211,7 +1161,7 @@
           <span class="skill-tag">FastAPI</span>
         </div>
       </div>
-      <div class="skill-group" data-glow>
+      <div class="skill-group">
         <p class="skill-group-title">Frontend</p>
         <div class="skill-tags">
           <span class="skill-tag">JavaScript</span>
@@ -1222,7 +1172,7 @@
           <span class="skill-tag">HTML/CSS</span>
         </div>
       </div>
-      <div class="skill-group" data-glow>
+      <div class="skill-group">
         <p class="skill-group-title">E-commerce &amp; IA</p>
         <div class="skill-tags">
           <span class="skill-tag">Magento</span>
@@ -1231,7 +1181,7 @@
           <span class="skill-tag">Automatización</span>
         </div>
       </div>
-      <div class="skill-group" data-glow>
+      <div class="skill-group">
         <p class="skill-group-title">DevOps &amp; Datos</p>
         <div class="skill-tags">
           <span class="skill-tag">Docker</span>
@@ -1251,7 +1201,7 @@
     <p class="section-label">Código</p>
     <h2 class="section-title" data-split>Proyectos</h2>
     <div class="projects-grid">
-      <div class="project-card" data-glow>
+      <div class="project-card">
         <div class="project-type-row">
           <p class="project-type">Full Stack &#183; IoT</p>
           <span class="project-badge">TFG</span>
@@ -1265,7 +1215,7 @@
           <a href="https://github.com/victoormga/SmartIrrigation" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
         </div>
       </div>
-      <div class="project-card" data-glow>
+      <div class="project-card">
         <div class="project-type-row">
           <p class="project-type">Python &#183; IA</p>
         </div>
@@ -1276,7 +1226,7 @@
         </div>
         <p class="project-note">// Código privado (proyecto profesional)</p>
       </div>
-      <div class="project-card future" data-glow>
+      <div class="project-card future">
         <div class="project-type-row">
           <p class="project-type">IA &#183; RAG</p>
           <span class="project-badge">Próximamente</span>
@@ -1287,7 +1237,7 @@
           <span>FastAPI</span><span>PostgreSQL</span><span>React</span>
         </div>
       </div>
-      <div class="project-card future" data-glow>
+      <div class="project-card future">
         <div class="project-type-row">
           <p class="project-type">E-commerce &#183; Datos</p>
           <span class="project-badge">Próximamente</span>
@@ -1340,7 +1290,7 @@
     </div>
 
     <div class="edu-row">
-      <div class="edu-card" data-glow>
+      <div class="edu-card">
         <div class="edu-emoji">&#127891;</div>
         <h3 class="edu-title">CFGS Desarrollo de Aplicaciones Web</h3>
         <p class="edu-school">I.E.S. Isidra de Guzmán</p>
@@ -1662,17 +1612,6 @@
       showEverything();
     }
 
-    // -- Glow Cards (spotlight) --
-    var glowEls = document.querySelectorAll('[data-glow]');
-    for (var g = 0; g < glowEls.length; g++) {
-      (function(el) {
-        el.onmousemove = function(e) {
-          var r = el.getBoundingClientRect();
-          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-        };
-      })(glowEls[g]);
-    }
 
 
     // -- Smooth anchor scroll (conserva el hash en la URL) --
