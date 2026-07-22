@@ -337,9 +337,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      padding: 0;
       transition: color 0.3s, transform 0.3s;
     }
+
+    .theme-btn svg { width: 21px; height: 21px; display: block; }
+
+    /* Cada tema muestra el icono del tema al que se cambiaría */
+    [data-theme="dark"] .icon-moon,
+    [data-theme="light"] .icon-sun { display: none; }
 
     .theme-btn:hover {
       color: var(--accent);
@@ -1079,7 +1085,26 @@
       <li><a href="#contact">Contacto</a></li>
     </ul>
     <div style="display:flex;align-items:center;gap:0.75rem;">
-      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema claro/oscuro"><span id="themeIcon">&#9788;</span></button>
+      <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema claro/oscuro">
+        <!-- Sol: visible en modo oscuro (pulsar lleva al claro) -->
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.6" fill="currentColor"/>
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <line x1="12" y1="1.6" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.4"/>
+            <line x1="1.6" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.4" y2="12"/>
+            <line x1="4.6" y1="4.6" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.4" y2="19.4"/>
+            <line x1="4.6" y1="19.4" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.4" y2="4.6"/>
+          </g>
+        </svg>
+        <!-- Luna: creciente ancho, casi llena -->
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <mask id="moonCut">
+            <rect width="24" height="24" fill="#fff"/>
+            <circle cx="20.5" cy="7" r="8.4" fill="#000"/>
+          </mask>
+          <circle cx="12" cy="12" r="9.2" fill="currentColor" mask="url(#moonCut)"/>
+        </svg>
+      </button>
       <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
@@ -1369,15 +1394,11 @@
     // -- Theme (aplicado en <head> para evitar FOUC; aquí solo el toggle) --
     var html = document.documentElement;
     var themeBtn = document.getElementById('themeBtn');
-    var themeIcon = document.getElementById('themeIcon');
-    themeIcon.innerHTML = html.getAttribute('data-theme') === 'dark' ? '&#9788;' : '&#9790;';
 
     themeBtn.onclick = function() {
       var cur = html.getAttribute('data-theme');
       var next = cur === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
-      window.dispatchEvent(new Event('themechange'));
-      themeIcon.innerHTML = next === 'dark' ? '&#9788;' : '&#9790;';
       var metaTheme = document.getElementById('metaTheme');
       if (metaTheme) metaTheme.setAttribute('content', next === 'dark' ? '#050505' : '#f2f5f9');
       try { localStorage.setItem('theme', next); } catch(e) {}
