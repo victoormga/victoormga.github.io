@@ -28,8 +28,6 @@
   <!-- GSAP + ScrollTrigger -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- Three.js -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script type="application/ld+json">
   {
@@ -347,20 +345,6 @@
       padding: 6rem 3rem 0;
     }
 
-    #hero-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.8;
-      /* Sólo se difumina bajo el nav; el espacio ocupa todo el viewport */
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 130px);
-    }
 
     .hero-content {
       position: relative;
@@ -1075,8 +1059,6 @@
       .marquee-track { gap: 2.5rem; }
       .marquee-track span { font-size: 1.1rem; }
 
-      /* En móvil no hay margen libre: nada de figuras de fondo */
-      #hero-canvas { display: none; }
 
       .hero-cta { flex-wrap: wrap; }
       .about-grid { grid-template-columns: 1fr; }
@@ -1128,8 +1110,6 @@
     </ul>
   </div>
 
-  <!-- Three.js Background -->
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
   <main>
 
@@ -1694,277 +1674,6 @@
       })(glowEls[g]);
     }
 
-    // -- Fondo 3D: sólo en escritorio (en móvil ni se inicia, así no gasta
-    //    batería ni compite con el contenido) y nunca con reduced-motion --
-    if (!reduced && window.innerWidth > 768) try { (function() {
-      var canvas = document.getElementById('hero-canvas');
-      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.z = 5;
-
-      // ── Un único artefacto geométrico, denso y articulado ───────────────
-      // Cuatro sólidos anidados que giran a ritmos distintos: al superponer
-      // sus mallas generan un entramado que nunca se repite.
-      var DEPTH = 90;
-      var world = new THREE.Group();
-      scene.add(world);
-
-      var artifact = new THREE.Group();
-      world.add(artifact);
-
-      // Gama fría en dos versiones: sobre fondo negro los azules brillan,
-      // pero sobre papel claro hay que oscurecerlos para que se lean.
-      var PALETTE = {
-        dark:  { lattice: 0x1d3f78, knot: 0x3a6fc4, knot2: 0x16357a, knot3: 0x6f92c4,
-                 mid: 0x4a7fc1, inner: 0x93b4de, core: 0xeef3f8,
-                 aura: 0xa9c2e2, auraIn: 0x5d86bd, thread: 0x3d68a8 },
-        light: { lattice: 0x16305f, knot: 0x1f4f9e, knot2: 0x0d2450, knot3: 0x39639f,
-                 mid: 0x2b5da8, inner: 0x14345f, core: 0x0b1c33,
-                 aura: 0x2c4f80, auraIn: 0x1b3c6b, thread: 0x24497d }
-      };
-
-      var themed = [];   // materiales que siguen al tema
-
-      function shell(geometry, key, opacity) {
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
-          color: PALETTE.dark[key], wireframe: true, transparent: true,
-          opacity: opacity, fog: true
-        }));
-        artifact.add(mesh);
-        themed.push({ mat: mesh.material, key: key });
-        return mesh;
-      }
-
-      var shellLattice= shell(new THREE.IcosahedronGeometry(2.35, 2),  'lattice', 0.28);
-      // Nudos toroidales: los "serpenteantes". Cada uno con otro enlace.
-      var shellKnot   = shell(new THREE.TorusKnotGeometry(1.75, 0.1, 190, 8, 2, 3), 'knot', 0.45);
-      var shellKnot2  = shell(new THREE.TorusKnotGeometry(2.25, 0.075, 210, 8, 3, 4), 'knot2', 0.4);
-      var shellKnot3  = shell(new THREE.TorusKnotGeometry(2.7, 0.06, 230, 8, 3, 5), 'knot3', 0.3);
-      var shellMid    = shell(new THREE.IcosahedronGeometry(1.55, 2),  'mid', 0.3);
-      var shellInner  = shell(new THREE.OctahedronGeometry(1.05, 2),   'inner', 0.45);
-      var shellCore   = shell(new THREE.TetrahedronGeometry(0.55, 0),  'core', 0.75);
-
-      // Aura de puntos y constelación de aristas entre ellos
-      var auraGeo = new THREE.IcosahedronGeometry(3.35, 3);
-      var aura = new THREE.Points(auraGeo, new THREE.PointsMaterial({
-        color: PALETTE.dark.aura, size: 0.032, transparent: true,
-        opacity: 0.22, sizeAttenuation: true, fog: true
-      }));
-      artifact.add(aura);
-      themed.push({ mat: aura.material, key: 'aura' });
-
-      var auraInner = new THREE.Points(new THREE.IcosahedronGeometry(1.9, 2), new THREE.PointsMaterial({
-        color: PALETTE.dark.auraIn, size: 0.03, transparent: true,
-        opacity: 0.2, sizeAttenuation: true, fog: true
-      }));
-      artifact.add(auraInner);
-      themed.push({ mat: auraInner.material, key: 'auraIn' });
-
-      // Filamentos radiales: unen el núcleo con puntos sueltos del aura
-      var auraVerts = auraGeo.attributes.position.array;
-      var totalVerts = auraVerts.length / 3;
-      var threadPos = [];
-      for (var v = 0; v < totalVerts; v += 17) {
-        threadPos.push(0, 0, 0);
-        threadPos.push(auraVerts[v * 3], auraVerts[v * 3 + 1], auraVerts[v * 3 + 2]);
-      }
-      var threadGeo = new THREE.BufferGeometry();
-      threadGeo.setAttribute('position', new THREE.Float32BufferAttribute(threadPos, 3));
-      var threads = new THREE.LineSegments(threadGeo, new THREE.LineBasicMaterial({
-        color: PALETTE.dark.thread, transparent: true, opacity: 0.15, fog: true
-      }));
-      artifact.add(threads);
-      themed.push({ mat: threads.material, key: 'thread' });
-
-      // Niebla del color del fondo (el espacio no tiene "final") y colores
-      // de la figura, ambos siguiendo al tema activo
-      var lastTheme = null;
-
-      function syncTheme() {
-        var dark = document.documentElement.getAttribute('data-theme') !== 'light';
-        if (dark === lastTheme) return;
-        lastTheme = dark;
-        scene.fog = new THREE.Fog(dark ? 0x050505 : 0xf2f5f9, 12, DEPTH * 0.9);
-        var set = dark ? PALETTE.dark : PALETTE.light;
-        for (var i = 0; i < themed.length; i++) {
-          themed[i].mat.color.setHex(set[themed[i].key]);
-        }
-      }
-      syncTheme();
-      window.addEventListener('themechange', syncTheme);
-
-      var mouseX = 0, mouseY = 0;
-      var visibleWidth = 8;
-      document.addEventListener('mousemove', function(e) {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-      });
-
-      function onResize() {
-        var w = canvas.clientWidth;
-        var h = canvas.clientHeight;
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        visibleWidth = 2 * Math.tan(22.5 * Math.PI / 180) * camera.position.z * camera.aspect;
-      }
-
-      window.addEventListener('resize', onResize);
-      onResize();
-
-      var scrollProgress = 0;   // 0 = arriba del todo, 1 = final de la página
-      var running = false;
-      var pageVisible = true;
-      var clock = 0;
-      var targetZ = 0;
-
-      function readScroll() {
-        var max = document.body.scrollHeight - window.innerHeight;
-        scrollProgress = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
-      }
-
-      readScroll();
-      window.addEventListener('scroll', readScroll, { passive: true });
-      window.addEventListener('resize', readScroll);
-
-      // ── Coreografía: sólo tres apariciones ──────────────────────────────
-      // Fuera de estas tres ventanas de scroll el artefacto no existe.
-      // Las posiciones van en fracciones del semi-encuadre a su propia
-      // profundidad (1 = justo el borde), así siempre sale por donde toca.
-      var windows = [];
-
-      function buildPath() {
-        windows = [
-          // 1) Hero: pequeña, junto al borde derecho. Sale por la derecha.
-          {
-            from: 0, to: 0.15, fadeIn: false,
-            a: { fx: 0.72, fy: 0.05, z: 0,  s: 0.5 },
-            b: { fx: 2.80, fy: 0.18, z: -8, s: 0.5 }
-          },
-          // 2) Final: entra por la esquina inferior izquierda y se queda
-          //    ahí, cortada por ella: apenas asoma un fragmento.
-          {
-            from: 0.88, to: 1.0, fadeIn: true,
-            a: { fx: -1.75, fy: -1.65, z: -4, s: 1 },
-            b: { fx: -0.95, fy: -0.95, z: -4, s: 1 }
-          }
-        ];
-      }
-
-      buildPath();
-      window.addEventListener('resize', buildPath);
-
-      function smooth(u) { return u * u * (3 - 2 * u); }
-
-      // Devuelve la pose actual, o null si no toca estar en pantalla
-      function poseAt(p) {
-        for (var w = 0; w < windows.length; w++) {
-          var win = windows[w];
-          if (p < win.from || p > win.to) continue;
-          var u = (p - win.from) / (win.to - win.from);
-          var e = smooth(u);
-          var z = win.a.z + (win.b.z - win.a.z) * e;
-          var fx = win.a.fx + (win.b.fx - win.a.fx) * e;
-          var fy = win.a.fy + (win.b.fy - win.a.fy) * e;
-          var sc = win.a.s + (win.b.s - win.a.s) * e;
-
-          // Semi-encuadre a esa profundidad: convierte fracción → unidades
-          var halfH = Math.tan(22.5 * Math.PI / 180) * (camera.position.z - z);
-          var halfW = halfH * camera.aspect;
-
-          // Sólo se atenúa al entrar; al salir se va de plano por sí sola
-          var o = 1;
-          if (win.fadeIn && u < 0.18) o = smooth(u / 0.18);
-          return { x: fx * halfW, y: fy * halfH, z: z, o: o, s: sc };
-        }
-        return null;
-      }
-
-      document.addEventListener('visibilitychange', function() {
-        pageVisible = !document.hidden;
-        if (pageVisible) startLoop();
-      });
-
-      function animate3d() {
-        if (!pageVisible) { running = false; return; }
-
-        clock += 1;
-        var p = scrollProgress;
-
-        // Cada capa gira sobre ejes y a velocidades distintas: el entramado
-        // que forman al superponerse no se repite nunca
-        shellLattice.rotation.y -= 0.0011;
-        shellLattice.rotation.z += 0.0007;
-        shellKnot.rotation.z    += 0.0024;
-        shellKnot.rotation.x    -= 0.0013;
-        shellKnot2.rotation.y   += 0.0018;
-        shellKnot2.rotation.x   += 0.0009;
-        shellKnot3.rotation.z   -= 0.0015;
-        shellKnot3.rotation.y   -= 0.0007;
-        shellMid.rotation.y     -= 0.0027;
-        shellMid.rotation.z     += 0.0014;
-        shellInner.rotation.x   += 0.0038;
-        shellInner.rotation.y   += 0.0021;
-        shellCore.rotation.x    -= 0.006;
-        shellCore.rotation.z    += 0.0045;
-        aura.rotation.y         += 0.0007;
-        aura.rotation.x         += 0.0004;
-        auraInner.rotation.y    -= 0.0016;
-        threads.rotation.y      += 0.0005;
-        threads.rotation.x      -= 0.0003;
-
-        // Respiración lenta del conjunto (el tamaño final se aplica abajo)
-        var breath = 1 + Math.sin(clock * 0.006) * 0.035;
-
-        // EL MOVIMIENTO PRINCIPAL: al bajar, el artefacto se aleja hacia
-        // el fondo. Al subir, vuelve. Suavizado para que nunca dé tirones.
-        // Fuera de las tres ventanas el artefacto simplemente no está
-        var pose = poseAt(p);
-        artifact.visible = pose !== null;
-        if (!pose) {
-          renderer.render(scene, camera);
-          requestAnimationFrame(animate3d);
-          return;
-        }
-
-        // La posición se aplica directa: cada ventana ya trae su suavizado,
-        // y así nunca se ve "viajar" de una aparición a la siguiente
-        artifact.position.set(pose.x, pose.y, pose.z);
-        targetZ = pose.z;
-
-        artifact.scale.setScalar(breath * pose.s);
-
-        var visibility = pose.o;
-        shellLattice.material.opacity = 0.28 * visibility;
-        shellKnot.material.opacity    = 0.45 * visibility;
-        shellKnot2.material.opacity   = 0.40 * visibility;
-        shellKnot3.material.opacity   = 0.30 * visibility;
-        shellMid.material.opacity     = 0.30 * visibility;
-        shellInner.material.opacity   = 0.45 * visibility;
-        shellCore.material.opacity    = 0.75 * visibility;
-        aura.material.opacity         = 0.22 * visibility;
-        auraInner.material.opacity    = 0.20 * visibility;
-        threads.material.opacity      = 0.15 * visibility;
-
-        // El mundo se inclina con el ratón: la cámara "flota"
-        world.rotation.y += ((mouseX * 0.08) - world.rotation.y) * 0.03;
-        world.rotation.x += ((-mouseY * 0.05) - world.rotation.x) * 0.03;
-
-        if (clock % 40 === 0) syncTheme();
-
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate3d);
-      }
-
-      function startLoop() {
-        if (!running) { running = true; requestAnimationFrame(animate3d); }
-      }
-
-      startLoop();
-    })(); } catch (threeErr) { /* sin WebGL o sin CDN: la web funciona igual */ }
 
     // -- Smooth anchor scroll (conserva el hash en la URL) --
     var anchors = document.querySelectorAll('a[href^="#"]');
