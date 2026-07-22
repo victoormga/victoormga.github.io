@@ -18,16 +18,12 @@
 
   <!-- Aplicar tema guardado antes del primer render (anti-FOUC) -->
   <script>
-    (function(){var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}document.documentElement.setAttribute('data-theme',t);var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#f2f5f9');})();
+    (function(){var d=document.documentElement;var t='dark';try{var s=localStorage.getItem('theme');if(s)t=s;}catch(e){}d.setAttribute('data-theme',t);d.className+=' js';var m=document.getElementById('metaTheme');if(m)m.setAttribute('content',t==='dark'?'#050505':'#f2f5f9');})();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-
-  <!-- GSAP + ScrollTrigger -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script type="application/ld+json">
   {
@@ -101,8 +97,45 @@
       color: var(--text);
       overflow-x: hidden;
       cursor: none;
-      transition: background 0.6s, color 0.6s;
     }
+
+    /* La transición de tema sólo se activa tras el primer pintado: si no,
+       al cargar en modo claro se veía el fundido desde el fondo oscuro */
+    body.theme-ready { transition: background 0.6s, color 0.6s; }
+
+    /* ── Animaciones de entrada (CSS, sin librerías) ── */
+    @keyframes riseIn { to { transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } }
+
+    .hero-in .hero-title .line-inner {
+      animation: riseIn 1.2s var(--ease) forwards;
+    }
+    .hero-in .hero-title .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
+    .hero-in .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.45s; }
+
+    .hero-in .hero-sub .word-inner {
+      animation: riseIn 0.8s var(--ease) forwards;
+    }
+
+    .hero-in .hero-badge { animation: fadeUp 0.8s var(--ease) 0.2s backwards; }
+    .hero-in .hero-cta   { animation: fadeUp 1s var(--ease) 1.2s backwards; }
+
+    /* Revelado al entrar en pantalla */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Títulos letra a letra */
+    .split-ready .char {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), color 0.3s;
+      transition-delay: calc(var(--char-index) * 0.025s);
+    }
+    .split-ready.in .char { opacity: 1; transform: none; }
 
     /* -- Cursor: sólo la circunferencia, nunca relleno, para no tapar
           aquello sobre lo que se pasa -- */
@@ -272,7 +305,6 @@
     /* -- Colapso de los enlaces hacia el logo (solo escritorio) -- */
     .nav-links li {
       transition: transform 0.55s var(--ease), opacity 0.4s var(--ease), filter 0.4s;
-      will-change: transform, opacity;
     }
 
     nav.collapsed .nav-links li {
@@ -329,7 +361,7 @@
       width: 24px;
       height: 2px;
       background: var(--text);
-      transition: all 0.3s;
+      transition: transform 0.3s, opacity 0.3s;
       border-radius: 2px;
     }
 
@@ -391,10 +423,9 @@
       margin: -0.12em -0.08em -0.2em;
     }
 
-    .hero-title .line-inner {
-      display: block;
-      transform: translateY(110%);
-    }
+    .hero-title .line-inner { display: block; }
+    /* Sólo se esconde si hay JS para devolverlo: sin JS, el texto se ve */
+    .js .hero-title .line-inner { transform: translateY(110%); }
 
     .hero-title { color: var(--text); }
 
@@ -416,6 +447,11 @@
       transform: translateY(110%);
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .js .hero-title .line-inner,
+      .hero-sub .word-inner { transform: none; }
+    }
+
     .hero-cta {
       display: flex;
       gap: 1rem;
@@ -429,7 +465,7 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       cursor: none;
-      transition: all 0.4s var(--ease);
+      transition: transform 0.4s var(--ease), background 0.4s, color 0.4s, border-color 0.4s;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -571,7 +607,7 @@
       padding: 2rem;
       border: 1px solid var(--border);
       border-radius: 20px;
-      transition: all 0.4s var(--ease);
+      transition: transform 0.4s var(--ease), border-color 0.4s;
       position: relative;
       overflow: hidden;
     }
@@ -614,7 +650,7 @@
       padding: 2.5rem;
       border: 1px solid var(--border);
       border-radius: 24px;
-      transition: all 0.4s var(--ease);
+      transition: border-color 0.4s var(--ease);
       position: relative;
       overflow: hidden;
     }
@@ -646,7 +682,7 @@
       border: 1px solid var(--border);
       font-size: 0.82rem;
       color: var(--text-dim);
-      transition: all 0.3s;
+      transition: transform 0.3s, border-color 0.3s, color 0.3s, background 0.3s;
       cursor: none;
     }
 
@@ -668,7 +704,7 @@
       padding: 2.5rem;
       border: 1px solid var(--border);
       border-radius: 24px;
-      transition: all 0.4s var(--ease);
+      transition: transform 0.4s var(--ease), border-color 0.4s;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -788,7 +824,7 @@
       gap: 3rem;
       padding: 3rem 0;
       border-bottom: 1px solid var(--border);
-      transition: all 0.3s;
+      transition: border-color 0.3s;
     }
 
     .exp-item:first-child {
@@ -875,7 +911,7 @@
       padding: 2.5rem;
       border: 1px solid var(--border);
       border-radius: 24px;
-      transition: all 0.4s var(--ease);
+      transition: border-color 0.4s var(--ease);
       position: relative;
       overflow: hidden;
     }
@@ -931,7 +967,7 @@
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 500;
-      transition: all 0.4s var(--ease);
+      transition: transform 0.4s var(--ease), color 0.4s, border-color 0.4s;
       cursor: none;
     }
 
@@ -1500,88 +1536,55 @@
       }
     }
 
-    // -- GSAP Animations --
+    // -- Animaciones: CSS puro, sin librerías --
     try {
-    gsap.registerPlugin(ScrollTrigger);
-
     if (reduced) {
-      // Sin animaciones: mostrar todo directamente
-      gsap.set('.line-inner', { y: 0 });
+      showEverything();
     } else {
-      // Hero entrance
-      gsap.to('.line-inner', {
-        y: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power4.out',
-        delay: 0.3
-      });
-
-      // Hero subtitle word-by-word
+      // Entrada del hero: el CSS ya define las animaciones, sólo hay que
+      // partir el subtítulo en palabras y escalonar sus retardos
       var subEl = document.getElementById('heroSub');
-      var subText = subEl.textContent;
-      var words = subText.split(' ');
-      subEl.innerHTML = '';
+      var words = subEl.textContent.split(' ');
+      subEl.textContent = '';
       for (var w = 0; w < words.length; w++) {
         var span = document.createElement('span');
         span.className = 'word';
         var inner = document.createElement('span');
         inner.className = 'word-inner';
         inner.textContent = words[w];
+        inner.style.animationDelay = (0.8 + w * 0.02).toFixed(2) + 's';
         span.appendChild(inner);
         subEl.appendChild(span);
         subEl.appendChild(document.createTextNode(' '));
       }
+      document.body.classList.add('hero-in');
 
-      gsap.to('.word-inner', {
-        y: 0,
-        duration: 0.8,
-        stagger: 0.02,
-        ease: 'power3.out',
-        delay: 0.8
-      });
-
-      gsap.from('.hero-badge', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, ease: 'power3.out' });
-      gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 1.2, ease: 'power3.out' });
-
-      // Section reveals using IntersectionObserver
+      // Revelado de secciones al entrar en pantalla
       var revealEls = document.querySelectorAll('.section-label, .about-text p, .exp-item, .edu-card, .stat, .skill-group, .project-card');
       for (var r = 0; r < revealEls.length; r++) {
-        revealEls[r].style.opacity = '0';
-        revealEls[r].style.transform = 'translateY(40px)';
-        revealEls[r].style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        revealEls[r].classList.add('reveal');
         revealEls[r].style.transitionDelay = (r % 5) * 0.08 + 's';
       }
 
       var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('in');
+            revealObserver.unobserve(entries[i].target);
           }
-        });
+        }
       }, { threshold: 0.1 });
 
-      for (var ro = 0; ro < revealEls.length; ro++) {
-        revealObserver.observe(revealEls[ro]);
-      }
+      for (var ro = 0; ro < revealEls.length; ro++) revealObserver.observe(revealEls[ro]);
 
-      // Section title char split (aria-label conserva el texto para lectores de pantalla)
-      // Revelado con IntersectionObserver (ScrollTrigger es poco fiable en iOS)
+      // Títulos letra a letra (aria-label conserva el texto para lectores)
       var titleObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            gsap.to(entry.target.querySelectorAll('.char'), {
-              opacity: 1,
-              y: 0,
-              stagger: 0.025,
-              duration: 0.6,
-              ease: 'power3.out'
-            });
-            titleObserver.unobserve(entry.target);
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            entries[i].target.classList.add('in');
+            titleObserver.unobserve(entries[i].target);
           }
-        });
+        }
       }, { threshold: 0.15 });
 
       var splitTitles = document.querySelectorAll('[data-split]');
@@ -1589,7 +1592,7 @@
         var title = splitTitles[st];
         var text = title.textContent;
         title.setAttribute('aria-label', text);
-        title.innerHTML = '';
+        title.textContent = '';
         for (var c = 0; c < text.length; c++) {
           var charSpan = document.createElement('span');
           charSpan.className = 'char';
@@ -1603,8 +1606,7 @@
           charSpan.style.setProperty('--char-index', c);
           title.appendChild(charSpan);
         }
-
-        gsap.set(title.querySelectorAll('.char'), { opacity: 0, y: 30 });
+        title.classList.add('split-ready');
         titleObserver.observe(title);
       }
     }
@@ -1613,6 +1615,11 @@
     }
 
 
+
+    // Activa la transición de tema una vez pintada la página
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { document.body.classList.add('theme-ready'); });
+    });
 
     // -- Smooth anchor scroll (conserva el hash en la URL) --
     var anchors = document.querySelectorAll('a[href^="#"]');
