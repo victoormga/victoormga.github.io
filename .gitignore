@@ -1,0 +1,13 @@
+# Archivos de trabajo local — NO publicar en la web pública
+
+# CV (contiene datos personales: teléfono, email)
+cv-victor-garcia.html
+foto.jpg
+foto.jpeg
+foto.png
+
+# Notas de textos del portfolio
+textos-portfolio.txt
+
+# Script auxiliar de publicación
+publicar.bat
